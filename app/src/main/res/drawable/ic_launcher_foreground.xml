@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer Hex Shield -->
+    <path
+        android:pathData="M54,26 L76,38 L76,64 L54,78 L32,64 L32,38 Z"
+        android:strokeWidth="2.5"
+        android:strokeColor="#00F0FF"
+        android:fillColor="#15233D" />
+
+    <!-- A Monogram / Chevron Pillar -->
+    <path
+        android:pathData="M54,34 L68,66 L60,66 L54,52 L48,66 L40,66 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="40"
+                android:startY="34"
+                android:endX="68"
+                android:endY="66"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FACC15"/>
+                <item android:offset="1.0" android:color="#E11D48"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Crossbar / Neural Core -->
+    <path
+        android:pathData="M46,55 L62,55"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round" />
+
+    <!-- Quantum Core Spark -->
+    <path
+        android:pathData="M54,44 L55.5,47.5 L59,49 L55.5,50.5 L54,54 L52.5,50.5 L49,49 L52.5,47.5 Z"
+        android:fillColor="#00F0FF" />
+</vector>

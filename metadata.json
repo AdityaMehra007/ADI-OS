@@ -1,0 +1,6 @@
+{
+  "name": "Adi OS",
+  "description": "Personal AI Operating System for Career Strategy, Global Company Intelligence, Job Automation & Executive Command Center",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
