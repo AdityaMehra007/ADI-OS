@@ -384,16 +384,22 @@ class GeminiServiceWrapper(
     val summarySb = java.lang.StringBuilder()
 
     lines.forEach { line ->
-      val upper = line.uppercase()
+      val normalized = line.replace("_", " ")
+        .replace("#", "")
+        .replace("*", "")
+        .replace(":", "")
+        .uppercase()
+        .trim()
+
       when {
-        upper.contains("EXECUTIVE_SUMMARY") || upper.contains("1. EXECUTIVE SUMMARY") -> currentSection = "SUMMARY"
-        upper.contains("BUSINESS_SIGNALS") || upper.contains("2. BUSINESS") -> currentSection = "SIGNALS"
-        upper.contains("HIRING_TRENDS") || upper.contains("3. HIRING") -> currentSection = "HIRING"
-        upper.contains("LEADERSHIP_SHIFTS") || upper.contains("4. LEADERSHIP") -> currentSection = "LEADERSHIP"
-        upper.contains("STRATEGIC_RISKS") || upper.contains("5. STRATEGIC") -> currentSection = "RISKS"
-        upper.contains("INTERVIEW_PITCH") || upper.contains("6. INTERVIEW") -> currentSection = "INTERVIEW"
-        upper.contains("COMPETITIVE_MOATS") || upper.contains("7. COMPETITIVE") -> currentSection = "MOATS"
-        upper.contains("OUTREACH_PITCH") || upper.contains("8. OUTREACH") -> currentSection = "OUTREACH"
+        normalized.contains("EXECUTIVE SUMMARY") || normalized.contains("1. EXECUTIVE") -> currentSection = "SUMMARY"
+        normalized.contains("BUSINESS SIGNALS") || normalized.contains("2. BUSINESS") || normalized.contains("BUSINESS NEWS") -> currentSection = "SIGNALS"
+        normalized.contains("HIRING TRENDS") || normalized.contains("3. HIRING") -> currentSection = "HIRING"
+        normalized.contains("LEADERSHIP SHIFTS") || normalized.contains("4. LEADERSHIP") || normalized.contains("LEADERSHIP UPDATES") -> currentSection = "LEADERSHIP"
+        normalized.contains("STRATEGIC RISKS") || normalized.contains("5. STRATEGIC") -> currentSection = "RISKS"
+        normalized.contains("INTERVIEW PITCH") || normalized.contains("6. INTERVIEW") || normalized.contains("INTERVIEW ANGLES") -> currentSection = "INTERVIEW"
+        normalized.contains("COMPETITIVE MOATS") || normalized.contains("7. COMPETITIVE") -> currentSection = "MOATS"
+        normalized.contains("OUTREACH PITCH") || normalized.contains("8. OUTREACH") -> currentSection = "OUTREACH"
         else -> {
           val clean = line.removePrefix("•").removePrefix("-").removePrefix("*").trim()
           if (clean.length > 5) {
@@ -681,17 +687,24 @@ class GeminiServiceWrapper(
     var currentSection = ""
 
     lines.forEach { line ->
-      val upper = line.uppercase()
+      val normalized = line.replace("_", " ")
+        .replace("#", "")
+        .replace("*", "")
+        .replace(":", "")
+        .replace("-", " ")
+        .uppercase()
+        .trim()
+
       when {
-        upper.contains("EXECUTIVE_VERDICT") || upper.contains("1. EXECUTIVE VERDICT") -> currentSection = "VERDICT"
-        upper.contains("MARKET_POSITIONING") || upper.contains("2. MARKET POSITIONING") -> currentSection = "POSITIONING"
-        upper.contains("RECOMMENDED_COMPENSATION") || upper.contains("3. RECOMMENDED") -> currentSection = "COMPENSATION"
-        upper.contains("STRATEGIC_PILLARS") || upper.contains("4. STRATEGIC") -> currentSection = "PILLARS"
-        upper.contains("IMMEDIATE_30_DAY") || upper.contains("5. IMMEDIATE") -> currentSection = "ACTIONS"
-        upper.contains("MEDIUM_TERM") || upper.contains("6. MEDIUM") -> currentSection = "MEDIUM"
-        upper.contains("PROOF_OF_WORK") || upper.contains("7. PROOF") -> currentSection = "PROOF"
-        upper.contains("NEGOTIATION_TACTICS") || upper.contains("8. NEGOTIATION") -> currentSection = "NEGOTIATION"
-        upper.contains("CRITICAL_RISKS") || upper.contains("9. CRITICAL") -> currentSection = "RISKS"
+        normalized.contains("EXECUTIVE VERDICT") || normalized.contains("1. EXECUTIVE") -> currentSection = "VERDICT"
+        normalized.contains("MARKET POSITIONING") || normalized.contains("2. MARKET") -> currentSection = "POSITIONING"
+        normalized.contains("RECOMMENDED COMPENSATION") || normalized.contains("3. RECOMMENDED") || normalized.contains("COMPENSATION") -> currentSection = "COMPENSATION"
+        normalized.contains("STRATEGIC PILLARS") || normalized.contains("4. STRATEGIC") -> currentSection = "PILLARS"
+        normalized.contains("IMMEDIATE 30 DAY") || normalized.contains("5. IMMEDIATE") || normalized.contains("30 DAY") -> currentSection = "ACTIONS"
+        normalized.contains("MEDIUM TERM") || normalized.contains("6. MEDIUM") || normalized.contains("90 DAY") -> currentSection = "MEDIUM"
+        normalized.contains("PROOF OF WORK") || normalized.contains("7. PROOF") -> currentSection = "PROOF"
+        normalized.contains("NEGOTIATION TACTICS") || normalized.contains("8. NEGOTIATION") -> currentSection = "NEGOTIATION"
+        normalized.contains("CRITICAL RISKS") || normalized.contains("9. CRITICAL") || normalized.contains("BLINDSPOTS") -> currentSection = "RISKS"
         else -> {
           val clean = line.removePrefix("•").removePrefix("-").removePrefix("*").trim()
           if (clean.length > 5) {

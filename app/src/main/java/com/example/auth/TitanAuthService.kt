@@ -53,13 +53,19 @@ class TitanAuthService(
   private fun initializeFirebase() {
     try {
       if (FirebaseApp.getApps(context).isEmpty()) {
+        val apiKey = try {
+          val key = com.example.BuildConfig.GEMINI_API_KEY
+          if (key.isNotBlank() && key != "MY_GEMINI_API_KEY") key else "DEMO_OFFLINE_KEY"
+        } catch (e: Exception) {
+          "DEMO_OFFLINE_KEY"
+        }
         val options = FirebaseOptions.Builder()
           .setApplicationId("1:769928157395:android:titancmd")
-          .setApiKey("AIzaSyB-TITAN-SECURE-KEY-FALLBACK")
+          .setApiKey(apiKey)
           .setProjectId("titan-career-os")
           .build()
         FirebaseApp.initializeApp(context, options)
-        Log.i(tag, "Initialized default FirebaseApp with fallback options")
+        Log.i(tag, "Initialized default FirebaseApp with safe options")
       }
       val auth = FirebaseAuth.getInstance()
       firebaseAuth = auth

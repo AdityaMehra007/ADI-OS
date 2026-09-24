@@ -19,31 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.notification.TitanNotificationManager
-import com.example.ui.components.CareerScenarioSimulatorDialog
-import com.example.ui.components.CommandPaletteDialog
-import com.example.ui.components.CoverLetterGeneratorDialog
-import com.example.ui.components.FirebaseAuthDialog
-import com.example.ui.components.JobActionPlanDialog
-import com.example.ui.components.MasterCapabilityMatrixDialog
-import com.example.ui.components.MultiOfferComparatorDialog
-import com.example.ui.components.NotificationCenterDialog
 import com.example.ui.components.QuickActionFeedbackBanner
 import com.example.ui.components.QuickActionFloatingButton
-import com.example.ui.components.CareerNoteSummaryDialog
-import com.example.data.model.QuickActionType
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
-import com.example.ui.components.ResumeOptimizationLabDialog
-import com.example.ui.components.ResumeHealthScannerDialog
-import com.example.ui.components.ReferralOutreachGeneratorDialog
-import com.example.ui.components.SalaryBenchmarkNegotiationDialog
-import com.example.ui.components.ResumeJobComparisonDialog
-import com.example.ui.components.SalaryCalculatorDialog
 import com.example.ui.components.TitanBottomNav
+import com.example.ui.components.TitanGlobalDialogHost
 import com.example.ui.components.TitanTopBar
-import com.example.ui.components.WeeklyCareerHealthReportDialog
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -164,6 +148,14 @@ class MainActivity : ComponentActivity() {
               launchSingleTop = true
               restoreState = true
             }
+          }
+        }
+
+        // Sync NavController route back to ViewModel screen for back-press coherence
+        LaunchedEffect(currentRoute) {
+          val matchedScreen = ScreenRoutes.routeToScreen(currentRoute)
+          if (matchedScreen != null && currentScreen != matchedScreen) {
+            viewModel.navigateTo(matchedScreen)
           }
         }
 
@@ -301,134 +293,10 @@ class MainActivity : ComponentActivity() {
           }
         }
 
-        if (isNotificationCenterOpen) {
-          NotificationCenterDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.setNotificationCenterOpen(false) }
-          )
-        }
-
-        if (isCommandPaletteOpen) {
-          CommandPaletteDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.setCommandPaletteOpen(false) }
-          )
-        }
-
-        if (isSalaryCalculatorOpen) {
-          SalaryCalculatorDialog(
-            onDismissRequest = { viewModel.setSalaryCalculatorOpen(false) }
-          )
-        }
-
-        if (isCapabilityMatrixOpen) {
-          MasterCapabilityMatrixDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.setCapabilityMatrixOpen(false) }
-          )
-        }
-
-        if (isScenarioSimulatorOpen) {
-          CareerScenarioSimulatorDialog(
-            onDismissRequest = { viewModel.setScenarioSimulatorOpen(false) }
-          )
-        }
-
-        if (isMultiOfferComparatorOpen) {
-          MultiOfferComparatorDialog(
-            onDismissRequest = { viewModel.setMultiOfferComparatorOpen(false) }
-          )
-        }
-
-        if (isAuthDialogOpen) {
-          FirebaseAuthDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.setAuthDialogOpen(false) }
-          )
-        }
-
-        val isResumeOptimizerOpen by viewModel.isResumeOptimizerOpen.collectAsState()
-        if (isResumeOptimizerOpen) {
-          ResumeOptimizationLabDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.closeResumeOptimizer() }
-          )
-        }
-
-        val isResumeHealthScannerOpen by viewModel.isResumeHealthScannerOpen.collectAsState()
-        if (isResumeHealthScannerOpen) {
-          ResumeHealthScannerDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.closeResumeHealthScanner() }
-          )
-        }
-
-        val isResumeComparisonDialogOpen by viewModel.isResumeComparisonDialogOpen.collectAsState()
-        if (isResumeComparisonDialogOpen) {
-          ResumeJobComparisonDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.closeResumeComparison() }
-          )
-        }
-
-        val isJobActionPlanOpen by viewModel.isJobActionPlanOpen.collectAsState()
-        if (isJobActionPlanOpen) {
-          JobActionPlanDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.closeJobActionPlan() }
-          )
-        }
-
-        val isCoverLetterGeneratorOpen by viewModel.isCoverLetterGeneratorOpen.collectAsState()
-        if (isCoverLetterGeneratorOpen) {
-          CoverLetterGeneratorDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.closeCoverLetterGenerator() }
-          )
-        }
-
-        val isReferralOutreachDialogOpen by viewModel.isReferralOutreachDialogOpen.collectAsState()
-        if (isReferralOutreachDialogOpen) {
-          ReferralOutreachGeneratorDialog(
-            onDismissRequest = { viewModel.closeReferralOutreachDialog() }
-          )
-        }
-
-        val isSalaryNegotiationDialogOpen by viewModel.isSalaryNegotiationDialogOpen.collectAsState()
-        if (isSalaryNegotiationDialogOpen) {
-          SalaryBenchmarkNegotiationDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.closeSalaryNegotiationDialog() }
-          )
-        }
-
-        val showWeeklyHealthReportDialog by viewModel.showWeeklyHealthReportDialog.collectAsState()
-        if (showWeeklyHealthReportDialog) {
-          WeeklyCareerHealthReportDialog(
-            viewModel = viewModel,
-            onDismissRequest = { viewModel.showWeeklyHealthReportDialog.value = false }
-          )
-        }
-
-        val isCareerNoteSummaryDialogOpen by viewModel.isCareerNoteSummaryDialogOpen.collectAsState()
-        val activeCareerNoteSummary by viewModel.activeCareerNoteSummary.collectAsState()
-        if (isCareerNoteSummaryDialogOpen && activeCareerNoteSummary != null) {
-          CareerNoteSummaryDialog(
-            summary = activeCareerNoteSummary!!,
-            onDismiss = { viewModel.dismissCareerNoteSummaryDialog() },
-            onSaveAsNewNote = { title, content, company, role ->
-              careerNotesViewModel.saveNote(
-                title = title,
-                category = "STRATEGY",
-                content = content,
-                targetCompany = company,
-                targetRole = role,
-                tags = "ExecutiveSummary, QuickAction, AI",
-                isPinned = true
-              )
-            }
-          )
-        }
+        TitanGlobalDialogHost(
+          viewModel = viewModel,
+          careerNotesViewModel = careerNotesViewModel
+        )
       }
     }
   }
