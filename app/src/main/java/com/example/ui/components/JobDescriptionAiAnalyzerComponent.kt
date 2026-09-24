@@ -390,7 +390,7 @@ fun JobDescriptionAiAnalyzerComponent(
                       letterSpacing = 0.5.sp
                     )
                     Text(
-                      text = uploadedFileName ?: "Aditya_Shenoy_Resume.pdf",
+                      text = uploadedFileName ?: "Aditya_Mehra_Resume.pdf",
                       fontSize = 13.sp,
                       fontWeight = FontWeight.Bold,
                       color = TextPrimaryDark,

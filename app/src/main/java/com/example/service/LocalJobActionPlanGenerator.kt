@@ -339,14 +339,14 @@ Requirements:
       InterviewTalkingPoint(
         theme = "Bengaluru International Business Academic Rigor",
         jdMandate = "Strong academic pedigree in business, analytical frameworks, and structured problem solving.",
-        executiveNarrative = "My BBA in International Business from St. Joseph's Bengaluru provided me with a rigorous foundation in quantitative financial modeling, global trade mechanics, and MECE problem solving—graduating in the top 5% with a 3.82 GPA. I combine top-tier theoretical frameworks with scrappy, ground-level Bengaluru startup hustle.",
+        executiveNarrative = "My BBA in International Business from Dayananda Sagar University (DSU), Bengaluru provided me with a rigorous foundation in quantitative financial modeling, global trade mechanics, Incoterms 2020, and MECE problem solving. I combine top-tier theoretical frameworks with high-velocity, ground-level Bengaluru startup hustle.",
         starBreakdown = StarMethodBreakdown(
           situation = "Required to synthesize multi-variable financial and market data into defensible expansion theses.",
           task = "Deliver comprehensive international market entry models under strict academic and case competition scrutiny.",
           action = "Applied DCF, sensitivity analysis, and operational cost diagnostics to solve live corporate case studies.",
-          result = "Graduated with 3.82/4.0 distinction and won university-wide operational strategy case competition."
+          result = "Demonstrated top-tier operational strategy mastery and led multi-department student conclaves."
         ),
-        proofMetricOrFact = "BBA International Business Honors (GPA 3.82/4.0 Distinction, Bengaluru University)."
+        proofMetricOrFact = "BBA in International Business, Dayananda Sagar University (DSU), Bengaluru (Class of 2026)."
       )
     )
 

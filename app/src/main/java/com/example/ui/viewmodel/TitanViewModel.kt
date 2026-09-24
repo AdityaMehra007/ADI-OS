@@ -626,10 +626,10 @@ class TitanViewModel(
 
   // Resume PDF / Text File Upload & JD Match Comparison State
   val uploadedResumeFileUri = MutableStateFlow<Uri?>(null)
-  val uploadedResumeFileName = MutableStateFlow<String?>("Adi_Shenoy_Operations_Lead_v3.pdf")
+  val uploadedResumeFileName = MutableStateFlow<String?>("Aditya_Mehra_Operations_Lead_v3.pdf")
   val parsedResumeForJdAnalysis = MutableStateFlow<ParsedResumeDocument?>(
     LocalDocumentParser.parseDocumentText(
-      fileName = "Adi_Shenoy_Operations_Lead_v3.pdf",
+      fileName = "Aditya_Mehra_Operations_Lead_v3.pdf",
       rawText = LocalDocumentParser.AVAILABLE_MOCK_DOCUMENTS.first().rawContent
     )
   )
@@ -1431,7 +1431,7 @@ ${job.recommendedAction}
     if (jobDescription.isBlank()) return null
     val resume = parsedResumeForJdAnalysis.value
       ?: LocalDocumentParser.parseDocumentText(
-          fileName = "Adi_Shenoy_Operations_Lead_v3.pdf",
+          fileName = "Aditya_Mehra_Operations_Lead_v3.pdf",
           rawText = LocalDocumentParser.AVAILABLE_MOCK_DOCUMENTS.first().rawContent
         ).also { parsedResumeForJdAnalysis.value = it }
 
@@ -1538,7 +1538,7 @@ ${job.recommendedAction}
 
         val resume = parsedResumeForJdAnalysis.value
           ?: LocalDocumentParser.parseDocumentText(
-              fileName = "Adi_Shenoy_Operations_Lead_v3.pdf",
+              fileName = "Aditya_Mehra_Operations_Lead_v3.pdf",
               rawText = LocalDocumentParser.AVAILABLE_MOCK_DOCUMENTS.first().rawContent
             ).also { parsedResumeForJdAnalysis.value = it }
 
@@ -2767,7 +2767,7 @@ Requirements: ${job.missingRequirements}
     viewModelScope.launch {
       try {
         val verifiedFacts = listOf(
-          "BBA in International Business (GPA 3.82/4.0 First Class Honors, Bengaluru University)",
+          "BBA in International Business, Dayananda Sagar University (DSU), Bengaluru (Class of 2026)",
           "Engineered SQL and AI automated demand-forecasting pipeline cutting order cycles by 42%",
           "Generated 65+ qualified executive B2B lead meetings with ₹18L pipeline value",
           "Offer held: Razorpay ₹18.5L package; final director round scheduled at Microsoft"
@@ -5308,7 +5308,7 @@ Status: Dispatched via ${rule.targetAgent} with zero-trust validation check.
   fun refreshWeeklyCareerHealthReport() {
     val radar = skillsRadarReport.value ?: return
     val velocity = careerVelocityReport.value ?: CareerVelocityDataProvider.getDefaultCareerVelocityReport()
-    val candidateName = "Aditya Shenoy"
+    val candidateName = userProfile.value?.name ?: "Aditya Mehra"
     val candidateRole = "Lead Strategy & Operations"
 
     weeklyCareerHealthReport.value = WeeklyCareerHealthReportService.synthesizeWeeklyReport(

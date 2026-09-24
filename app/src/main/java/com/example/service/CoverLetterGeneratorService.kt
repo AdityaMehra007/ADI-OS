@@ -35,9 +35,9 @@ class CoverLetterGeneratorService(private val context: Context) {
       tone: CoverLetterTone,
       customNotes: String = ""
     ): CoverLetterGenerated {
-    val candidateName = userProfile?.name?.ifBlank { "Aditya \"Adi\" Shenoy" } ?: "Aditya \"Adi\" Shenoy"
+    val candidateName = userProfile?.name?.ifBlank { "Aditya \"Adi\" Mehra" } ?: "Aditya \"Adi\" Mehra"
     val candidateLocation = userProfile?.location?.ifBlank { "Bengaluru, India" } ?: "Bengaluru, India"
-    val candidateContact = "$candidateLocation | +91 98450 12345 | adi.shenoy@titan.internal"
+    val candidateContact = "$candidateLocation | +91-7003456624 | adityamehra799@gmail.com"
     val dateStr = SimpleDateFormat("MMMM d, yyyy", Locale.US).format(Date())
 
     val role = targetRole.ifBlank { "Lead - Strategy & Dark Store Operations" }
@@ -277,7 +277,7 @@ class CoverLetterGeneratorService(private val context: Context) {
             bodyParagraphCultureMoat = obj.optString("bodyParagraphCultureMoat", ""),
             callToAction = obj.optString("callToAction", ""),
             formalSignOff = obj.optString("formalSignOff", "Sincerely,"),
-            candidateName = obj.optString("candidateName", "Aditya \"Adi\" Shenoy"),
+            candidateName = obj.optString("candidateName", "Aditya \"Adi\" Mehra"),
             candidateTitle = obj.optString("candidateTitle", "Operations Lead"),
             candidateContact = obj.optString("candidateContact", ""),
             fullFormattedLetter = obj.optString("fullFormattedLetter", ""),

@@ -171,7 +171,7 @@ fun InterviewSimulatorView(
       ProfileGroundingSummaryCard(
         candidateName = userProfile?.name ?: "Adi",
         degree = "${userProfile?.educationDegree ?: "BBA"} (${userProfile?.educationSpecialization ?: "International Business"})",
-        university = userProfile?.university ?: "Bengaluru University",
+        university = userProfile?.university ?: "Dayananda Sagar University (DSU), Bengaluru",
         targetCompany = selectedCompany
       )
     }

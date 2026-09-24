@@ -381,7 +381,7 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                  text = "University: ${profile?.university ?: "Bengaluru University"}",
+                  text = "University: ${profile?.university ?: "Dayananda Sagar University (DSU), Bengaluru"}",
                   style = MaterialTheme.typography.bodySmall,
                   color = TextSecondaryDark,
                   fontSize = 11.sp

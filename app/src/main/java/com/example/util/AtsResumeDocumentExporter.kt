@@ -12,10 +12,10 @@ object AtsResumeDocumentExporter {
     skills: List<String> = listOf("Kotlin", "Jetpack Compose", "Coroutines", "System Design", "Microservices", "Kubernetes", "Kafka", "AWS", "CI/CD"),
     customBullets: List<String> = emptyList()
   ): String {
-    val name = profile?.name?.uppercase() ?: "ADITYA VERMA"
+    val name = profile?.name?.uppercase() ?: "ADITYA MEHRA"
     val location = profile?.location ?: "Bengaluru, India"
-    val education = profile?.educationDegree ?: "B.Tech in Computer Science"
-    val university = profile?.university ?: "Bengaluru University"
+    val education = profile?.educationDegree ?: "BBA in International Business"
+    val university = profile?.university ?: "Dayananda Sagar University (DSU), Bengaluru"
 
     val bullets = if (customBullets.isNotEmpty()) {
       customBullets

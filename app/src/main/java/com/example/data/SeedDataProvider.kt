@@ -33,14 +33,14 @@ object SeedDataProvider {
     // 1. User Profile
     val profile = UserProfile(
       id = "ADI_PRIMARY_ID",
-      name = "Adi",
+      name = "Aditya Mehra",
       location = "Bengaluru, India",
       careerStage = "Early-Career / Graduate",
       educationDegree = "BBA (Bachelor of Business Administration)",
       educationSpecialization = "International Business",
-      university = "Bengaluru University",
-      targetRoles = "Business Analyst, Associate Business Analyst, Strategy & Operations Associate, AI Operations, BizDev Associate, Product Operations",
-      interests = "AI, Technology, International Business, Strategy, Operations, Automation, Fintech, Markets, Startups",
+      university = "Dayananda Sagar University (DSU), Bengaluru",
+      targetRoles = "Strategy & Operations Lead, Founder's Office Associate, Commercial Operations Associate, AI Operations Specialist, BizOps Associate",
+      interests = "AI, Technology, International Business, Strategy, Operations, Automation, Supply Chain, Logistics, Startups",
       careerScore = 88,
       careerCapitalScore = 85,
       aiLeverageScore = 92,
@@ -53,43 +53,49 @@ object SeedDataProvider {
     )
     db.profileDao().insertOrUpdateProfile(profile)
 
-    // 2. Verified Facts
+    // 2. Verified Facts (Truth Layer Grounding)
     val facts = listOf(
       VerifiedFact(
         category = "EDUCATION",
-        claim = "Completed BBA with Specialization in International Business with First Class Honors",
-        evidenceDetails = "Bengaluru University Transcripts (GPA 3.82 / 4.0), Core coursework: Global Trade Logistics, Business Analytics, Corporate Finance, Strategic Management",
-        tags = "BBA, International Business, Honors, Bengaluru"
+        claim = "Completed BBA with Specialization in International Business",
+        evidenceDetails = "Dayananda Sagar University (DSU), Bengaluru (Class of 2026). Core coursework: Global Supply Chain Management, EXIM Operations, International Trade Law (Incoterms 2020), Strategic Management, Corporate Finance",
+        tags = "BBA, International Business, DSU, Bengaluru, EXIM, Incoterms"
       ),
       VerifiedFact(
         category = "EXPERIENCE",
-        claim = "Led Digitalization & Operations Modernization in Family Enterprise",
-        evidenceDetails = "Automated invoice processing and inventory forecasting using AI tools & SQL dashboards, cutting cycle time by 42% and eliminating stockouts over 9 months",
-        tags = "Operations, Automation, Family Business, Analytics"
+        claim = "Lead Operations Coordinator for AERO India 2025 & Tier-1 Brand Activations",
+        evidenceDetails = "Directed full on-ground operations and multi-tier vendor logistics for premier aerospace exhibition pavilions at AERO India 2025 (Yelahanka AFB). Spearheaded 300+ on-ground deployments for Puma India and Tata Communications with zero run-of-show downtime",
+        tags = "Operations, Logistics, AERO India 2025, Puma, Tata Communications, Staging"
       ),
       VerifiedFact(
         category = "EXPERIENCE",
-        claim = "Freelance Business Development & Market Research Consultant",
-        evidenceDetails = "Executed targeted outbound campaigns for 3 B2B tech startups, generating 65+ qualified enterprise leads and ₹18L in pipeline value",
-        tags = "Sales, Business Development, Outbound, Lead Gen"
-      ),
-      VerifiedFact(
-        category = "PROJECT",
-        claim = "Architected AI Market Intelligence & Supply Chain Analytics Dashboard",
-        evidenceDetails = "Engineered automated data pipelines monitoring APAC commodities, currency fluctuations, and trade tariffs using Python, Gemini API, and PowerBI",
-        tags = "AI, Market Intelligence, Gemini, PowerBI, Python"
+        claim = "Tier-1 Vendor SLA Governance & Commercial Cost Negotiation",
+        evidenceDetails = "Audited supplier rate cards, eliminated intermediary markups, and established standardized pricing structures across high-stakes commercial builds, cutting schedule slippage by 28%",
+        tags = "Vendor Management, SLA Enforcement, Rate Cards, Procurement, Cost Reduction"
       ),
       VerifiedFact(
         category = "EXPERIENCE",
-        claim = "Head of Corporate Relations & Event Leadership for Annual Business Conclave",
-        evidenceDetails = "Spearheaded 22-member student committee, hosted 1,500+ attendees, secured 14 corporate sponsors including Tier-1 fintech brands",
-        tags = "Leadership, Event Management, Sponsorship, Corporate Relations"
+        claim = "Commercial Operations & Business Development Lead",
+        evidenceDetails = "Directed end-to-end client discovery, material cost estimations, and milestone contract handovers; built structured lead qualification pipelines cutting proposal turnaround from 7 days to 48 hours",
+        tags = "Commercial Ops, Business Development, Pipeline, Client Relations"
+      ),
+      VerifiedFact(
+        category = "EXPERIENCE",
+        claim = "AI Data Operations Specialist at Instawork AI",
+        evidenceDetails = "Curated, audited, and annotated complex ground-truth computer vision and tabular datasets, maintaining 99%+ QA benchmark accuracy for production machine learning models; designed automated triage increasing throughput by 22%",
+        tags = "AI Operations, Instawork, Machine Learning, Data Curation, QA Benchmark"
       ),
       VerifiedFact(
         category = "SKILL",
-        claim = "Certified Business Intelligence Analyst & SQL Advanced Practitioner",
-        evidenceDetails = "Verified Credentials in Advanced SQL, Tableau, PowerBI, Excel Financial Modeling, and Prompt Engineering for Enterprise Workflows",
-        tags = "SQL, PowerBI, Financial Modeling, Analytics"
+        claim = "International Trade Law, EXIM Compliance & Cross-Border Logistics",
+        evidenceDetails = "Verified command over Incoterms 2020 rules, customs tariff classifications (HS codes), UCP 600 Letters of Credit, and landed cost modeling",
+        tags = "Incoterms 2020, Customs, HS Codes, EXIM, Trade Finance"
+      ),
+      VerifiedFact(
+        category = "SKILL",
+        claim = "Certified Business Intelligence & Advanced SQL Practitioner",
+        evidenceDetails = "Verified credentials in advanced SQL (Window Functions, CTEs), Python (Pandas data automation), PowerBI, and multi-agent AI execution pipelines",
+        tags = "SQL, Python, PowerBI, Automation, Analytics"
       )
     )
     db.verifiedFactDao().insertAll(facts)
@@ -1823,8 +1829,8 @@ object SeedDataProvider {
 
     // 20. Knowledge Graph
     val nodes = listOf(
-      com.example.data.model.KnowledgeNode(id = "kn_adi", nodeType = "USER", label = "Adi (Candidate)", category = "Identity", details = "BBA International Business Honors Graduate", significanceScore = 100),
-      com.example.data.model.KnowledgeNode(id = "kn_deg", nodeType = "EXPERIENCE", label = "BBA Honors Degree", category = "Education", details = "Bengaluru University, GPA 3.82 / 4.0", significanceScore = 90),
+      com.example.data.model.KnowledgeNode(id = "kn_adi", nodeType = "USER", label = "Aditya Mehra (Candidate)", category = "Identity", details = "BBA International Business, DSU Bengaluru", significanceScore = 100),
+      com.example.data.model.KnowledgeNode(id = "kn_deg", nodeType = "EXPERIENCE", label = "BBA International Business", category = "Education", details = "Dayananda Sagar University (DSU), Bengaluru (Class of 2026)", significanceScore = 90),
       com.example.data.model.KnowledgeNode(id = "kn_fam", nodeType = "EXPERIENCE", label = "Family Enterprise Modernization", category = "Operations", details = "42% Cycle Time Cut, SQL & Inventory Digitization", significanceScore = 95),
       com.example.data.model.KnowledgeNode(id = "kn_hack", nodeType = "PROJECT", label = "Razorpay FinTech Hackathon", category = "Product Strategy", details = "National Top 5 Finalist out of 400+ Teams", significanceScore = 88),
       com.example.data.model.KnowledgeNode(id = "kn_msft", nodeType = "COMPANY", label = "Microsoft India", category = "Target Enterprise", details = "S+ Tier, Final Round Scheduled", significanceScore = 98),
@@ -2324,7 +2330,7 @@ object SeedDataProvider {
     val initialResumeVariations = listOf(
       ResumeVariation(
         id = "res_var_primary_core",
-        title = "Aditya Shenoy - Operations Strategy Core Master",
+        title = "Aditya Mehra - Operations Strategy Core Master",
         targetCompany = "General",
         targetRole = "Operations Strategy Lead",
         resumeText = com.example.service.ResumeJobComparisonService.DEFAULT_RESUME_TEXT,

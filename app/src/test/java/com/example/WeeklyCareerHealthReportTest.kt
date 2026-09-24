@@ -31,12 +31,12 @@ class WeeklyCareerHealthReportTest {
     val weeklyReport = WeeklyCareerHealthReportService.synthesizeWeeklyReport(
       skillsRadar = radarReport,
       velocityReport = velocityReport,
-      candidateName = "Aditya Shenoy",
+      candidateName = "Aditya Mehra",
       candidateRole = "Lead Strategy & Operations"
     )
 
     assertNotNull(weeklyReport)
-    assertEquals("Aditya Shenoy", weeklyReport.candidateName)
+    assertEquals("Aditya Mehra", weeklyReport.candidateName)
     assertEquals("Lead Strategy & Operations", weeklyReport.candidateRole)
     assertEquals(targetJob.roleTitle, weeklyReport.targetBenchmarkRole)
     assertEquals(targetJob.companyName, weeklyReport.targetBenchmarkCompany)

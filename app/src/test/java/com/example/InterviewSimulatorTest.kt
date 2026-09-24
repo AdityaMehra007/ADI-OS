@@ -109,10 +109,10 @@ class InterviewSimulatorTest {
   fun testCandidateProfileGroundingIntegrity() {
     val userProfile = UserProfile(
       id = "adi_primary",
-      name = "Adi",
+      name = "Aditya Mehra",
       educationDegree = "BBA",
       educationSpecialization = "International Business",
-      university = "Bengaluru University",
+      university = "Dayananda Sagar University (DSU), Bengaluru",
       interests = "AI, Operations, Strategy"
     )
 
@@ -125,7 +125,7 @@ class InterviewSimulatorTest {
     )
 
     assertNotNull(userProfile)
-    assertEquals("Adi", userProfile.name)
+    assertEquals("Aditya Mehra", userProfile.name)
     assertEquals("BBA", userProfile.educationDegree)
     assertTrue(question.candidateProfileAnchor.contains("Razorpay Hackathon Finalist"))
     assertTrue(question.candidateProfileAnchor.contains("₹18.5L"))

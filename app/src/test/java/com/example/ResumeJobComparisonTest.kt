@@ -41,7 +41,7 @@ class ResumeJobComparisonTest {
   @Test
   fun testDefaultCandidateResumeContent() {
     val resume = ResumeJobComparisonService.DEFAULT_RESUME_TEXT
-    assertTrue("Resume must contain candidate name", resume.contains("ADITYA \"ADI\" SHENOY"))
+    assertTrue("Resume must contain candidate name", resume.contains("ADITYA \"ADI\" MEHRA"))
     assertTrue("Resume must contain 42% order cycle reduction metric", resume.contains("42%"))
     assertTrue("Resume must contain ₹18L enterprise pipeline metric", resume.contains("₹18L"))
     assertTrue("Resume must mention SQL competencies", resume.contains("SQL"))

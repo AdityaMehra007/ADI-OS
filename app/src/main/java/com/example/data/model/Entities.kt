@@ -8,12 +8,12 @@ import kotlin.math.roundToInt
 @Entity(tableName = "user_profile")
 data class UserProfile(
   @PrimaryKey val id: String = "ADI_PRIMARY_ID",
-  val name: String = "Adi",
+  val name: String = "Aditya Mehra",
   val location: String = "Bengaluru, India",
   val careerStage: String = "Early-Career / Graduate",
   val educationDegree: String = "BBA (Bachelor of Business Administration)",
   val educationSpecialization: String = "International Business",
-  val university: String = "Bengaluru University",
+  val university: String = "Dayananda Sagar University (DSU), Bengaluru",
   val targetRoles: String = "Business Analyst, Associate Business Analyst, Strategy & Operations, AI Operations, BizDev Associate, Product Operations",
   val interests: String = "AI, Technology, International Business, Strategy, Operations, Automation, Fintech, Markets, Entrepreneurship",
   val careerScore: Int = 88,

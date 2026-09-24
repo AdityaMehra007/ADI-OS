@@ -839,7 +839,7 @@ class GeminiCareerService {
       - Name: Adi
       - Location: Bengaluru, India
       - Career Stage: Early-Career / Graduate
-      - Education: BBA in International Business (Honors, GPA 3.82/4.0), Bengaluru University
+      - Education: BBA in International Business (Honors), Dayananda Sagar University (DSU), Bengaluru
       - Target Roles: Business Analyst, Strategy & Operations, AI Operations Associate, BizDev, Product Operations, Consulting Analyst
       - Verified Strengths: SQL, PowerBI, Market Sizing, AI Workflow Automation, B2B Outbound Lead Gen, Supply Chain Modernization
       - Core Mission: Maximize Adi's long-term career capital, income growth, international mobility, and AI leverage.
@@ -2089,7 +2089,7 @@ class GeminiCareerService {
     val factsSummary = if (verifiedFacts.isNotEmpty()) {
       verifiedFacts.joinToString("; ") { "${it.claim} (${it.evidenceDetails})" }
     } else {
-      "BBA in International Business (GPA 3.82/4.0, Bengaluru University); 42% order cycle reduction via SQL/Python; ₹18L pipeline generated across 65+ executive meetings; 14.5% unit cost reduction across 12 supplier SLAs"
+      "BBA in International Business, Dayananda Sagar University (DSU), Bengaluru; AERO India 2025 Lead Coordinator; Tier-1 vendor SLA governance; Instawork AI 99%+ QA benchmark; Incoterms 2020 EXIM compliance"
     }
 
     val prompt = """
@@ -3378,7 +3378,7 @@ class GeminiCareerService {
       Draft a personalized, high-converting, quantified cover letter tailored specifically to the target job description and the candidate's verified professional profile.
 
       CANDIDATE PROFILE:
-      Name: ${userProfile.name.ifBlank { "Aditya \"Adi\" Shenoy" }}
+      Name: ${userProfile.name.ifBlank { "Aditya \"Adi\" Mehra" }}
       Location: ${userProfile.location}
       Target Career Track: ${userProfile.targetRoles}
       
@@ -3481,9 +3481,9 @@ class GeminiCareerService {
         }
       }
 
-      val candidateName = userProfile.name.ifBlank { "Aditya \"Adi\" Shenoy" }
+      val candidateName = userProfile.name.ifBlank { "Aditya \"Adi\" Mehra" }
       val candidateTitle = userProfile.targetRoles.split(",").firstOrNull()?.trim() ?: "Operations & Strategy Lead"
-      val candidateContact = "${userProfile.location} | +91 98450 12345 | adi.shenoy@titan.internal"
+      val candidateContact = "${userProfile.location} | +91-7003456624 | adityamehra799@gmail.com"
       val dateFormatted = java.text.SimpleDateFormat("MMMM d, yyyy", java.util.Locale.US).format(java.util.Date())
 
       val finalSubject = subjectLine.ifBlank { "Application for $targetRole — $candidateName" }
@@ -5070,7 +5070,7 @@ class GeminiCareerService {
   ): CompanyInterviewSimulationDossier = withContext(Dispatchers.IO) {
     val apiKey = getApiKey()
     val candidateName = userProfile?.name ?: "Adi"
-    val degree = "${userProfile?.educationDegree ?: "BBA"} (${userProfile?.educationSpecialization ?: "International Business"}) from ${userProfile?.university ?: "Bengaluru University"}"
+    val degree = "${userProfile?.educationDegree ?: "BBA"} (${userProfile?.educationSpecialization ?: "International Business"}) from ${userProfile?.university ?: "Dayananda Sagar University (DSU), Bengaluru"}"
     val targetRoles = userProfile?.targetRoles ?: "Business Analyst, Strategy & Operations, AI Operations"
 
     val factsSummary = if (verifiedFacts.isNotEmpty()) {
@@ -5559,7 +5559,7 @@ class GeminiCareerService {
           category = "STRATEGY_FIT",
           difficulty = "ADVANCED",
           whyCompanyAsksThis = "Probes candidate's ability to apply macroeconomic, trade, and strategic management frameworks to company growth.",
-          candidateProfileAnchor = "Directly leverages your BBA in International Business from Bengaluru University.",
+          candidateProfileAnchor = "Directly leverages your BBA in International Business from Dayananda Sagar University (DSU), Bengaluru.",
           keyPointsToHit = listOf("Strategic frameworks (Porter's Five Forces, PESTLE, Unit Economics)", "Understanding cross-border regulatory and compliance landscapes", "Synthesizing qualitative market trends with quantitative financial models"),
           sampleStarAnswer = "My BBA curriculum in International Business focused on competitive strategy, global trade logistics, and financial modeling. In high-growth technology and operations, winning requires understanding both micro unit economics and macro regulatory moats. I combine this academic foundation with practical SQL data analysis to evaluate where $companyName can capture sustainable market share."
         ),

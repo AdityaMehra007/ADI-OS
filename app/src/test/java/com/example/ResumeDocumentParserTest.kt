@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets
 class ResumeDocumentParserTest {
 
   private val sampleResumeText = """
-    ADITYA SHENOY
-    Bengaluru, India • aditya.shenoy@example.com • +91 98765 43210 • linkedin.com/in/adityashenoy
+    ADITYA MEHRA
+    Bengaluru, India • adityamehra799@gmail.com • +91-7003456624 • linkedin.com/in/aditya-mehra
 
     EXECUTIVE SUMMARY
     High-velocity Operations and Strategy Lead with 3+ years experience driving micro-fulfillment throughput, dark store logistics, and unit economics. Scaled Bengaluru cluster GMV by 42% and automated ETL telemetry pipelines with SQL and Python.
@@ -33,19 +33,19 @@ class ResumeDocumentParserTest {
     - Reduced stockout rate from 4.8% to 1.1% through dynamic replenishment trigger controls.
 
     EDUCATION
-    Bachelor of Business Administration (BBA) - Analytics & Operations | Bengaluru University (GPA 3.85/4.0)
+    Bachelor of Business Administration (BBA) - International Business | Dayananda Sagar University (DSU), Bengaluru
   """.trimIndent()
 
   @Test
   fun testResumeTextParsing() {
     val parsedDoc = ResumeDocumentParser.parseResumeFromText(
-      fileName = "Aditya_Shenoy_Resume.txt",
+      fileName = "Aditya_Mehra_Resume.txt",
       rawText = sampleResumeText,
       fileType = "TXT"
     )
 
     assertNotNull(parsedDoc)
-    assertEquals("Aditya_Shenoy_Resume.txt", parsedDoc.fileName)
+    assertEquals("Aditya_Mehra_Resume.txt", parsedDoc.fileName)
     assertEquals("TXT", parsedDoc.fileType)
     assertTrue(parsedDoc.wordCount > 100)
     assertTrue(parsedDoc.skills.isNotEmpty())
@@ -79,7 +79,7 @@ class ResumeDocumentParserTest {
       stream
       BT
       /F1 12 Tf
-      (Aditya Shenoy - Senior Operations Lead) Tj T*
+      (Aditya Mehra - Senior Operations Lead) Tj T*
       (Key Skills: SQL, Python, Dark Store Operations, Supply Chain) Tj T*
       (Reduced delivery cycle time by 42% across 14 dark stores) Tj
       ET
@@ -96,7 +96,7 @@ class ResumeDocumentParserTest {
     )
 
     assertTrue("Extracted text should not be blank", extractedText.isNotBlank())
-    assertTrue("Should contain candidate name", extractedText.contains("Aditya Shenoy"))
+    assertTrue("Should contain candidate name", extractedText.contains("Aditya Mehra"))
     assertTrue("Should contain SQL skill", extractedText.contains("SQL"))
     assertTrue("Should contain Dark Store", extractedText.contains("Dark Store"))
   }
@@ -104,7 +104,7 @@ class ResumeDocumentParserTest {
   @Test
   fun testCompareResumeWithJobDescriptionHighFit() {
     val parsedDoc = ResumeDocumentParser.parseResumeFromText(
-      fileName = "Aditya_Shenoy_Resume.txt",
+      fileName = "Aditya_Mehra_Resume.txt",
       rawText = sampleResumeText,
       fileType = "TXT"
     )
@@ -142,7 +142,7 @@ class ResumeDocumentParserTest {
   @Test
   fun testCompareResumeWithJobDescriptionGapDetection() {
     val parsedDoc = ResumeDocumentParser.parseResumeFromText(
-      fileName = "Aditya_Shenoy_Resume.txt",
+      fileName = "Aditya_Mehra_Resume.txt",
       rawText = sampleResumeText,
       fileType = "TXT"
     )

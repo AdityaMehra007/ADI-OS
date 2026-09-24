@@ -138,9 +138,9 @@ Key Requirements & Responsibilities:
   )
 
   val DEFAULT_RESUME_TEXT = """
-ADITYA "ADI" SHENOY
-Bengaluru, India | +91 98450 12345 | adi.shenoy@titan.internal
-LinkedIn: linkedin.com/in/adi-shenoy-ops | Portfolio: github.com/adi-titan-vault
+ADITYA "ADI" MEHRA
+Bengaluru, India | +91-7003456624 | adityamehra799@gmail.com
+LinkedIn: linkedin.com/in/aditya-mehra | Portfolio: github.com/AdityaMehra007
 
 EXECUTIVE SUMMARY
 High-velocity Strategy and Operations Leader with 3+ years of experience engineering data-driven business workflows and automated supply chain telemetry. Proven track record reducing operational order cycle times by 42% and generating ₹18L+ B2B enterprise pipeline. Combines commercial rigor from BBA in International Business with autonomous Python/SQL pipeline engineering.
@@ -166,10 +166,10 @@ August 2022 - May 2023
 - Conducted competitor pricing and market sizing research for executive leadership, directly influencing product tier packaging.
 
 EDUCATION & HONORS
-Bachelor of Business Administration (BBA) - International Business & Analytics
-St. Joseph's University, Bengaluru | Graduated 2022 | GPA: 3.82 / 4.0
-- Academic Excellence Award in Quantitative Methods & Managerial Economics
-- President, Data & Operations Society: Mentored 60+ students in SQL and operations case study competitions
+Bachelor of Business Administration (BBA) - International Business
+Dayananda Sagar University (DSU), Bengaluru | Class of 2026
+- Core Coursework: Global Trade Law (Incoterms 2020), Supply Chain Logistics, Financial Modeling, Strategic Management
+- Head of Student Leadership & Operations: Spearheaded annual business conclave across 1,500+ attendees and 14 corporate partners
   """.trimIndent()
 
   suspend fun compareResumeWithJobRequirements(

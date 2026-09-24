@@ -21,10 +21,10 @@ class TitanDataModelTest {
   fun testUserProfileDefaultState() {
     val profile = UserProfile(
       id = "adi_primary",
-      name = "Adi",
+      name = "Aditya Mehra",
       educationDegree = "BBA (Bachelor of Business Administration)",
       educationSpecialization = "International Business",
-      university = "Bengaluru University",
+      university = "Dayananda Sagar University (DSU), Bengaluru",
       location = "Bengaluru, India",
       interests = "AI, Technology, International Business, Strategy, Operations",
       automationMode = "APPROVAL",
@@ -32,7 +32,7 @@ class TitanDataModelTest {
       profileCompleteness = 96
     )
 
-    assertEquals("Adi", profile.name)
+    assertEquals("Aditya Mehra", profile.name)
     assertEquals("APPROVAL", profile.automationMode)
     assertFalse(profile.brutalStrategyMode)
     assertEquals(96, profile.profileCompleteness)
@@ -353,7 +353,7 @@ class TitanDataModelTest {
     assertEquals(4, mockDocs.size)
 
     val opsLeadDoc = mockDocs.first { it.id == "doc_ops_lead_v3" }
-    assertEquals("Adi_Shenoy_Operations_Lead_v3.pdf", opsLeadDoc.fileName)
+    assertEquals("Aditya_Mehra_Operations_Lead_v3.pdf", opsLeadDoc.fileName)
     assertEquals("PDF", opsLeadDoc.fileType)
 
     val parsed = com.example.service.LocalDocumentParser.parseDocumentText(
@@ -365,7 +365,7 @@ class TitanDataModelTest {
 
     assertNotNull(parsed)
     assertTrue(parsed.contactInfo.candidateName.contains("ADI", ignoreCase = true))
-    assertTrue(parsed.contactInfo.email.contains("shenoy", ignoreCase = true))
+    assertTrue(parsed.contactInfo.email.contains("adityamehra", ignoreCase = true))
     assertTrue(parsed.wordCount > 100)
     assertTrue(parsed.quantifiableMetricRatio > 0.4f)
     assertTrue(parsed.actionVerbStrengthScore > 60)

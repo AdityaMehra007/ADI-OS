@@ -206,7 +206,7 @@ class TitanCloudSyncService(private val context: Context) {
               careerStage = data["careerStage"] as? String ?: "Early-Career / Graduate",
               educationDegree = data["educationDegree"] as? String ?: "BBA (Bachelor of Business Administration)",
               educationSpecialization = data["educationSpecialization"] as? String ?: "International Business",
-              university = data["university"] as? String ?: "Bengaluru University",
+              university = data["university"] as? String ?: "Dayananda Sagar University (DSU), Bengaluru",
               targetRoles = data["targetRoles"] as? String ?: "Business Analyst, Associate Business Analyst",
               interests = data["interests"] as? String ?: "AI, Strategy, Operations",
               careerScore = (data["careerScore"] as? Long)?.toInt() ?: 88,
@@ -382,12 +382,12 @@ class TitanCloudSyncService(private val context: Context) {
         val restoredProfile = if (pObj != null) {
           UserProfile(
             id = pObj.optString("id", "ADI_PRIMARY_ID"),
-            name = pObj.optString("name", "Adi"),
+            name = pObj.optString("name", "Aditya Mehra"),
             location = pObj.optString("location", "Bengaluru, India"),
             careerStage = pObj.optString("careerStage", "Early-Career / Graduate"),
             educationDegree = pObj.optString("educationDegree", "BBA (Bachelor of Business Administration)"),
             educationSpecialization = pObj.optString("educationSpecialization", "International Business"),
-            university = pObj.optString("university", "Bengaluru University"),
+            university = pObj.optString("university", "Dayananda Sagar University (DSU), Bengaluru"),
             targetRoles = pObj.optString("targetRoles", "Business Analyst, Strategy & Operations"),
             interests = pObj.optString("interests", "AI, Strategy, Operations"),
             careerScore = pObj.optInt("careerScore", 88),

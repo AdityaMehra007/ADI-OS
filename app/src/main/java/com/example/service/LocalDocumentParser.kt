@@ -41,16 +41,16 @@ object LocalDocumentParser {
   val AVAILABLE_MOCK_DOCUMENTS = listOf(
     MockResumeDocument(
       id = "doc_ops_lead_v3",
-      fileName = "Adi_Shenoy_Operations_Lead_v3.pdf",
+      fileName = "Aditya_Mehra_Operations_Lead_v3.pdf",
       fileType = "PDF",
       simulatedSizeBytes = 142850L,
-      title = "Adi Shenoy - Lead Strategy & Ops (Zepto Target)",
+      title = "Aditya Mehra - Lead Strategy & Ops (Zepto Target)",
       targetProfile = "High-Growth Quick Commerce & Marketplace Ops",
       description = "Evidence-backed resume with verified 42% cycle reduction and SQL telemetry. Ready for ATS benchmarking against Zepto, Swiggy, and Blinkit.",
       rawContent = """
-ADITYA "ADI" SHENOY
-Bengaluru, India | +91 98450 12345 | adi.shenoy@titan.internal
-LinkedIn: linkedin.com/in/adi-shenoy-ops | Portfolio: github.com/adi-titan-vault
+ADITYA "ADI" MEHRA
+Bengaluru, India | +91-7003456624 | adityamehra799@gmail.com
+LinkedIn: linkedin.com/in/aditya-mehra | Portfolio: github.com/AdityaMehra007
 
 EXECUTIVE SUMMARY
 High-velocity Strategy and Operations Leader with 3+ years of experience engineering data-driven business workflows and automated supply chain telemetry. Proven track record reducing operational order cycle times by 42% and generating ₹18L+ B2B enterprise pipeline. Combines commercial rigor from BBA in International Business with autonomous Python/SQL pipeline engineering.
@@ -80,9 +80,9 @@ PROOF-OF-WORK LAB PROJECTS
 - Real-Time Dark Store Telemetry OS: Built PostgreSQL + Redis monitoring service tracking order picking velocity at 1-second resolution.
 
 EDUCATION
-St. Joseph's University, Bengaluru, India
-Bachelor of Business Administration (BBA) – International Business & Analytics
-Graduation: May 2024 | GPA: 3.82 / 4.0 (Top 5% Distinction)
+Dayananda Sagar University (DSU), Bengaluru, India
+Bachelor of Business Administration (BBA) – International Business
+Graduation: 2026 | Class of 2026
       """.trimIndent()
     ),
 
@@ -95,8 +95,8 @@ Graduation: May 2024 | GPA: 3.82 / 4.0 (Top 5% Distinction)
       targetProfile = "Corporate Strategy & Management Consulting",
       description = "Structured strategy resume emphasizing quantitative problem solving, market sizing, and financial modeling frameworks.",
       rawContent = """
-ADITYA SHENOY
-Bengaluru, KA | adi.shenoy@strategy.vault | +91 98450 12345
+ADITYA MEHRA
+Bengaluru, KA | adityamehra799@gmail.com | +91-7003456624
 
 PROFESSIONAL OBJECTIVE
 Seeking Senior Strategy & Business Operations role leveraging quantitative financial modeling, market entry frameworks, and operational diagnostics to drive enterprise enterprise EBITDA expansion.
@@ -120,8 +120,8 @@ KEY SKILLS
 Financial Modeling (DCF, LBO, 3-Statement), Market Sizing, Bain MECE Problem Solving, Excel Modeling, Tableau, SQL, Commercial Due Diligence.
 
 EDUCATION
-St. Joseph's University, Bengaluru
-BBA in International Business | 2024 | GPA: 3.82 / 4.0
+Dayananda Sagar University (DSU), Bengaluru
+BBA in International Business | Class of 2026
       """.trimIndent()
     ),
 
@@ -134,8 +134,8 @@ BBA in International Business | 2024 | GPA: 3.82 / 4.0
       targetProfile = "Sub-optimal Baseline with Passive Bullets & Missing Metrics",
       description = "Demonstrates a resume with classic failure modes: weak passive verbs ('helped', 'worked on'), missing numerical impact, and severe ATS keyword gaps.",
       rawContent = """
-Aditya Shenoy
-Bengaluru, India | Email: adi@gmail.com | Phone: 9845012345
+Aditya Mehra
+Bengaluru, India | Email: adityamehra799@gmail.com | Phone: +91-7003456624
 
 Objective
 Hardworking business graduate looking for an exciting position in operations or business management where I can use my communication skills and grow with the company.
@@ -159,8 +159,8 @@ Skills
 Communication, Teamwork, Microsoft Word, Microsoft Excel, Hard Worker, Fast Learner, Operations.
 
 Education
-St. Joseph's University
-Bachelor of Business Administration, 2024
+Dayananda Sagar University (DSU), Bengaluru
+Bachelor of Business Administration, Class of 2026
       """.trimIndent()
     ),
 
@@ -173,9 +173,9 @@ Bachelor of Business Administration, 2024
       targetProfile = "Executive Generalist & 0-to-1 Venture Scaling",
       description = "Focuses on high leverage executive coordination, board decks, cross-functional sprint leadership, and speed of execution.",
       rawContent = """
-# Aditya "Adi" Shenoy
+# Aditya "Adi" Mehra
 **Chief of Staff / Founder's Office Specialist**
-Bengaluru, India | adi.shenoy@foundersoffice.internal | +91 98450 12345
+Bengaluru, India | adityamehra799@gmail.com | +91-7003456624
 
 ## Executive Bio
 High-agency operator acting as force multiplier to founders. Combines deep SQL analytics with rapid zero-to-one prototyping, board governance reporting, and cross-functional project execution.
@@ -198,8 +198,8 @@ High-agency operator acting as force multiplier to founders. Combines deep SQL a
 Advanced SQL, Python Automation, Retool, Notion OS Architecture, Financial Modeling, Board Governance, OKR Facilitation.
 
 ## Education
-**St. Joseph's University, Bengaluru**
-BBA in International Business (GPA 3.82/4.0) | Graduated 2024
+**Dayananda Sagar University (DSU), Bengaluru**
+BBA in International Business | Class of 2026
       """.trimIndent()
     )
   )
@@ -308,18 +308,18 @@ BBA in International Business (GPA 3.82/4.0) | Graduated 2024
   }
 
   private fun extractCandidateName(lines: List<String>): String {
-    val firstLine = lines.firstOrNull() ?: "Aditya Shenoy"
+    val firstLine = lines.firstOrNull() ?: "Aditya Mehra"
     return firstLine.replace("#", "").replace("*", "").replace("\"", "").trim()
   }
 
   private fun extractEmail(text: String): String {
     val match = Regex("([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})").find(text)
-    return match?.value ?: "adi.shenoy@titan.internal"
+    return match?.value ?: "adityamehra799@gmail.com"
   }
 
   private fun extractPhone(text: String): String {
     val match = Regex("(\\+?\\d{1,3}[- .]?\\d{5}[- .]?\\d{5})").find(text)
-    return match?.value ?: "+91 98450 12345"
+    return match?.value ?: "+91-7003456624"
   }
 
   private fun extractLocation(text: String): String {
@@ -415,13 +415,13 @@ BBA in International Business (GPA 3.82/4.0) | Graduated 2024
 
   private fun extractEducation(text: String): List<ParsedEducationItem> {
     val items = mutableListOf<ParsedEducationItem>()
-    if (text.contains("St. Joseph", ignoreCase = true) || text.contains("University", ignoreCase = true)) {
+    if (text.contains("Dayananda Sagar", ignoreCase = true) || text.contains("DSU", ignoreCase = true) || text.contains("St. Joseph", ignoreCase = true) || text.contains("University", ignoreCase = true)) {
       items.add(
         ParsedEducationItem(
-          institution = "St. Joseph's University, Bengaluru",
-          degree = "Bachelor of Business Administration (BBA) – International Business & Analytics",
-          graduationYear = "2024",
-          gpaOrHonors = "GPA 3.82 / 4.0 (Distinction)"
+          institution = "Dayananda Sagar University (DSU), Bengaluru",
+          degree = "Bachelor of Business Administration (BBA) – International Business",
+          graduationYear = "2026",
+          gpaOrHonors = "Class of 2026"
         )
       )
     } else {

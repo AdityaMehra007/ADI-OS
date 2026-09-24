@@ -350,7 +350,7 @@ fun SkillsRadarDashboard(
               color = TextSecondaryDark
             )
             Text(
-              text = report?.selectedResumeTitle ?: "Adi Shenoy - Operations Lead v3",
+              text = report?.selectedResumeTitle ?: "Aditya Mehra - Strategy & Operations Lead",
               fontSize = 11.5.sp,
               fontWeight = FontWeight.SemiBold,
               color = TextPrimaryDark

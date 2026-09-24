@@ -38,7 +38,7 @@ class JobSplitComparisonTest {
     )
 
     val resume = LocalDocumentParser.parseDocumentText(
-      fileName = "Adi_Shenoy_Operations_Lead_v3.pdf",
+      fileName = "Aditya_Mehra_Operations_Lead_v3.pdf",
       rawText = LocalDocumentParser.AVAILABLE_MOCK_DOCUMENTS.first().rawContent
     )
 

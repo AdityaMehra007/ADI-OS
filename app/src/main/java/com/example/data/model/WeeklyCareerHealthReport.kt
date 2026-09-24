@@ -30,7 +30,7 @@ data class WeeklyCareerHealthReport(
   val reportId: String,
   val weekTitle: String,
   val periodRange: String,
-  val candidateName: String = "Aditya Shenoy",
+  val candidateName: String = "Aditya Mehra",
   val candidateRole: String = "Lead Strategy & Operations",
   val targetBenchmarkCompany: String,
   val targetBenchmarkRole: String,

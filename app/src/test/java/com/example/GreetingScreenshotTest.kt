@@ -25,10 +25,10 @@ class GreetingScreenshotTest {
   fun titan_topbar_screenshot() {
     val sampleProfile = UserProfile(
       id = "adi_test",
-      name = "Adi",
-      educationDegree = "B.Tech Computer Science",
-      educationSpecialization = "AI & Systems",
-      university = "Bengaluru University",
+      name = "Aditya Mehra",
+      educationDegree = "BBA in International Business",
+      educationSpecialization = "Trade & Operations Strategy",
+      university = "Dayananda Sagar University (DSU), Bengaluru",
       location = "Bengaluru, India",
       interests = "Distributed Systems",
       automationMode = "APPROVAL",

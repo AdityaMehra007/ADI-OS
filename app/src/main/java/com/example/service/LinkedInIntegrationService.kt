@@ -545,7 +545,7 @@ class LinkedInIntegrationService(
     LinkedInExperience(
       id = "exp_capstone_ai",
       title = "Lead Researcher & Builder - Autonomous AI Ops",
-      companyName = "Bengaluru University Entrepreneurship Cell",
+      companyName = "DSU Innovation & Entrepreneurship Center",
       employmentType = "Capstone Project",
       location = "Bengaluru, India",
       startDate = "Sep 2023",
@@ -560,12 +560,12 @@ class LinkedInIntegrationService(
   private fun getStandardExecutiveEducation(): List<LinkedInEducation> = listOf(
     LinkedInEducation(
       id = "edu_bba_intl",
-      schoolName = "Bengaluru University",
+      schoolName = "Dayananda Sagar University (DSU), Bengaluru",
       degree = "Bachelor of Business Administration (BBA)",
       fieldOfStudy = "International Business & Corporate Strategy",
-      startDate = "2021",
-      endDate = "2024",
-      gradeOrHonors = "Graduated with First Class Distinction (CGPA 8.7 / 10)",
+      startDate = "2022",
+      endDate = "2026",
+      gradeOrHonors = "Class of 2026 | BBA International Business",
       activitiesAndSocieties = "Head of Strategy & Corporate Relations at E-Cell; Model United Nations Delegate"
     )
   )

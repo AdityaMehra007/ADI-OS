@@ -32,7 +32,7 @@ object WeeklyCareerHealthReportService {
   fun synthesizeWeeklyReport(
     skillsRadar: SkillsRadarReport,
     velocityReport: CareerVelocityReport,
-    candidateName: String = "Aditya Shenoy",
+    candidateName: String = "Aditya Mehra",
     candidateRole: String = "Lead Strategy & Operations"
   ): WeeklyCareerHealthReport {
     val activeRole = velocityReport.roles.find { it.id == velocityReport.activeRoleId }
