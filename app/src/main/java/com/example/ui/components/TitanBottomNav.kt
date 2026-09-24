@@ -163,3 +163,14 @@ fun TitanBottomNav(
     modifier = modifier
   )
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Titan Bottom Nav - Obsidian Dark")
+@Composable
+fun TitanBottomNavPreview() {
+  TitanTheme {
+    TitanBottomNav(
+      currentRoute = ScreenRoutes.CAREER_STRATEGY,
+      onDestinationSelected = {}
+    )
+  }
+}

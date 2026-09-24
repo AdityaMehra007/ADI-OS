@@ -357,3 +357,20 @@ fun TitanTopBar(
     }
   }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Titan Top Bar - Obsidian Dark")
+@Composable
+fun TitanTopBarPreview() {
+  TitanTheme {
+    TitanTopBar(
+      userProfile = null,
+      authUser = null,
+      notificationUnreadCount = 3,
+      onToggleBrutalMode = {},
+      onAutomationModeClick = {},
+      onSearchClick = {},
+      onNotificationClick = {},
+      onAuthClick = {}
+    )
+  }
+}

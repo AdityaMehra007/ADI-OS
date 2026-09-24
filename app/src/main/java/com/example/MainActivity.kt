@@ -72,7 +72,12 @@ import com.example.ui.screens.TaskLogsScreen
 import com.example.ui.theme.ObsidianDark
 import com.example.ui.theme.TitanTheme
 import com.example.ui.viewmodel.CareerNotesViewModel
+import com.example.ui.viewmodel.CareerStrategyViewModel
 import com.example.ui.viewmodel.CompanyBookmarksViewModel
+import com.example.ui.viewmodel.CompanyIntelViewModel
+import com.example.ui.viewmodel.ExecutiveCommandViewModel
+import com.example.ui.viewmodel.JobAutomationViewModel
+import com.example.ui.viewmodel.ResumeLabViewModel
 import com.example.ui.viewmodel.TaskLogsViewModel
 import com.example.ui.viewmodel.TitanScreen
 import com.example.ui.viewmodel.TitanViewModel
@@ -81,6 +86,31 @@ import com.example.ui.viewmodel.TitanViewModelFactory
 class MainActivity : ComponentActivity() {
 
   private val viewModel: TitanViewModel by viewModels {
+    (application as? TitanApplication)?.viewModelFactory
+      ?: TitanViewModelFactory.createFactory(application)
+  }
+
+  private val careerStrategyViewModel: CareerStrategyViewModel by viewModels {
+    (application as? TitanApplication)?.viewModelFactory
+      ?: TitanViewModelFactory.createFactory(application)
+  }
+
+  private val companyIntelViewModel: CompanyIntelViewModel by viewModels {
+    (application as? TitanApplication)?.viewModelFactory
+      ?: TitanViewModelFactory.createFactory(application)
+  }
+
+  private val jobAutomationViewModel: JobAutomationViewModel by viewModels {
+    (application as? TitanApplication)?.viewModelFactory
+      ?: TitanViewModelFactory.createFactory(application)
+  }
+
+  private val resumeLabViewModel: ResumeLabViewModel by viewModels {
+    (application as? TitanApplication)?.viewModelFactory
+      ?: TitanViewModelFactory.createFactory(application)
+  }
+
+  private val executiveCommandViewModel: ExecutiveCommandViewModel by viewModels {
     (application as? TitanApplication)?.viewModelFactory
       ?: TitanViewModelFactory.createFactory(application)
   }

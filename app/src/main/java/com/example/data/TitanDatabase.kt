@@ -110,7 +110,7 @@ import kotlinx.coroutines.launch
     CompanyIntelligenceWidgetCache::class
   ],
   version = 10,
-  exportSchema = false
+  exportSchema = true
 )
 abstract class TitanDatabase : RoomDatabase() {
   abstract fun profileDao(): ProfileDao

@@ -41,6 +41,21 @@ class TitanViewModelFactoryTest {
     assertEquals(repository, viewModel.repository)
     assertEquals(inMemoryDb, viewModel.database)
 
+    val strategyVm = factory.create(com.example.ui.viewmodel.CareerStrategyViewModel::class.java)
+    assertNotNull(strategyVm)
+
+    val companyVm = factory.create(com.example.ui.viewmodel.CompanyIntelViewModel::class.java)
+    assertNotNull(companyVm)
+
+    val jobVm = factory.create(com.example.ui.viewmodel.JobAutomationViewModel::class.java)
+    assertNotNull(jobVm)
+
+    val resumeVm = factory.create(com.example.ui.viewmodel.ResumeLabViewModel::class.java)
+    assertNotNull(resumeVm)
+
+    val execVm = factory.create(com.example.ui.viewmodel.ExecutiveCommandViewModel::class.java)
+    assertNotNull(execVm)
+
     inMemoryDb.close()
   }
 

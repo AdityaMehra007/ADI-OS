@@ -45,6 +45,32 @@ class TitanViewModelFactory(
         repository = repository
       ) as T
     }
+    if (modelClass.isAssignableFrom(CareerStrategyViewModel::class.java)) {
+      return CareerStrategyViewModel(
+        repository = repository
+      ) as T
+    }
+    if (modelClass.isAssignableFrom(CompanyIntelViewModel::class.java)) {
+      return CompanyIntelViewModel(
+        repository = repository
+      ) as T
+    }
+    if (modelClass.isAssignableFrom(JobAutomationViewModel::class.java)) {
+      return JobAutomationViewModel(
+        repository = repository,
+        application = application
+      ) as T
+    }
+    if (modelClass.isAssignableFrom(ResumeLabViewModel::class.java)) {
+      return ResumeLabViewModel(
+        repository = repository
+      ) as T
+    }
+    if (modelClass.isAssignableFrom(ExecutiveCommandViewModel::class.java)) {
+      return ExecutiveCommandViewModel(
+        repository = repository
+      ) as T
+    }
     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
   }
 

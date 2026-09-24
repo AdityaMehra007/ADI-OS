@@ -42,6 +42,7 @@ class TitanApplication : Application() {
   override fun onCreate() {
     super.onCreate()
     instance = this
+    com.example.service.work.TitanWorkManagerHelper.scheduleAllPeriodicTasks(this)
   }
 
   companion object {
