@@ -1290,7 +1290,7 @@ class GeminiCareerService {
                   ) {
                       Column {
                           Text(hubName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                          Text("Cycle: ${cycleMinutes}m | SLA Breach: ${breachRate}%", color = Color(0xFF94A3B8), fontSize = 12.sp)
+                          Text("Cycle: ${'$'}{cycleMinutes}m | SLA Breach: ${'$'}{breachRate}%", color = Color(0xFF94A3B8), fontSize = 12.sp)
                       }
                       Badge(containerColor = if (breachRate < 2.5) Color(0xFF10B981) else Color(0xFFEF4444)) {
                           Text(if (breachRate < 2.5) "OPTIMAL" else "ALERT", color = Color.White)
