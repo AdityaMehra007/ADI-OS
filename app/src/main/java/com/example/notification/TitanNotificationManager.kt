@@ -30,6 +30,7 @@ class TitanNotificationManager private constructor(private val appContext: Conte
     const val CHANNEL_HIGH_MATCH_JOBS = "channel_high_match_jobs"
     const val CHANNEL_COMPANY_INTEL = "channel_company_intel"
     const val CHANNEL_APPLICATION_ALERTS = "channel_application_alerts"
+    const val CHANNEL_SOVEREIGN_OPERATIONS = "channel_sovereign_operations"
 
     const val EXTRA_TARGET_SCREEN = "extra_target_screen"
     const val EXTRA_ITEM_ID = "extra_item_id"
@@ -146,7 +147,20 @@ class TitanNotificationManager private constructor(private val appContext: Conte
         setShowBadge(true)
       }
 
-      notificationManager.createNotificationChannels(listOf(jobChannel, intelChannel, appChannel))
+      // 4. Sovereign Operations & Dark Store Channel
+      val sovereignChannel = NotificationChannel(
+        CHANNEL_SOVEREIGN_OPERATIONS,
+        "Sovereign Operations & Dark Store SLAs",
+        NotificationManager.IMPORTANCE_HIGH
+      ).apply {
+        description = "High-priority alerts for 07:00 AM dark store health checks, SLA breach warnings, and C-Suite War Room briefings"
+        enableLights(true)
+        lightColor = 0xFFFFD700.toInt() // Gold
+        enableVibration(true)
+        setShowBadge(true)
+      }
+
+      notificationManager.createNotificationChannels(listOf(jobChannel, intelChannel, appChannel, sovereignChannel))
       Log.d("TitanNotificationManager", "Notification channels registered successfully")
     }
   }
@@ -491,6 +505,57 @@ class TitanNotificationManager private constructor(private val appContext: Conte
         NotificationManagerCompat.from(appContext).notify(notifId, builder.build())
       } catch (e: Exception) {
         Log.e("TitanNotificationManager", "Failed to post application alert: ${e.message}")
+      }
+    }
+  fun notifySovereignAlert(
+    title: String,
+    message: String,
+    detailedSummary: String = "",
+    targetScreen: String = "SOVEREIGN_SUPER_APP"
+  ) {
+    val notifId = System.currentTimeMillis().toInt()
+    val alertItem = NotificationAlertItem(
+      id = "sovereign_$notifId",
+      type = NotificationType.SYSTEM_HEALTH,
+      title = title,
+      message = message,
+      detailedSummary = detailedSummary.ifBlank { message },
+      timestamp = "Just now",
+      targetScreen = targetScreen,
+      targetItemId = "sovereign",
+      targetItemName = "OMEGA-TITAN Sovereign",
+      priority = NotificationPriority.CRITICAL,
+      isRead = false
+    )
+    addAlert(alertItem)
+
+    if (hasNotificationPermission()) {
+      try {
+        val tapIntent = Intent(appContext, MainActivity::class.java).apply {
+          flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+          putExtra(EXTRA_TARGET_SCREEN, targetScreen)
+        }
+        val tapPendingIntent = PendingIntent.getActivity(
+          appContext,
+          notifId,
+          tapIntent,
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val builder = NotificationCompat.Builder(appContext, CHANNEL_SOVEREIGN_OPERATIONS)
+          .setSmallIcon(R.drawable.ic_launcher_foreground)
+          .setContentTitle(title)
+          .setContentText(message)
+          .setStyle(NotificationCompat.BigTextStyle().bigText(if (detailedSummary.isNotBlank()) "$message\n\n$detailedSummary" else message))
+          .setPriority(NotificationCompat.PRIORITY_HIGH)
+          .setColor(0xFFFFD700.toInt()) // TitanGold
+          .setAutoCancel(true)
+          .setContentIntent(tapPendingIntent)
+
+        NotificationManagerCompat.from(appContext).notify(notifId, builder.build())
+        Log.d("TitanNotificationManager", "Sovereign operational alert dispatched: $title")
+      } catch (e: Exception) {
+        Log.e("TitanNotificationManager", "Failed to post sovereign alert: ${e.message}")
       }
     }
   }

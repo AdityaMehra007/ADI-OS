@@ -327,6 +327,9 @@ class MainActivity : ComponentActivity() {
       "APPLICATIONS" -> {
         viewModel.navigateTo(TitanScreen.APPLICATIONS)
       }
+      "SOVEREIGN_SUPER_APP", "SOVEREIGN" -> {
+        viewModel.navigateTo(TitanScreen.SOVEREIGN_SUPER_APP)
+      }
     }
   }
 }

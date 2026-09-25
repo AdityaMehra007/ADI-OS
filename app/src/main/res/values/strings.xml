@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Adi OS</string>
+    <string name="shortcut_sovereign_short">Sovereign</string>
+    <string name="shortcut_sovereign_long">Sovereign Command Center</string>
+    <string name="shortcut_copilot_short">Copilot</string>
+    <string name="shortcut_copilot_long">AI Career Copilot</string>
+    <string name="shortcut_jobs_short">Jobs</string>
+    <string name="shortcut_jobs_long">Job Tracker & Automation</string>
 </resources>

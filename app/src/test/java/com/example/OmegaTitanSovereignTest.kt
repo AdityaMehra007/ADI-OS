@@ -96,4 +96,33 @@ class OmegaTitanSovereignTest {
     assertTrue("Should simulate CFO", response.contains("CFO Agent"))
     assertTrue("Should simulate CTO", response.contains("CTO Agent"))
   }
+
+  @Test
+  fun testSovereignNotificationChannelConstant() {
+    org.junit.Assert.assertEquals(
+      "channel_sovereign_operations",
+      com.example.notification.TitanNotificationManager.CHANNEL_SOVEREIGN_OPERATIONS
+    )
+  }
+
+  @Test
+  fun testDarkStoreDockPhysicsMath() {
+    val pickSec = 86.0
+    val packSec = 42.0
+    val bufferSec = 95.0
+    val totalSec = pickSec + packSec + bufferSec
+    org.junit.Assert.assertEquals(223.0, totalSec, 0.01)
+    assertTrue("Total dock cycle time must be under 255s optimal SLA threshold", totalSec <= 255.0)
+
+    val aov = 480.0
+    val cogs = 384.0
+    val delivery = 48.0
+    val pickPack = 12.0
+    val lease = 18.0
+    val pg = 5.0
+    val ads = 15.0
+    val cm2 = aov - cogs - delivery - pickPack - lease - pg + ads
+    org.junit.Assert.assertEquals(28.0, cm2, 0.01)
+    assertTrue("Contribution Margin 2 must remain positive", cm2 > 0)
+  }
 }

@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,16 +26,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.LocalShipping
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -59,6 +65,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -83,7 +90,11 @@ import com.example.ui.viewmodel.TitanViewModel
 fun OmegaTitanSuperAppScreen(
   viewModel: TitanViewModel
 ) {
+  val context = LocalContext.current
   var selectedTab by remember { mutableIntStateOf(0) }
+  var isSpeaking by remember { mutableStateOf(false) }
+  var statusFeedback by remember { mutableStateOf<String?>(null) }
+
   val tabs = listOf(
     "🏛️ War Room",
     "⚡ 25-Keypad",
@@ -92,6 +103,34 @@ fun OmegaTitanSuperAppScreen(
     "🛡️ Red-Team",
     "💻 SQL Studio"
   )
+
+  fun shareContent(text: String, title: String = "OMEGA-TITAN Sovereign Intelligence") {
+    val sendIntent = Intent().apply {
+      action = Intent.ACTION_SEND
+      putExtra(Intent.EXTRA_TITLE, title)
+      putExtra(Intent.EXTRA_TEXT, text)
+      type = "text/plain"
+    }
+    val chooser = Intent.createChooser(sendIntent, title)
+    context.startActivity(chooser)
+  }
+
+  fun toggleSpeak(text: String) {
+    if (isSpeaking) {
+      viewModel.stopSpeaking()
+      isSpeaking = false
+      statusFeedback = "⏹️ Audio playback stopped"
+    } else {
+      viewModel.speakText(text)
+      isSpeaking = true
+      statusFeedback = "🔊 Playing audio voice readout..."
+    }
+  }
+
+  fun saveNote(title: String, content: String, category: String = "SOVEREIGN_OPS") {
+    viewModel.saveSovereignResultToNotes(title, content, category)
+    statusFeedback = "💾 Saved to Room Strategic Notes Vault!"
+  }
 
   Column(
     modifier = Modifier
@@ -143,8 +182,26 @@ fun OmegaTitanSuperAppScreen(
             }
           }
 
-          Badge(containerColor = TitanEmerald.copy(alpha = 0.2f)) {
-            Text("v2026.MAX", color = TitanEmerald, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+          Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (isSpeaking) {
+              Box(
+                modifier = Modifier
+                  .clip(RoundedCornerShape(6.dp))
+                  .background(TitanGold)
+                  .clickable { toggleSpeak("") }
+                  .padding(horizontal = 6.dp, vertical = 2.dp)
+              ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                  Icon(Icons.Default.Stop, contentDescription = "Stop Audio", tint = ObsidianDark, modifier = Modifier.size(12.dp))
+                  Spacer(modifier = Modifier.width(2.dp))
+                  Text("STOP", color = ObsidianDark, fontWeight = FontWeight.Black, fontSize = 9.sp)
+                }
+              }
+            }
+
+            Badge(containerColor = TitanEmerald.copy(alpha = 0.2f)) {
+              Text("v2026.MAX", color = TitanEmerald, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+            }
           }
         }
 
@@ -163,6 +220,29 @@ fun OmegaTitanSuperAppScreen(
           TruthBadge("Tier-1 SLAs (28% Slippage Cut)")
           TruthBadge("Instawork AI Data (>99% Accuracy)")
           TruthBadge("₹18L+ Pipeline (<48h Proposal Turnaround)")
+        }
+      }
+    }
+
+    // Feedback Toast / Notification Banner
+    AnimatedVisibility(visible = statusFeedback != null) {
+      Box(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 4.dp)
+          .clip(RoundedCornerShape(8.dp))
+          .background(TitanGold.copy(alpha = 0.15f))
+          .border(1.dp, TitanGold.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+          .clickable { statusFeedback = null }
+          .padding(horizontal = 12.dp, vertical = 6.dp)
+      ) {
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically
+        ) {
+          Text(statusFeedback ?: "", color = TitanGold, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+          Text("✕", color = TextMutedDark, fontSize = 11.sp, fontWeight = FontWeight.Bold)
         }
       }
     }
@@ -198,12 +278,12 @@ fun OmegaTitanSuperAppScreen(
         .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
       when (selectedTab) {
-        0 -> WarRoomTab(viewModel)
-        1 -> Keypad25Tab(viewModel)
-        2 -> DarkStoreLabTab()
-        3 -> TargetReconTab(viewModel)
-        4 -> RedTeamVaultTab(viewModel)
-        5 -> SqlStudioTab()
+        0 -> WarRoomTab(viewModel, ::shareContent, ::toggleSpeak, ::saveNote)
+        1 -> Keypad25Tab(viewModel, ::shareContent, ::toggleSpeak, ::saveNote)
+        2 -> DarkStoreLabTab(viewModel, ::shareContent, ::toggleSpeak, ::saveNote)
+        3 -> TargetReconTab(viewModel, ::shareContent, ::toggleSpeak, ::saveNote)
+        4 -> RedTeamVaultTab(viewModel, ::shareContent, ::toggleSpeak, ::saveNote)
+        5 -> SqlStudioTab(viewModel, ::shareContent, ::saveNote)
       }
     }
   }
@@ -213,8 +293,30 @@ fun OmegaTitanSuperAppScreen(
 // TAB 1: 🏛️ WAR ROOM (13-MODE MULTI-AGENT C-SUITE SIMULATION)
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun WarRoomTab(viewModel: TitanViewModel) {
+private fun WarRoomTab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSpeak: (String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   var selectedTopic by remember { mutableStateOf("Quick Commerce CM2 Margin Defense") }
+
+  val topics = listOf(
+    "Quick Commerce CM2 Margin Defense",
+    "Tier-1 Vendor 07:00 AM SLA Penalty Escalation",
+    "Bengaluru Hub Micro-Fulfillment Layout Architecture",
+    "Cross-Border EXIM Duty Optimization & SWS Reclamation"
+  )
+
+  val warRoomMemo = """
+WAR ROOM RESOLUTION: $selectedTopic
+--------------------------------------------------
+• COO (Aditya Mehra): Field telemetry across 14 distribution hubs proved 60% picker delay is inventory drift. Re-clustering top 20% SKUs within 3m of packing compressed cycle times from 28m to 16.2m.
+• CFO Agent: Net CM2 is +₹28.40/order (AOV ₹480 - COGS ₹384 - Delivery ₹48 - Pick/Pack ₹12 - Lease ₹18 + Ad Rev ₹15). 3.8% ad take-rate shields EBITDA.
+• Red-Team Inquisitor: Operational numbers and defense airbase zero-downtime protocols withstand scrutiny. Zero vibe coding detected.
+--------------------------------------------------
+Directive: Enforce 255s hub cycle threshold across all shifts.
+  """.trimIndent()
 
   LazyColumn(
     modifier = Modifier.fillMaxSize(),
@@ -228,7 +330,7 @@ private fun WarRoomTab(viewModel: TitanViewModel) {
         color = TitanCyan
       )
       Text(
-        text = "Dispatches parallel autonomous executive agents across Modes A through M.",
+        text = "Multi-agent autonomous debate between CEO, COO, CFO, CTO & Red-Team.",
         style = MaterialTheme.typography.bodySmall,
         color = TextMutedDark,
         fontSize = 11.sp
@@ -236,7 +338,36 @@ private fun WarRoomTab(viewModel: TitanViewModel) {
     }
 
     item {
-      // Council Agents Grid
+      // Topic Selector Chips
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+      ) {
+        topics.forEach { topic ->
+          val isSelected = topic == selectedTopic
+          Box(
+            modifier = Modifier
+              .clip(RoundedCornerShape(20.dp))
+              .background(if (isSelected) TitanGold.copy(alpha = 0.2f) else SlateElevated)
+              .border(1.dp, if (isSelected) TitanGold else SlateBorder, RoundedCornerShape(20.dp))
+              .clickable { selectedTopic = topic }
+              .padding(horizontal = 12.dp, vertical = 6.dp)
+          ) {
+            Text(
+              text = topic,
+              color = if (isSelected) TitanGold else TextSecondaryDark,
+              fontSize = 11.sp,
+              fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+            )
+          }
+        }
+      }
+    }
+
+    item {
+      // Council Badges
       Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -258,7 +389,23 @@ private fun WarRoomTab(viewModel: TitanViewModel) {
         border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder)
       ) {
         Column(modifier = Modifier.padding(12.dp)) {
-          Text("CURRENT WAR-ROOM DIRECTIVE", color = TitanGold, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text("CURRENT WAR-ROOM DIRECTIVE", color = TitanGold, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+
+            // Tactile Action Icons: Speak, Share, Save
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+              IconButton(onClick = { onSpeak(warRoomMemo) }, modifier = Modifier.size(28.dp)) {
+                Icon(Icons.Default.VolumeUp, contentDescription = "Voice Readout", tint = TitanGold, modifier = Modifier.size(16.dp))
+              }
+              IconButton(onClick = { onShare(warRoomMemo, "C-Suite War Room Memo: $selectedTopic") }, modifier = Modifier.size(28.dp)) {
+                Icon(Icons.Default.Share, contentDescription = "Share Memo", tint = TitanCyan, modifier = Modifier.size(16.dp))
+              }
+              IconButton(onClick = { onSaveNote("War Room: $selectedTopic", warRoomMemo, "WAR_ROOM_DIRECTIVE") }, modifier = Modifier.size(28.dp)) {
+                Icon(Icons.Default.Bookmark, contentDescription = "Save to Notes", tint = TitanEmerald, modifier = Modifier.size(16.dp))
+              }
+            }
+          }
+
           Spacer(modifier = Modifier.height(4.dp))
           Text(selectedTopic, color = TextPrimaryDark, fontWeight = FontWeight.Bold, fontSize = 14.sp)
           Spacer(modifier = Modifier.height(8.dp))
@@ -315,7 +462,12 @@ private fun WarRoomTab(viewModel: TitanViewModel) {
 // TAB 2: ⚡ 25-KEYPAD DIRECT EXECUTION MATRIX
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun Keypad25Tab(viewModel: TitanViewModel) {
+private fun Keypad25Tab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSpeak: (String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   val modules = listOf(
     Pair("1", "JD Decompiler: Reverse-engineer hiring manager anxieties"),
     Pair("2", "ATS Resume Synthesizer: 98%+ match score in [EXP-001..006]"),
@@ -350,17 +502,12 @@ private fun Keypad25Tab(viewModel: TitanViewModel) {
   ) {
     item {
       Text("⚡ 25-KEY DIRECT EXECUTION KEYPAD", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanGold)
-      Text("Tap any module to immediately dispatch the sovereign protocol.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+      Text("Tap to dispatch to Copilot, or use the quick action buttons to Speak, Share, or Save.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
     }
 
     items(modules) { (key, desc) ->
       Card(
-        modifier = Modifier
-          .fillMaxWidth()
-          .clickable {
-            viewModel.navigateTo(TitanScreen.COPILOT)
-            viewModel.sendCopilotMessage("$key $desc")
-          },
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SlateCard),
         shape = RoundedCornerShape(8.dp),
         border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder)
@@ -370,7 +517,15 @@ private fun Keypad25Tab(viewModel: TitanViewModel) {
           verticalAlignment = Alignment.CenterVertically,
           horizontalArrangement = Arrangement.SpaceBetween
         ) {
-          Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+              .weight(1f)
+              .clickable {
+                viewModel.navigateTo(TitanScreen.COPILOT)
+                viewModel.sendCopilotMessage("$key $desc")
+              }
+          ) {
             Box(
               modifier = Modifier
                 .size(28.dp)
@@ -385,7 +540,26 @@ private fun Keypad25Tab(viewModel: TitanViewModel) {
             Text(desc, color = TextPrimaryDark, fontSize = 11.sp, lineHeight = 15.sp)
           }
 
-          Icon(Icons.AutoMirrored.Filled.Send, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(16.dp))
+          Row(horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = { onSpeak("Module $key: $desc") }, modifier = Modifier.size(26.dp)) {
+              Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
+            }
+            IconButton(onClick = { onShare("Module $key: $desc\nOMEGA-TITAN Sovereign Execution Protocol", "Module $key") }, modifier = Modifier.size(26.dp)) {
+              Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
+            }
+            IconButton(onClick = { onSaveNote("Module $key: $desc", "Executed Sovereign Module $key for career acceleration", "KEYPAD_25") }, modifier = Modifier.size(26.dp)) {
+              Icon(Icons.Default.Bookmark, contentDescription = "Save", tint = TitanEmerald, modifier = Modifier.size(14.dp))
+            }
+            IconButton(
+              onClick = {
+                viewModel.navigateTo(TitanScreen.COPILOT)
+                viewModel.sendCopilotMessage("$key $desc")
+              },
+              modifier = Modifier.size(26.dp)
+            ) {
+              Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Send", tint = TitanCyan, modifier = Modifier.size(14.dp))
+            }
+          }
         }
       }
     }
@@ -396,7 +570,12 @@ private fun Keypad25Tab(viewModel: TitanViewModel) {
 // TAB 3: 🏬 DARK STORE & SUPPLY CHAIN SIMULATOR
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun DarkStoreLabTab() {
+private fun DarkStoreLabTab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSpeak: (String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   var pickSec by remember { mutableDoubleStateOf(86.0) }
   var packSec by remember { mutableDoubleStateOf(42.0) }
   var bufferSec by remember { mutableDoubleStateOf(95.0) }
@@ -404,13 +583,28 @@ private fun DarkStoreLabTab() {
   val totalMinutes = totalDockSec / 60.0
   val isOptimal = totalDockSec <= 255.0
 
+  val slaSummary = """
+DARK STORE DOCK TELEMETRY AUDIT
+Total Dock Cycle: ${String.format("%.1f", totalDockSec)}s (${String.format("%.2f", totalMinutes)} min)
+Target SLA: ≤255s (Leaves 6 min for safe last-mile transit)
+• Picker Travel & Bagging (T_pick): ${pickSec.toInt()}s (Target: <90s)
+• Packer Verification & Sealing (T_pack): ${packSec.toInt()}s (Target: <45s)
+• Staging to Rider Handover (T_stage): ${bufferSec.toInt()}s (Target: <120s)
+CM2 Margin: +₹28.00 / order (+5.8% on ₹480 AOV)
+SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
+  """.trimIndent()
+
   LazyColumn(
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(10.dp)
   ) {
     item {
-      Text("🏬 DARK STORE & DOCK PHYSICS SIMULATOR", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanCyan)
-      Text("Real-time mathematical decomposition of micro-fulfillment throughput.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+      Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Column {
+          Text("🏬 DARK STORE & DOCK PHYSICS SIMULATOR", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanCyan)
+          Text("Real-time mathematical decomposition of micro-fulfillment throughput.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+        }
+      }
     }
 
     item {
@@ -431,6 +625,79 @@ private fun DarkStoreLabTab() {
           Spacer(modifier = Modifier.height(4.dp))
           Text("${String.format("%.1f", totalDockSec)}s (${String.format("%.2f", totalMinutes)} min)", color = TextPrimaryDark, fontSize = 24.sp, fontWeight = FontWeight.Black)
           Text("Target: ≤255s (4.25 min) inside dock • Leaves 6m for safe 1.5km delivery", color = TextMutedDark, fontSize = 10.sp)
+        }
+      }
+    }
+
+    item {
+      // Action Toolbar: Watchdog Alert, Voice, Share, Save
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+      ) {
+        Box(
+          modifier = Modifier
+            .weight(1f)
+            .clip(RoundedCornerShape(8.dp))
+            .background(TitanGold.copy(alpha = 0.2f))
+            .border(1.dp, TitanGold, RoundedCornerShape(8.dp))
+            .clickable {
+              viewModel.triggerDarkStoreSlaWatchdog()
+            }
+            .padding(vertical = 8.dp),
+          contentAlignment = Alignment.Center
+        ) {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.NotificationsActive, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
+            Spacer(modifier = Modifier.width(4.dp))
+            Text("Trigger SLA Alert", color = TitanGold, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          }
+        }
+
+        Box(
+          modifier = Modifier
+            .weight(1f)
+            .clip(RoundedCornerShape(8.dp))
+            .background(SlateElevated)
+            .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
+            .clickable { onSpeak(slaSummary) }
+            .padding(vertical = 8.dp),
+          contentAlignment = Alignment.Center
+        ) {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.VolumeUp, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(14.dp))
+            Spacer(modifier = Modifier.width(4.dp))
+            Text("Voice Audit", color = TitanCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          }
+        }
+
+        Box(
+          modifier = Modifier
+            .weight(1f)
+            .clip(RoundedCornerShape(8.dp))
+            .background(SlateElevated)
+            .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
+            .clickable { onShare(slaSummary, "Dark Store SLA Audit") }
+            .padding(vertical = 8.dp),
+          contentAlignment = Alignment.Center
+        ) {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.Share, contentDescription = null, tint = TitanEmerald, modifier = Modifier.size(14.dp))
+            Spacer(modifier = Modifier.width(4.dp))
+            Text("Share Audit", color = TitanEmerald, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          }
+        }
+
+        Box(
+          modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(SlateElevated)
+            .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
+            .clickable { onSaveNote("Dark Store Dock Simulation", slaSummary, "DARK_STORE_OPS") }
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+          contentAlignment = Alignment.Center
+        ) {
+          Icon(Icons.Default.Bookmark, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
         }
       }
     }
@@ -481,7 +748,12 @@ private fun DarkStoreLabTab() {
 // TAB 4: 🎯 TARGET GIANTS RECON
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun TargetReconTab(viewModel: TitanViewModel) {
+private fun TargetReconTab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSpeak: (String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   val companies = listOf(
     CompanyReconData(
       name = "Zepto",
@@ -496,22 +768,52 @@ private fun TargetReconTab(viewModel: TitanViewModel) {
       adityaFit = "Tier-1 vendor SLA governance (EXP-002) preventing morning dock chokepoints and stockout variance."
     ),
     CompanyReconData(
-      name = "Razorpay",
-      industry = "Fintech & Payments",
-      model = "Full-stack gateway, 95%+ success rate, sub-180ms latency, merchant neo-banking",
-      adityaFit = "Commercial pipeline acceleration (₹18L+, <48h proposals) and Instawork AI dataset QA (>99% accuracy)."
-    ),
-    CompanyReconData(
-      name = "CRED",
-      industry = "High-Trust Member Commerce",
-      model = "High-credit-score member network, high-AOV drops, vehicle & offline commerce",
-      adityaFit = "High-stakes brand activations (Puma India, Tata Communications) and clean mobile architecture."
-    ),
-    CompanyReconData(
       name = "Swiggy Instamart",
-      industry = "Hyperlocal Grocery",
-      model = "12,000+ SKU depth, mother-hub to micro-hub replenishment, defect-free dispatch",
-      adityaFit = "Predictive inventory reorder threshold modeling via SQL CTEs cutting stockouts by 28%."
+      industry = "Quick Commerce / Food Tech",
+      model = "Instamart pod layout, cross-docking from mother DCs, multi-category fulfillment",
+      adityaFit = "Cold-chain SOP compliance and dynamic rider cluster allocation matching verified Instawork AI quality standards."
+    ),
+    CompanyReconData(
+      name = "Amazon India (IN Operations)",
+      industry = "E-Commerce Logistics & Fulfillment",
+      model = "FC to Sort Center to Delivery Station topology, Six Sigma variance control",
+      adityaFit = "WBR Amazon-standard writing (Module 20), data-driven root cause analysis, and 0.00% downtime track record at defense airbase."
+    ),
+    CompanyReconData(
+      name = "Flipkart Minutes",
+      industry = "Quick Commerce / E-Commerce",
+      model = "Minutes rollout, shared dark stores with Grocery, hyperlocal grocery supply chain",
+      adityaFit = "Rapid hub onboarding and vendor fill-rate SLA enforcement cutting replenishment lag by 28%."
+    ),
+    CompanyReconData(
+      name = "DHL Supply Chain",
+      industry = "Contract Logistics & Warehousing",
+      model = "Enterprise multi-client fulfillment, temperature-controlled life sciences & high-tech",
+      adityaFit = "Incoterms 2020 international trade mastery (DSU BBA IB) and defense-grade logistics coordination."
+    ),
+    CompanyReconData(
+      name = "Maersk India",
+      industry = "Global Ocean & Integrated Logistics",
+      model = "Port-to-door supply chain integrator, customs clearance, bonded CFS networks",
+      adityaFit = "Customs Act 1962, Bill of Entry clearance workflows, and Indian customs duty reclamation (EXP-004)."
+    ),
+    CompanyReconData(
+      name = "Zomato Hyperpure",
+      industry = "B2B HoReCa Supply Chain",
+      model = "Direct farm-to-restaurant supply chain, fresh produce quality grading, cold chain",
+      adityaFit = "Vendor OTIF (On-Time In-Full) governance, cold-chain temperature logging, and fresh produce shrinkage mitigation."
+    ),
+    CompanyReconData(
+      name = "BigBasket (Tata Enterprise)",
+      industry = "Grocery E-Commerce (BB Daily + BB Now)",
+      model = "Hybrid slotted + quick commerce, private label FMCG supply chains",
+      adityaFit = "Inventory turn velocity optimization, batch picking routes, and Tata Communications enterprise experience."
+    ),
+    CompanyReconData(
+      name = "Delhivery",
+      industry = "Express Parcel & Freight Logistics",
+      model = "Automated sortation hubs, cross-dock automated guided vehicles, linehaul network",
+      adityaFit = "Linehaul dispatch scheduling, vehicle turnaround telemetry, and 300+ mission SLA management under pressure."
     )
   )
 
@@ -519,7 +821,13 @@ private fun TargetReconTab(viewModel: TitanViewModel) {
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(10.dp)
   ) {
-    items(companies) { comp ->
+    item {
+      Text("🎯 TARGET GIANTS OPERATIONAL RECON", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanGold)
+      Text("Operational profiles and tailored execution strategy for Tier-1 employers.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+    }
+
+    items(companies) { company ->
+      val companyBrief = "Company: ${company.name} (${company.industry})\nModel: ${company.model}\nAditya's Weapon: ${company.adityaFit}"
       Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SlateCard),
@@ -527,28 +835,30 @@ private fun TargetReconTab(viewModel: TitanViewModel) {
         border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder)
       ) {
         Column(modifier = Modifier.padding(12.dp)) {
-          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(comp.name, color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-            Text(comp.industry, color = TextMutedDark, fontSize = 10.sp)
-          }
-          Spacer(modifier = Modifier.height(4.dp))
-          Text("Operating Model: ${comp.model}", color = TextSecondaryDark, fontSize = 11.sp)
-          Spacer(modifier = Modifier.height(4.dp))
-          Text("Aditya's Unfair Advantage: ${comp.adityaFit}", color = TitanCyan, fontSize = 11.sp, fontWeight = FontWeight.Medium)
-          Spacer(modifier = Modifier.height(8.dp))
-          Box(
-            modifier = Modifier
-              .clip(RoundedCornerShape(6.dp))
-              .background(SlateElevated)
-              .border(1.dp, SlateBorder, RoundedCornerShape(6.dp))
-              .clickable {
-                viewModel.navigateTo(TitanScreen.COPILOT)
-                viewModel.sendCopilotMessage("1 ${comp.name} Decompile JD and generate tailored pitch")
+          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Column {
+              Text(company.name, color = TextPrimaryDark, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+              Text(company.industry, color = TitanCyan, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+            }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+              IconButton(onClick = { onSpeak(companyBrief) }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
               }
-              .padding(horizontal = 8.dp, vertical = 4.dp)
-          ) {
-            Text("Generate Bespoke Pitch for ${comp.name} →", color = TextPrimaryDark, fontSize = 10.sp)
+              IconButton(onClick = { onShare(companyBrief, "Target Recon: ${company.name}") }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
+              }
+              IconButton(onClick = { onSaveNote("Target Recon: ${company.name}", companyBrief, "COMPANY_RECON") }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.Bookmark, contentDescription = "Save", tint = TitanEmerald, modifier = Modifier.size(14.dp))
+              }
+            }
           }
+          Spacer(modifier = Modifier.height(6.dp))
+          Text("Business & Supply Chain Model:", color = TextSecondaryDark, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          Text(company.model, color = TextPrimaryDark, fontSize = 11.sp)
+          Spacer(modifier = Modifier.height(6.dp))
+          Text("Aditya's Ground Truth Weapon:", color = TitanGold, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+          Text(company.adityaFit, color = TitanEmerald, fontSize = 11.sp)
         }
       }
     }
@@ -559,23 +869,28 @@ private fun TargetReconTab(viewModel: TitanViewModel) {
 // TAB 5: 🛡️ RED-TEAM DEFENSE VAULT
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun RedTeamVaultTab(viewModel: TitanViewModel) {
+private fun RedTeamVaultTab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSpeak: (String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   val probes = listOf(
     Pair(
-      "Hostile Probe 1: 6.33 CGPA & Fresher Reframe",
-      "A 9.5 CGPA proves you follow instructions inside a sanitized classroom. My ~6.33 CGPA was achieved while clearing 41/41 subjects on first attempt with zero backlogs, all while managing 300+ vendor builds at AERO India under defense security with 0.00% downtime and optimizing 14 supply chain hubs (42% cycle cut). If your company operates on theory, hire the 9.5. If your company operates where vendors slip and uptime is non-negotiable, hire the operator who has already delivered under fire."
+      "1. Hostile Probe: 'Why hire a fresh graduate with a 6.33 CGPA?'",
+      "Counter-Attack: 'You don't hire a CGPA to run a multi-crore fulfillment hub under peak festival surge; you hire verified operational throughput. At AERO India 2025 on active defense airbases, I orchestrated operations across 300+ builds with 0.00% downtime under strict military protocols. In academic terms, I cleared 41 out of 41 university papers in my very first attempt while simultaneously delivering enterprise work for Puma India and Tata Communications. Academic theory is table stakes; operational composure under real fire is what protects your CM2 margins.'"
     ),
     Pair(
-      "Hostile Probe 2: Dark Store Picker Delays in Week 1",
-      "I don't guess; I look at order telemetry. At 14 distribution hubs, I proved 60% of picker delays weren't slow pickers—they were physical inventory drift where high-velocity SKUs were placed in dead zones. In Week 1, I run SQL frequency clustering and relocate top 20% SKUs within 3 meters of the staging buffer. That cuts picker walking distance by 34% and cycle times from 28 to 16.2 minutes."
+      "2. Hostile Probe: 'You don't come from an IIT/IIM engineering background.'",
+      "Counter-Attack: 'Quick commerce and logistics do not bleed in theoretical calculus—they bleed in dock cycle times, picker walking distances, and vendor fulfillment slippage. At DSU, my degree in International Business provided the quantitative foundation in EXIM customs, balance of trade, and freight economics. Paired with real-world SQL CTE telemetry pipelines cutting cycle times by 42% across 14 hubs, I deliver production results without paying a prestige pedigree tax.'"
     ),
     Pair(
-      "Hostile Probe 3: Vendor Budget Blowouts & Schedule Slippages",
-      "Three non-negotiables: First, lock standardized rate cards upfront to eliminate unbudgeted quotes. Second, enforce milestone-linked escrows with automated penalty clauses for slippage. Third, daily 07:00 AM physical punch-list audits. At AERO India, this discipline eliminated unbudgeted overruns and cut slippages by 28%."
+      "3. Hostile Probe: 'What happens when 5 delivery riders refuse peak rain dispatches?'",
+      "Counter-Attack: 'You never manage a rider strike in real-time—you prevent it with dynamic surge pay triggers, dry staging zones, and micro-cluster batching. In 2024 hub telemetry, by introducing rain-buffer zone caps and a ₹15/order hot-zone completion bonus, rider availability held steady at 91.4% while peer dark stores suffered complete fulfillment shutdown.'"
     ),
     Pair(
-      "Hostile Probe 4: Delivery Partner Safety vs 10-Minute SLA",
-      "That is a false dilemma. Delivery partners don't crash because of the last mile; they crash when dark stores waste 7 minutes on disorganized picking and packing, leaving the rider only 3 minutes to navigate traffic. By engineering the dock cycle to under 255s (pick <90s, pack <45s, buffer <120s), the rider has a calm 6 to 7 minutes for a 1.5 km delivery."
+      "4. Hostile Probe: 'Why should we pay you at the 90th percentile of market benchmark?'",
+      "Counter-Attack: 'Because typical campus hires require a 6-month ramp before they understand what CM2 or dock staging buffer means. On Day 1, I bring pre-built 07:00 AM vendor punch-lists, Amazon WBR memos, and production SQL window functions. I eliminate one dock bottleneck or recover ₹15L in vendor penalties within my first quarter, paying for my annual CTC before my probation review.'"
     )
   )
 
@@ -584,6 +899,7 @@ private fun RedTeamVaultTab(viewModel: TitanViewModel) {
     verticalArrangement = Arrangement.spacedBy(10.dp)
   ) {
     items(probes) { (title, counterAttack) ->
+      val fullScript = "$title\n\n$counterAttack"
       Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SlateCard),
@@ -591,10 +907,26 @@ private fun RedTeamVaultTab(viewModel: TitanViewModel) {
         border = androidx.compose.foundation.BorderStroke(1.dp, TitanCrimson.copy(alpha = 0.4f))
       ) {
         Column(modifier = Modifier.padding(12.dp)) {
-          Text(title, color = TitanCrimson, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text(title, color = TitanCrimson, fontWeight = FontWeight.Bold, fontSize = 12.sp, modifier = Modifier.weight(1f))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+              IconButton(onClick = { onSpeak(counterAttack) }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.VolumeUp, contentDescription = "Audio Rehearsal", tint = TitanGold, modifier = Modifier.size(14.dp))
+              }
+              IconButton(onClick = { onShare(fullScript, title) }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
+              }
+              IconButton(onClick = { onSaveNote(title, counterAttack, "RED_TEAM_DEFENSE") }, modifier = Modifier.size(26.dp)) {
+                Icon(Icons.Default.Bookmark, contentDescription = "Save", tint = TitanEmerald, modifier = Modifier.size(14.dp))
+              }
+            }
+          }
+
           Spacer(modifier = Modifier.height(6.dp))
           Text(counterAttack, color = TextPrimaryDark, fontSize = 11.sp, lineHeight = 16.sp)
           Spacer(modifier = Modifier.height(8.dp))
+
           Box(
             modifier = Modifier
               .clip(RoundedCornerShape(6.dp))
@@ -617,7 +949,11 @@ private fun RedTeamVaultTab(viewModel: TitanViewModel) {
 // TAB 6: 💻 LIVE SQL & TELEMETRY STUDIO
 // -------------------------------------------------------------------------------------------------
 @Composable
-private fun SqlStudioTab() {
+private fun SqlStudioTab(
+  viewModel: TitanViewModel,
+  onShare: (String, String) -> Unit,
+  onSaveNote: (String, String, String) -> Unit
+) {
   val clipboard = LocalClipboardManager.current
   var copiedQuery by remember { mutableStateOf<String?>(null) }
 
@@ -655,11 +991,19 @@ HAVING COUNT(order_id) >= 50;
           Text("💻 PRODUCTION SQL CTE TELEMETRY", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanGold)
           Text("Optimized for PostgreSQL, Redshift & BigQuery", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 10.sp)
         }
-        IconButton(onClick = {
-          clipboard.setText(AnnotatedString(sqlQuery))
-          copiedQuery = "SQL Copied!"
-        }) {
-          Icon(Icons.Default.ContentCopy, contentDescription = "Copy SQL", tint = TitanCyan, modifier = Modifier.size(18.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+          IconButton(onClick = {
+            clipboard.setText(AnnotatedString(sqlQuery))
+            copiedQuery = "SQL Copied!"
+          }) {
+            Icon(Icons.Default.ContentCopy, contentDescription = "Copy SQL", tint = TitanCyan, modifier = Modifier.size(18.dp))
+          }
+          IconButton(onClick = { onShare(sqlQuery, "Production SQL CTE Telemetry") }) {
+            Icon(Icons.Default.Share, contentDescription = "Share SQL", tint = TitanEmerald, modifier = Modifier.size(18.dp))
+          }
+          IconButton(onClick = { onSaveNote("Production SQL CTE", sqlQuery, "TECHNICAL_SQL") }) {
+            Icon(Icons.Default.Bookmark, contentDescription = "Save to Notes", tint = TitanGold, modifier = Modifier.size(18.dp))
+          }
         }
       }
     }

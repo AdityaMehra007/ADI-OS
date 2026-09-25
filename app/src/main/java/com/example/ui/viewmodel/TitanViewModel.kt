@@ -6140,6 +6140,53 @@ Status: Dispatched via ${rule.targetAgent} with zero-trust validation check.
     }
   }
 
+  fun speakText(text: String, utteranceId: String = "sovereign_audio") {
+    val cleanText = text.replace(Regex("[#*`_-]"), "").trim()
+    if (cleanText.isBlank()) return
+    val context = getApplication<Application>().applicationContext
+    if (ttsEngine == null) {
+      ttsEngine = TextToSpeech(context) { status ->
+        if (status == TextToSpeech.SUCCESS) {
+          ttsEngine?.language = Locale.US
+          ttsEngine?.setSpeechRate(1.05f)
+          ttsEngine?.speak(cleanText, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
+        }
+      }
+    } else {
+      ttsEngine?.speak(cleanText, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
+    }
+  }
+
+  fun stopSpeaking() {
+    ttsEngine?.stop()
+  }
+
+  fun saveSovereignResultToNotes(
+    title: String,
+    content: String,
+    category: String = "SOVEREIGN_OPS",
+    targetCompany: String = ""
+  ) {
+    viewModelScope.launch(Dispatchers.IO) {
+      repository.insertCareerNote(
+        CareerNote(
+          id = java.util.UUID.randomUUID().toString(),
+          title = title,
+          category = category,
+          content = content,
+          targetCompany = targetCompany,
+          createdAt = System.currentTimeMillis(),
+          updatedAt = System.currentTimeMillis(),
+          isOfflineAvailable = true
+        )
+      )
+    }
+  }
+
+  fun triggerDarkStoreSlaWatchdog() {
+    com.example.service.work.TitanWorkManagerHelper.triggerImmediateDarkStoreSlaCheck(getApplication())
+  }
+
   override fun onCleared() {
     super.onCleared()
     ttsEngine?.stop()

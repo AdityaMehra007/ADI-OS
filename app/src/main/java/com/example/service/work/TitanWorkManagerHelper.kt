@@ -79,6 +79,27 @@ object TitanWorkManagerHelper {
       platformSyncRequest
     )
     Log.i(TAG, "Enqueued periodic PlatformJobSyncWorker (interval: ${effectivePlatformInterval}m)")
+
+    // 4. Dark Store 07:00 AM SLA & Operational Monitor
+    val darkStoreSlaRequest = PeriodicWorkRequestBuilder<DarkStoreSlaWorker>(
+      4L, TimeUnit.HOURS
+    )
+      .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
+      .build()
+
+    workManager.enqueueUniquePeriodicWork(
+      DarkStoreSlaWorker.UNIQUE_WORK_NAME,
+      ExistingPeriodicWorkPolicy.KEEP,
+      darkStoreSlaRequest
+    )
+    Log.i(TAG, "Enqueued periodic DarkStoreSlaWorker (interval: 4h)")
+  }
+
+  fun triggerImmediateDarkStoreSlaCheck(context: Context) {
+    val workManager = WorkManager.getInstance(context.applicationContext)
+    val request = androidx.work.OneTimeWorkRequestBuilder<DarkStoreSlaWorker>().build()
+    workManager.enqueue(request)
+    Log.i(TAG, "Triggered one-time DarkStoreSlaWorker execution")
   }
 
   fun cancelAllPeriodicTasks(context: Context) {
@@ -86,6 +107,7 @@ object TitanWorkManagerHelper {
     workManager.cancelUniqueWork(JobDiscoveryWorker.UNIQUE_WORK_NAME)
     workManager.cancelUniqueWork(LinkedInSyncWorker.UNIQUE_WORK_NAME)
     workManager.cancelUniqueWork(PlatformJobSyncWorker.UNIQUE_WORK_NAME)
+    workManager.cancelUniqueWork(DarkStoreSlaWorker.UNIQUE_WORK_NAME)
     Log.i(TAG, "Cancelled all periodic background synchronization workers")
   }
 }

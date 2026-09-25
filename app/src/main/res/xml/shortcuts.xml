@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="shortcut_sovereign"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/shortcut_sovereign_short"
+        android:shortcutLongLabel="@string/shortcut_sovereign_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="extra_target_screen" android:value="SOVEREIGN_SUPER_APP" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="shortcut_copilot"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/shortcut_copilot_short"
+        android:shortcutLongLabel="@string/shortcut_copilot_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="extra_target_screen" android:value="COPILOT" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="shortcut_jobs"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/shortcut_jobs_short"
+        android:shortcutLongLabel="@string/shortcut_jobs_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="extra_target_screen" android:value="JOBS" />
+        </intent>
+    </shortcut>
+</shortcuts>
