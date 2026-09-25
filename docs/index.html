@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ADI-OS: OMEGA-TITAN OMNI-TRILLION ∞ (Flagship Web Terminal)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #070B12;
+      --slate-darker: #0F172A;
+      --slate-card: #162238;
+      --slate-border: #26354D;
+      --slate-elevated: #1E2D47;
+      --titan-cyan: #00E5FF;
+      --titan-cyan-muted: #0891B2;
+      --titan-cyan-glow: rgba(0, 229, 255, 0.2);
+      --titan-gold: #F59E0B;
+      --titan-gold-light: #FBBF24;
+      --titan-emerald: #10B981;
+      --titan-crimson: #EF4444;
+      --titan-indigo: #6366F1;
+      --titan-violet: #8B5CF6;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--obsidian);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Container */
+    .app-shell {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Top Bar */
+    header {
+      background: var(--slate-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--titan-cyan-muted), var(--titan-indigo));
+      border: 1px solid var(--titan-cyan);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--titan-cyan);
+      letter-spacing: 1px;
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .top-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-cyan {
+      background: rgba(0, 229, 255, 0.12);
+      color: var(--titan-cyan);
+      border: 1px solid var(--titan-cyan-muted);
+    }
+
+    .badge-gold {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--titan-gold);
+      border: 1px solid var(--titan-gold);
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--titan-emerald);
+      border: 1px solid var(--titan-emerald);
+    }
+
+    /* Download Banner */
+    .download-hero {
+      background: linear-gradient(180deg, #111B2C 0%, #0E1624 100%);
+      border: 1px solid var(--titan-cyan-muted);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 0 25px var(--titan-cyan-glow);
+    }
+
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .hero-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .apk-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #00E5FF, #0284C7);
+      color: #000;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 229, 255, 0.6);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--slate-elevated);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 12px 18px;
+      border: 1px solid var(--slate-border);
+      border-radius: 8px;
+      transition: background 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #253754;
+    }
+
+    .qr-container {
+      background: #FFFFFF;
+      padding: 8px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+    }
+
+    .qr-container img {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: var(--slate-card);
+      border: 1px solid var(--slate-border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn.active {
+      background: var(--slate-elevated);
+      color: var(--titan-cyan);
+      border-color: var(--titan-cyan);
+      box-shadow: 0 0 10px var(--titan-cyan-glow);
+    }
+
+    /* Card Panels */
+    .panel {
+      display: none;
+      background: var(--slate-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 12px;
+      padding: 18px;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel.active {
+      display: flex;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--slate-border);
+    }
+
+    /* Keypad 25-Grid */
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .keypad-btn {
+      background: var(--slate-darker);
+      border: 1px solid var(--slate-border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      min-height: 72px;
+    }
+
+    .keypad-btn:hover {
+      border-color: var(--titan-cyan);
+      background: var(--slate-elevated);
+      transform: translateY(-2px);
+    }
+
+    .keypad-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--titan-cyan);
+    }
+
+    .keypad-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .keypad-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Terminal Output */
+    .terminal-box {
+      background: #04060A;
+      border: 1px solid var(--slate-border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: #E2E8F0;
+      min-height: 160px;
+      max-height: 320px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .terminal-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .tool-btn {
+      background: var(--slate-elevated);
+      border: 1px solid var(--slate-border);
+      color: var(--text-primary);
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--titan-cyan);
+      color: var(--titan-cyan);
+    }
+
+    /* Dark Store HUD Stats */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .metric-card {
+      background: var(--slate-darker);
+      border: 1px solid var(--slate-border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--titan-cyan);
+    }
+
+    .metric-sub {
+      font-size: 10px;
+      color: var(--titan-emerald);
+      font-weight: 600;
+    }
+
+    /* Simulation Control */
+    .sim-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--slate-darker);
+      border: 1px solid var(--slate-border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .slider-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slider-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .slider-val {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--titan-gold);
+      font-weight: 700;
+    }
+
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--slate-elevated);
+      outline: none;
+      accent-color: var(--titan-cyan);
+    }
+
+    .shock-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .shock-btn {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--slate-border);
+      background: var(--slate-elevated);
+      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .shock-btn.active {
+      border-color: var(--titan-crimson);
+      background: rgba(239, 68, 68, 0.2);
+      color: #FFA4A4;
+    }
+
+    /* Truth Ledger */
+    .truth-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--slate-border);
+    }
+
+    .truth-item:last-child {
+      border-bottom: none;
+    }
+
+    .truth-icon {
+      color: var(--titan-emerald);
+      font-size: 16px;
+      margin-top: 1px;
+    }
+
+    .truth-content h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .truth-content p {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    footer a {
+      color: var(--titan-cyan);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- Header -->
+    <header>
+      <div class="brand-group">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>ADI-OS TITAN</h1>
+          <p>SOVEREIGN EXECUTIVE OS • ANDROID 16</p>
+        </div>
+      </div>
+      <div class="top-badges">
+        <span class="badge badge-cyan">API 36 BAKLAVA</span>
+        <span class="badge badge-gold">$1 TRILLION</span>
+      </div>
+    </header>
+
+    <!-- Download Hero -->
+    <div class="download-hero">
+      <div class="hero-header">
+        <div>
+          <div class="hero-title">🚀 Install ADI-OS Directly on Your Phone</div>
+          <div class="hero-sub">Native Android 16 APK • Quick Settings Tile • Predictive Back • 25 Keypad Directives</div>
+        </div>
+        <div class="qr-container">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://github.com/AdityaMehra007/ADI-OS/releases/download/v2026.TRILLION-MAX/app-debug.apk" alt="Scan QR Code to Download APK">
+        </div>
+      </div>
+
+      <div class="apk-cta-group">
+        <a href="https://github.com/AdityaMehra007/ADI-OS/releases/download/v2026.TRILLION-MAX/app-debug.apk" class="btn-download">
+          <span>📲</span> Download APK (35.7 MB)
+        </a>
+        <a href="https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX" target="_blank" class="btn-secondary">
+          <span>🏷️</span> View Release Notes (v2026.TRILLION-MAX)
+        </a>
+        <a href="https://github.com/AdityaMehra007/ADI-OS" target="_blank" class="btn-secondary">
+          <span>📂</span> GitHub Source
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('keypad')">⚡ 25-Keypad Grid</button>
+      <button class="tab-btn" onclick="switchTab('darkstore')">🏪 Dark Store HUD</button>
+      <button class="tab-btn" onclick="switchTab('aladdin')">📈 Aladdin Macro Risk</button>
+      <button class="tab-btn" onclick="switchTab('council')">🤖 12-Agent Council</button>
+      <button class="tab-btn" onclick="switchTab('ledger')">🛡️ Truth Ledger</button>
+    </nav>
+
+    <!-- Panel 1: Keypad Grid -->
+    <div id="panel-keypad" class="panel active">
+      <div class="panel-title">
+        <span>⚡ THE 25-DIRECTIVE EXECUTIVE KEYPAD</span>
+        <span class="badge badge-emerald">INSTANT 0MS DISPATCH</span>
+      </div>
+
+      <div class="keypad-grid" id="keypadGrid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="terminal-box" id="terminalOutput">
+> ADI-OS EXECUTIVE DISPATCH TERMINAL INITIALIZED.
+> Select any keypad directive above to generate the full strategic memo, speech, or mathematical model.
+> Sub-16ms local latency active. TTS voice engine ready.
+      </div>
+
+      <div class="terminal-toolbar">
+        <button class="tool-btn" onclick="speakTerminalOutput()">🔊 Play Voice Briefing (TTS)</button>
+        <button class="tool-btn" onclick="copyTerminalOutput()">📋 Copy to Clipboard</button>
+        <button class="tool-btn" onclick="clearTerminal()">🧹 Clear</button>
+      </div>
+    </div>
+
+    <!-- Panel 2: Dark Store HUD -->
+    <div id="panel-darkstore" class="panel">
+      <div class="panel-title">
+        <span>🏪 DARK STORE LIVE DISPATCH & SLA HUD</span>
+        <span class="badge badge-cyan">14 HUBS LIVE</span>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-label">Pick Time</div>
+          <div class="metric-value" id="valPick">86s</div>
+          <div class="metric-sub">SLA &lt;90s (Green)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Pack Time</div>
+          <div class="metric-value" id="valPack">42s</div>
+          <div class="metric-sub">SLA &lt;45s (Green)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total Dispatch</div>
+          <div class="metric-value" id="valTotal">223s</div>
+          <div class="metric-sub">42% Cycle Compression</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">CM2 Margin</div>
+          <div class="metric-value" id="valCm2">₹28.40</div>
+          <div class="metric-sub">+₹3.80 vs Benchmark</div>
+        </div>
+      </div>
+
+      <div class="sim-controls">
+        <div class="slider-row">
+          <span class="slider-label">Order Density (Baskets/hr):</span>
+          <span class="slider-val" id="densityDisplay">420</span>
+        </div>
+        <input type="range" id="densitySlider" min="100" max="1000" value="420" oninput="updateSim()">
+
+        <div class="slider-row">
+          <span class="slider-label">Rider Fleet Availability:</span>
+          <span class="slider-val" id="riderDisplay">94%</span>
+        </div>
+        <input type="range" id="riderSlider" min="50" max="100" value="94" oninput="updateSim()">
+
+        <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 4px;">Aladdin Macro Shock Probes:</div>
+        <div class="shock-btn-group">
+          <button class="shock-btn" id="fuelBtn" onclick="toggleFuelShock()">⛽ +25% Fuel Shock</button>
+          <button class="shock-btn" id="monsoonBtn" onclick="toggleMonsoonShock()">🌧️ Monsoon Downpour Surge</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Aladdin Macro Risk -->
+    <div id="panel-aladdin" class="panel">
+      <div class="panel-title">
+        <span>📈 BLACKROCK ALADDIN MACRO RISK VECTOR</span>
+        <span class="badge badge-gold">MULTI-FACTOR BETA</span>
+      </div>
+
+      <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+        Standard formulation: <code style="font-family: var(--font-mono); color: var(--titan-cyan);">R_p - R_f = β(R_m - R_f) + α</code>.
+        Models commodity price elasticity, rider attrition probability, and currency exposure on imported cold-chain hardware.
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-label">Factor Beta (β)</div>
+          <div class="metric-value">1.18</div>
+          <div class="metric-sub">Quick-Commerce Resilient</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Value at Risk (99% VaR)</div>
+          <div class="metric-value">₹14.2L</div>
+          <div class="metric-sub">14-Hub Portfolio Max</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Alpha (α)</div>
+          <div class="metric-value">+4.8%</div>
+          <div class="metric-sub">Cross-Dock Optimization</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 4: 12-Agent Council -->
+    <div id="panel-council" class="panel">
+      <div class="panel-title">
+        <span>🤖 12-AGENT C-SUITE AUTONOMOUS COUNCIL</span>
+        <span class="badge badge-cyan">REAL-TIME CONSENSUS</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+        <div class="keypad-btn">
+          <span class="keypad-code">AGENT 01 • CEO</span>
+          <span class="keypad-label">Enterprise Value & Capital Allocation</span>
+          <span class="keypad-desc">Defends trillion-dollar enterprise multiplier.</span>
+        </div>
+        <div class="keypad-btn" style="border-color: var(--titan-cyan);">
+          <span class="keypad-code">AGENT 02 • COO (ADI)</span>
+          <span class="keypad-label">Ground Execution & SLA Mastery</span>
+          <span class="keypad-desc">42% cycle reduction across 14 hubs.</span>
+        </div>
+        <div class="keypad-btn">
+          <span class="keypad-code">AGENT 03 • CFO</span>
+          <span class="keypad-label">Unit Economics & CM2 Margins</span>
+          <span class="keypad-desc">Guarantees positive CM2 contribution.</span>
+        </div>
+        <div class="keypad-btn">
+          <span class="keypad-code">AGENT 04 • CSCO</span>
+          <span class="keypad-label">Supply Chain & Dark Store Network</span>
+          <span class="keypad-desc">Zero warehouse congestion protocols.</span>
+        </div>
+        <div class="keypad-btn">
+          <span class="keypad-code">AGENT 05 • CTO</span>
+          <span class="keypad-label">Android 16 Systems & Jetpack Compose</span>
+          <span class="keypad-desc">Sub-16ms latency & offline SQLite.</span>
+        </div>
+        <div class="keypad-btn">
+          <span class="keypad-code">AGENT 06 • ALADDIN</span>
+          <span class="keypad-label">Macro Risk & Volatility Guard</span>
+          <span class="keypad-desc">Monsoon hedging & fuel factor beta.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 5: Truth Ledger -->
+    <div id="panel-ledger" class="panel">
+      <div class="panel-title">
+        <span>🛡️ VERIFIED HUMAN TRUTH ANCHORS</span>
+        <span class="badge badge-emerald">ZERO HALLUCINATION</span>
+      </div>
+
+      <div class="truth-item">
+        <div class="truth-icon">✓</div>
+        <div class="truth-content">
+          <h4>Aditya Mehra ("Adi") — Principal Sovereign</h4>
+          <p>BBA in International Business, Dayananda Sagar University (DSU), Bengaluru • Class of 2026</p>
+        </div>
+      </div>
+
+      <div class="truth-item">
+        <div class="truth-icon">✓</div>
+        <div class="truth-content">
+          <h4>41/41 First-Attempt Academic Clearance</h4>
+          <p>Every single academic credit and semester examination cleared on first attempt with zero historical backlogs.</p>
+        </div>
+      </div>
+
+      <div class="truth-item">
+        <div class="truth-icon">✓</div>
+        <div class="truth-content">
+          <h4>AERO India 2025 Lead Operations Coordinator</h4>
+          <p>300+ builds delivered with 0.00% operational downtime across high-security VIP defense flight-line chalets.</p>
+        </div>
+      </div>
+
+      <div class="truth-item">
+        <div class="truth-icon">✓</div>
+        <div class="truth-content">
+          <h4>14 Supply Chain Hubs • 42% Cycle Compression</h4>
+          <p>Engineered multi-node cross-docking workflows reducing pick-pack-dispatch cycles from 380s down to 223s.</p>
+        </div>
+      </div>
+
+      <div class="truth-item">
+        <div class="truth-icon">✓</div>
+        <div class="truth-content">
+          <h4>Enterprise Tenures & Certifications</h4>
+          <p>Puma India (E-commerce Operations), Tata Communications, Instawork (>99% AI QA validation precision).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>ADI-OS OMEGA-TITAN ∞ • Built with Android 16 (API 36 / Baklava Native)</p>
+      <p>Sovereign Repository: <a href="https://github.com/AdityaMehra007/ADI-OS" target="_blank">AdityaMehra007/ADI-OS</a> • Release <a href="https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX" target="_blank">v2026.TRILLION-MAX</a></p>
+    </footer>
+
+  </div>
+
+  <script>
+    const KEYPAD_DIRECTIVES = [
+      { id: "01", name: "10-Sec Elevator Hook", desc: "Instant C-suite introduction", output: "I'm Aditya Mehra. I run operations with mathematical precision: 300+ builds with 0.00% downtime at AERO India 2025, and 42% cycle reduction across 14 supply chain hubs in Bengaluru. I don't supervise workflows—I engineer zero-downtime execution engines." },
+      { id: "02", name: "30-Sec Boardroom Intro", desc: "Executive governance summary", output: "Good morning. I'm Aditya Mehra, graduating BBA International Business from DSU Bengaluru with 41 out of 41 credits cleared first attempt. My operational doctrine was forged leading 300+ mission-critical builds at AERO India 2025 and compressing cross-dock dispatch cycles by 42% across 14 distribution hubs. I bridge enterprise strategy with ground execution." },
+      { id: "03", name: "2-Min Pitch (Tier-1 CXO)", desc: "Deep COO capability narrative", output: "In high-velocity operations like Quick-Commerce and defense logistics, latency is margin destruction. At AERO India 2025, I owned ground SLA enforcement across high-security VIP chalets—achieving 0.00% downtime across 300+ builds under intense military protocols. Across 14 dark store hubs, I restructured pick-pack workflows from 380s to 223s, gaining ₹28.40 CM2 contribution per order. I bring battle-tested execution discipline to your enterprise." },
+      { id: "04", name: "AERO India 2025 Case Study", desc: "VIP airfield defense logistics", output: "EVENT: AERO India 2025, Yelahanka Air Force Station.\nSCOPE: 300+ VIP Chalet & Pavilion builds for global defense prime contractors.\nMETRIC: 0.00% operational downtime across all 5 public and business flight-line days.\nCRISIS: Last-minute power grid fault resolved via redundant generator dispatch DAG in under 4 minutes." },
+      { id: "05", name: "14 Hubs Supply Chain Proof", desc: "42% cycle compression data", output: "PORTFOLIO: 14 Dark Store & Cross-Dock Hubs across Bengaluru urban grid.\nBENCHMARK: Baseline order-to-dispatch cycle time = 380 seconds.\nOPTIMIZATION: Implemented velocity zoning (top 15% SKUs at eye level within 12 feet of pack bench).\nRESULT: Dispatch time compressed to 223 seconds (42% cycle reduction), unlocking ₹3.80 additional CM2 margin per drop." },
+      { id: "06", name: "Puma India Brand Audit", desc: "Retail & logistics reconciliation", output: "TENURE: Puma India Ground Operations.\nIMPACT: Audited inventory flow and return reconciliation across regional fulfillment centers. Eliminated reverse logistics shrinkage by 18% through barcoded verification gates." },
+      { id: "07", name: "Dark Store Live HUD", desc: "Real-time pick-pack countdowns", output: "CURRENT DARK STORE METRICS:\n• Pick Latency: 86s (Target: <90s) [GREEN]\n• Pack Latency: 42s (Target: <45s) [GREEN]\n• Buffer & Staging: 95s (Target: <100s) [GREEN]\n• Total Cycle: 223s (SLA Target: 240s) [COMPLIANT]\n• Margin CM2: +₹28.40 per order" },
+      { id: "08", name: "Tata Communications Proof", desc: "Infrastructure coordination", output: "TENURE: Tata Communications Enterprise Coordination.\nIMPACT: Supervised telecommunication vendor dispatches and field infrastructure deployment, ensuring 99.98% SLA adherence on multi-site enterprise fiber deliveries." },
+      { id: "09", name: "Hostile Bar-Raiser Counter", desc: "Defense of academic purity", output: "THE PROBE: 'Why is your CGPA 6.33?'\nTHE COUNTER: 'In university, I took on 41 rigorous academic courses in International Business and cleared every single one on the first attempt with zero backlogs. Concurrently, I served on the front lines coordinating 300+ builds at AERO India 2025 with zero downtime and managing 14 logistics hubs. Theoretical rote memorization produces 9.0s; battle-tested execution produces zero-downtime field champions.'" },
+      { id: "10", name: "Instawork AI QA Ledger", desc: ">99% validation precision", output: "TENURE: Instawork AI Annotation & Workflow Quality Assurance.\nMETRIC: >99% verification accuracy across high-velocity workforce matching and candidate data labeling datasets." },
+      { id: "11", name: "Live SQL Diagnostic", desc: "Complex CTEs & window functions", output: "WITH HubSlaStats AS (\n  SELECT hub_id, order_id,\n         DATEDIFF(SECOND, order_time, dispatch_time) AS cycle_sec,\n         DENSE_RANK() OVER (PARTITION BY hub_id ORDER BY order_time DESC) AS rnk\n  FROM dark_store_dispatches\n)\nSELECT hub_id, AVG(cycle_sec) AS avg_cycle, COUNT(*) AS volume\nFROM HubSlaStats WHERE rnk <= 100\nGROUP BY hub_id HAVING AVG(cycle_sec) > 240;" },
+      { id: "12", name: "30-60-90 Day Plan", desc: "Quick-Commerce COO roadmap", output: "DAY 1-30: Audit bottom 30% underperforming dark stores; baseline pick-pack bottleneck nodes.\nDAY 31-60: Deploy velocity zoning and 2-order batching across high-density 1.8km radius clusters.\nDAY 61-90: Integrate Aladdin multi-factor fuel surge triggers into automated dispatch queue." },
+      { id: "13", name: "COO War Room Crisis Sim", desc: "Monsoon gridlock mitigation", output: "INCIDENT: Severe Bengaluru monsoon flash flood causes 35% rider unavailability.\nACTION 1: Trigger dynamic 1.2km radius geofence tightening.\nACTION 2: Deploy micro-cluster 2-order basket batching.\nRESULT: Rider utilization maintained at 98%, delivery SLA breach rate contained under 3.2%." },
+      { id: "14", name: "Reverse Due Diligence", desc: "5 lethal executive questions", output: "1. What is the single biggest operational bottleneck currently eroding your CM2 margin?\n2. What is your dark store dispatch breach rate during peak 18:00-21:00 evening hours?\n3. Are store managers empowered to reroute orders dynamically or waiting on centralized approval?\n4. How are you hedging fuel volatility in your rider compensation model?\n5. If I eliminate 40 seconds from your pack stage in 60 days, what is the capital allocation unlocked?" },
+      { id: "15", name: "Salary Counter-Offer", desc: "Anchoring field leadership", output: "I appreciate the offer. Given that my 42% cycle reduction across 14 hubs directly added ₹3.80 CM2 to every order—which at 50,000 orders/day represents ₹6.9 Crore in annual EBITDA contribution—I propose a base compensation of ₹18 LPA with performative equity tied to 0-downtime milestone gates." },
+      { id: "16", name: "WhatsApp/Email Dispatches", desc: "Instant executive follow-up", output: "Dear [Name],\nThank you for today's strategic discussion. As discussed, my framework of velocity zoning and cross-dock synchronization delivered a 42% cycle reduction across 14 hubs. I look forward to bringing this execution rigor to your leadership team.\nBest,\nAditya Mehra | DSU BBA IB | Bengaluru" },
+      { id: "17", name: "System Architecture Spec", desc: "MVI & Room SQLite diagram", output: "ADI-OS ARCHITECTURE:\n• UI: Jetpack Compose + Material3 (Obsidian Dark #070B12)\n• OS: Android 16 (API 36 / Baklava) + TileService + BackHandler\n• DB: Room SQLite with 100% offline persistence\n• BACKGROUND: WorkManager periodic telemetry daemons\n• AI: Google Gemini Pro 1.5 with Search Grounding" },
+      { id: "18", name: "Dark Store Morning Health", desc: "06:30 AM checklist audit", output: "06:30 AM RECON CHECKLIST:\n[X] Cold-chain chiller temperature verified at 2.4°C\n[X] Handheld barcode scanner battery banks charged to 100%\n[X] Fast-moving top 20 SKUs replenished at pick station A1-A4\n[X] Rider dock biometric check-in operational" },
+      { id: "19", name: "FMCG Quick-Commerce Model", desc: "CM2 waterfall breakdown", output: "CM2 WATERFALL (₹380 Average Order Value):\n+ Product Gross Margin (18%): ₹68.40\n- Picking & Packing Cost: (₹14.20)\n- Rider Last-Mile Payout: (₹32.00)\n- Dark Store Rent & Chiller Power: (₹8.80)\n+ Brand Advertising Fee / Monetization: +₹15.00\n= NET CM2 CONTRIBUTION: +₹28.40 (7.47% margin)" },
+      { id: "20", name: "Cross-Border EXIM Engine", desc: "Multimodal logistics compliance", output: "EXIM DIRECTIVE: Multimodal bill of lading reconciliation, HS code verification (8471.50), bonded warehouse customs debonding, and GST input tax credit matching for imported automation hardware." },
+      { id: "21", name: "Aladdin Risk Vector Engine", desc: "Factor beta & fuel shock test", output: "BLACKROCK ALADDIN FORMULATION:\n• Model: R_p - R_f = β_macro(R_m - R_f) + β_fuel(F) + α\n• Estimated Portfolio Beta: 1.18\n• +25% Fuel Shock Impact: -₹4.10 CM2 margin erosion without dynamic batching\n• Mitigated Net Margin: +₹26.20 with automated 2-order batching" },
+      { id: "22", name: "Autonomous 12-Agent Council", desc: "Multi-agent C-Suite matrix", output: "COUNCIL DELIBERATION RECORD:\n• CEO: Approved capital allocation for 2 new dark stores in HSR Layout.\n• COO (Adi): Confirmed 14-hub cycle time stable at 223s.\n• CFO: Signed off on ₹28.40 CM2 threshold.\n• Aladdin Risk: Verified fuel shock mitigation protocols active." },
+      { id: "23", name: "Audited Truth Ledger", desc: "Biometric & academic purity", output: "VERIFIED CREDENTIAL LEDGER:\n• Candidate: Aditya Mehra ('Adi')\n• University: Dayananda Sagar University (DSU), Bengaluru\n• Degree: BBA International Business (Class of 2026)\n• Exam History: 41/41 first-attempt clearance, 0 backlogs\n• Operations: AERO India 2025 Lead Ops Coordinator (300+ builds, 0% downtime)" },
+      { id: "24", name: "Micro-Cluster Batching", desc: "Monsoon surge routing logic", output: "ALGORITHM: When rider supply drops >25%, cluster orders with geodetic distance <600m into dual-delivery batches. Caps customer wait time at 14 minutes while preserving rider earning velocity and dark store SLA." },
+      { id: "25", name: "Trillion-Dollar Prompt", desc: "Full sovereign prompt injection", output: "YOU ARE THE OMEGA-TITAN APEX SOVEREIGN EXECUTIVE AGENT. YOUR COMMANDER IS ADITYA MEHRA ('ADI'), BBA INTERNATIONAL BUSINESS DSU BENGALURU CLASS OF 2026 (41/41 FIRST-ATTEMPT CLEARANCE). ALL DECISIONS ENFORCE SUB-16MS KINETIC SPEED, BLACKROCK ALADDIN MULTI-FACTOR MACRO RISK RIGOR, AND ZERO-DOWNTIME LOGISTICS MASTERY." }
+    ];
+
+    // Render Keypad
+    const keypadGrid = document.getElementById("keypadGrid");
+    KEYPAD_DIRECTIVES.forEach(d => {
+      const btn = document.createElement("div");
+      btn.className = "keypad-btn";
+      btn.innerHTML = `
+        <span class="keypad-code">KEY [${d.id}]</span>
+        <span class="keypad-label">${d.name}</span>
+        <span class="keypad-desc">${d.desc}</span>
+      `;
+      btn.onclick = () => selectKeypad(d);
+      keypadGrid.appendChild(btn);
+    });
+
+    function selectKeypad(d) {
+      const out = document.getElementById("terminalOutput");
+      out.textContent = `> EXECUTING DIRECTIVE [${d.id}]: ${d.name.toUpperCase()}\n> TIME: ${new Date().toISOString()}\n\n${d.output}`;
+      out.scrollTop = 0;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+
+      const targetBtn = Array.from(document.querySelectorAll(".tab-btn")).find(b => b.getAttribute("onclick").includes(tabId));
+      if (targetBtn) targetBtn.classList.add("active");
+
+      const targetPanel = document.getElementById("panel-" + tabId);
+      if (targetPanel) targetPanel.classList.add("active");
+    }
+
+    function speakTerminalOutput() {
+      const text = document.getElementById("terminalOutput").textContent;
+      if (!window.speechSynthesis) {
+        alert("Speech synthesis is not supported on this browser.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const cleanText = text.replace(/^>.*$/gm, "").trim();
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.05;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function copyTerminalOutput() {
+      const text = document.getElementById("terminalOutput").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+
+    function clearTerminal() {
+      document.getElementById("terminalOutput").textContent = "> TERMINAL READY. Select a directive above.";
+    }
+
+    // Dark Store Sim
+    let fuelShockActive = false;
+    let monsoonShockActive = false;
+
+    function updateSim() {
+      const density = parseInt(document.getElementById("densitySlider").value);
+      const rider = parseInt(document.getElementById("riderSlider").value);
+      document.getElementById("densityDisplay").textContent = density;
+      document.getElementById("riderDisplay").textContent = rider + "%";
+
+      let pick = Math.round(86 + (density - 420) * 0.05);
+      let pack = Math.round(42 + (density - 420) * 0.03);
+      let total = pick + pack + 95;
+      let cm2 = (28.40 - (total - 223) * 0.08).toFixed(2);
+
+      if (fuelShockActive) {
+        cm2 = (parseFloat(cm2) - 4.10).toFixed(2);
+      }
+      if (monsoonShockActive) {
+        total += 45;
+        cm2 = (parseFloat(cm2) - 2.50).toFixed(2);
+      }
+
+      document.getElementById("valPick").textContent = pick + "s";
+      document.getElementById("valPack").textContent = pack + "s";
+      document.getElementById("valTotal").textContent = total + "s";
+      document.getElementById("valCm2").textContent = "₹" + cm2;
+    }
+
+    function toggleFuelShock() {
+      fuelShockActive = !fuelShockActive;
+      document.getElementById("fuelBtn").classList.toggle("active", fuelShockActive);
+      updateSim();
+    }
+
+    function toggleMonsoonShock() {
+      monsoonShockActive = !monsoonShockActive;
+      document.getElementById("monsoonBtn").classList.toggle("active", monsoonShockActive);
+      updateSim();
+    }
+  </script>
+</body>
+</html>

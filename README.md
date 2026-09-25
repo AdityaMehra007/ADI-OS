@@ -5,11 +5,36 @@
 > **Principal Sovereign**: Aditya Mehra ("Adi") | Bengaluru, Karnataka, India  
 
 [![Android 16 Flagship](https://img.shields.io/badge/Android%2016-API%2036%20(Baklava)-00E5FF?style=for-the-badge&logo=android)](https://github.com/AdityaMehra007/ADI-OS)
+[![Direct APK Download](https://img.shields.io/badge/Direct_APK_Download-35.7_MB-brightgreen?style=for-the-badge&logo=android)](https://github.com/AdityaMehra007/ADI-OS/releases/download/v2026.TRILLION-MAX/app-debug.apk)
+[![Release](https://img.shields.io/badge/Release-v2026.TRILLION--MAX-purple?style=for-the-badge)](https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX)
+[![Web Terminal](https://img.shields.io/badge/Live_Web-Terminal_Demo-blue?style=for-the-badge&logo=googlechrome)](https://adityamehra007.github.io/ADI-OS/)
 [![Valuation Standard](https://img.shields.io/badge/Valuation-$1,000,000,000,000-FFD700?style=for-the-badge)](https://github.com/AdityaMehra007/ADI-OS)
-[![Architecture](https://img.shields.io/badge/Architecture-MVI%20•%20Room%20•%20WorkManager-10B981?style=for-the-badge)](https://github.com/AdityaMehra007/ADI-OS)
-[![Build Status](https://img.shields.io/badge/Release-v2026.TRILLION--MAX-purple?style=for-the-badge)](https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX)
 
 ---
+
+## 📲 Instant Phone Installation (Scan or Tap)
+
+<table>
+<tr>
+<td width="200" align="center">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://github.com/AdityaMehra007/ADI-OS/releases/download/v2026.TRILLION-MAX/app-debug.apk" alt="Scan with Android Phone Camera" width="180"/><br/>
+<sub><b>Point Android camera to install</b></sub>
+</td>
+<td>
+
+### 🚀 Direct Links:
+- 📲 **[Download APK Directly (`app-debug.apk` • 35.7 MB)](https://github.com/AdityaMehra007/ADI-OS/releases/download/v2026.TRILLION-MAX/app-debug.apk)**
+- 🌐 **[Launch Interactive Web Companion](https://adityamehra007.github.io/ADI-OS/)** (Instant browser demo with 25-Keypad & Voice TTS)
+- 🏷️ **[GitHub Release Page `v2026.TRILLION-MAX`](https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX)**
+
+**Installation Instructions**:
+1. Scan QR code above or tap the **Download APK** button on your Android 16 device.
+2. Tap **Install** (if prompted, enable *"Allow from this source"*).
+3. Open **ADI-OS** for instant sub-16ms sovereign execution!
+4. *(Optional)* Swipe down your system notification shade twice, tap the Pencil icon, and drag the **ADI-OS Titan** Quick Settings Tile into your active shade!
+</td>
+</tr>
+</table>
 
 ## 🏛️ Executive Architecture Overview
 
