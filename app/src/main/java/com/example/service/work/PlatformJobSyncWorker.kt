@@ -26,10 +26,10 @@ class PlatformJobSyncWorker(
     try {
       Log.i(TAG, "Executing platform job sync cycle via WorkManager...")
       val engine = JobPlatformSyncEngine.getInstance(applicationContext)
-      val syncResult = engine.executeSyncCycle(triggerSource = "WORK_MANAGER_PERIODIC")
+      val syncResult = engine.executeSyncCycle(source = "WORK_MANAGER_PERIODIC")
 
       if (syncResult.isSuccess) {
-        val count = syncResult.updatedCount
+        val count = syncResult.newSavedJobsAdded
         Log.i(TAG, "Platform job sync succeeded. Updated $count job listings.")
         Result.success()
       } else {
