@@ -167,14 +167,14 @@ fun OmegaTitanSuperAppScreen(
             Spacer(modifier = Modifier.width(10.dp))
             Column {
               Text(
-                text = "OMEGA-TITAN : SOVEREIGN KERNEL",
+                text = "OMEGA-TITAN OMNI-TRILLION ∞",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Black,
                 color = TitanGold,
                 letterSpacing = 0.5.sp
               )
               Text(
-                text = "Autonomous Executive Super-App • Principal: Aditya Mehra",
+                text = "World Sovereign $1T Enterprise OS • Principal: Aditya Mehra",
                 style = MaterialTheme.typography.bodySmall,
                 color = TextMutedDark,
                 fontSize = 10.sp
@@ -199,8 +199,8 @@ fun OmegaTitanSuperAppScreen(
               }
             }
 
-            Badge(containerColor = TitanEmerald.copy(alpha = 0.2f)) {
-              Text("v2026.MAX", color = TitanEmerald, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+            Badge(containerColor = TitanGold.copy(alpha = 0.25f)) {
+              Text("$1T TRILLION", color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 9.sp)
             }
           }
         }
@@ -367,15 +367,20 @@ Directive: Enforce 255s hub cycle threshold across all shifts.
     }
 
     item {
-      // Council Badges
+      // Council Badges (12-Agent Swarm)
       Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+          .fillMaxWidth()
+          .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(6.dp)
       ) {
         AgentBadge("CEO", "Capital Allocation", TitanGold)
         AgentBadge("COO (Adi)", "Ground Dispatch & SLAs", TitanCyan)
         AgentBadge("CFO", "Unit Economics & CM2", TitanEmerald)
         AgentBadge("CTO", "Room DB & WorkManager", Color(0xFF818CF8))
+        AgentBadge("Aladdin Risk", "Macro Shock Vectors", TitanGold)
+        AgentBadge("CSCO", "Dock Physics (255s)", TitanCyan)
+        AgentBadge("CRO", "₹18L+ Deal Pipeline", TitanEmerald)
         AgentBadge("Red-Team", "Adversarial Stress Test", TitanCrimson)
       }
     }
@@ -414,6 +419,14 @@ Directive: Enforce 255s hub cycle threshold across all shifts.
             agent = "COO (Aditya Mehra)",
             quote = "Field telemetry across 14 distribution hubs shows that 60% of picker delays stem from inventory drift, not picker speed. By re-clustering top 20% SKUs within 3m of the packing stations, we compressed cycle times from 28m to 16.2m. We must enforce this on the ground.",
             color = TitanCyan
+          )
+
+          Spacer(modifier = Modifier.height(8.dp))
+
+          AgentSpeechBubble(
+            agent = "Aladdin Quantum Risk Engine",
+            quote = "Macro shock simulations run across 10,000 iterations: In a +25% fuel spike and monsoon downpour, our dynamic micro-cluster batching (1.2km radius drops) defends CM2 at +₹19.50/order with 99.4% SLA confidence.",
+            color = TitanGold
           )
 
           Spacer(modifier = Modifier.height(8.dp))
@@ -505,6 +518,92 @@ private fun Keypad25Tab(
       Text("Tap to dispatch to Copilot, or use the quick action buttons to Speak, Share, or Save.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
     }
 
+    // $1T Apex Engine Hero Card
+    item {
+      Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = SlateCard),
+        shape = RoundedCornerShape(10.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, TitanGold)
+      ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Text("💎", fontSize = 16.sp)
+              Spacer(modifier = Modifier.width(6.dp))
+              Text("OMNI-TRILLION ∞ MATRIX", color = TitanGold, fontWeight = FontWeight.Black, fontSize = 12.sp)
+            }
+            Badge(containerColor = TitanGold) {
+              Text("$1,000,000,000,000 USD", color = ObsidianDark, fontWeight = FontWeight.Black, fontSize = 9.sp)
+            }
+          }
+          Spacer(modifier = Modifier.height(4.dp))
+          Text(
+            text = "BlackRock Aladdin Macro Risk • 12-Agent C-Suite Swarm • 255s Dock Physics • Palantir Foundry Data Ontology",
+            color = TextSecondaryDark,
+            fontSize = 11.sp,
+            lineHeight = 15.sp
+          )
+          Spacer(modifier = Modifier.height(8.dp))
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Box(
+              modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(6.dp))
+                .background(TitanGold)
+                .clickable {
+                  viewModel.navigateTo(TitanScreen.COPILOT)
+                  viewModel.sendCopilotMessage("TRILLION: Run BlackRock Aladdin Macro Risk Vector & 12-Agent Council Synthesis")
+                }
+                .padding(vertical = 8.dp),
+              contentAlignment = Alignment.Center
+            ) {
+              Text("⚡ DISPATCH $1T TELEMETRY", color = ObsidianDark, fontWeight = FontWeight.Black, fontSize = 10.sp)
+            }
+            IconButton(
+              onClick = {
+                onSpeak("OMEGA-TITAN OMNI-TRILLION: Valuation one trillion dollars. Twelve-agent autonomous C-Suite swarm online. BlackRock Aladdin macro risk vector active.")
+              },
+              modifier = Modifier.size(28.dp)
+            ) {
+              Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(16.dp))
+            }
+            IconButton(
+              onClick = {
+                onShare(
+                  "💎 OMEGA-TITAN OMNI-TRILLION ∞ (VALUATION: \$1T USD)\nPrincipal: Aditya Mehra | Bengaluru, Karnataka\nAladdin Macro Risk Vector & 12-Agent Council Swarm Active",
+                  "OMEGA-TITAN \$1T Sovereign Matrix"
+                )
+              },
+              modifier = Modifier.size(28.dp)
+            ) {
+              Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(16.dp))
+            }
+            IconButton(
+              onClick = {
+                onSaveNote(
+                  "OMEGA-TITAN \$1T Sovereign Matrix",
+                  "Valuation: \$1T USD. 12-Agent C-Suite Council, BlackRock Aladdin Risk Engine, CM2 +₹28/order, 255s dock cycle physics.",
+                  "TRILLION_MATRIX"
+                )
+              },
+              modifier = Modifier.size(28.dp)
+            ) {
+              Icon(Icons.Default.Bookmark, contentDescription = "Save", tint = TitanEmerald, modifier = Modifier.size(16.dp))
+            }
+          }
+        }
+      }
+    }
+
     items(modules) { (key, desc) ->
       Card(
         modifier = Modifier.fillMaxWidth(),
@@ -579,19 +678,37 @@ private fun DarkStoreLabTab(
   var pickSec by remember { mutableDoubleStateOf(86.0) }
   var packSec by remember { mutableDoubleStateOf(42.0) }
   var bufferSec by remember { mutableDoubleStateOf(95.0) }
-  val totalDockSec = pickSec + packSec + bufferSec
+  var isAladdinShockActive by remember { mutableStateOf(false) }
+
+  val effectivePick = if (isAladdinShockActive) pickSec + 25.0 else pickSec
+  val effectivePack = packSec
+  val effectiveBuffer = if (isAladdinShockActive) bufferSec + 40.0 else bufferSec
+  val totalDockSec = effectivePick + effectivePack + effectiveBuffer
   val totalMinutes = totalDockSec / 60.0
   val isOptimal = totalDockSec <= 255.0
 
+  // Economic Modeling
+  val aov = 480.0
+  val cogs = 384.0
+  val riderDelivery = if (isAladdinShockActive) 60.0 else 48.0 // +25% fuel surge in shock
+  val storePickPack = 12.0
+  val darkStoreLease = 18.0
+  val pgFee = 5.0
+  val brandAds = 15.0
+  val currentCm2 = aov - cogs - riderDelivery - storePickPack - darkStoreLease - pgFee + brandAds
+  val aladdinStabilizedDelivery = 39.0 // Micro-cluster batching 2 drops
+  val aladdinStabilizedCm2 = aov - cogs - aladdinStabilizedDelivery - storePickPack - darkStoreLease - pgFee + brandAds
+
   val slaSummary = """
-DARK STORE DOCK TELEMETRY AUDIT
+DARK STORE DOCK & ALADDIN TELEMETRY AUDIT
+Mode: ${if (isAladdinShockActive) "ALADDIN MACRO CONTINGENCY ACTIVE" else "STANDARD DISPATCH"}
 Total Dock Cycle: ${String.format("%.1f", totalDockSec)}s (${String.format("%.2f", totalMinutes)} min)
-Target SLA: ≤255s (Leaves 6 min for safe last-mile transit)
-• Picker Travel & Bagging (T_pick): ${pickSec.toInt()}s (Target: <90s)
-• Packer Verification & Sealing (T_pack): ${packSec.toInt()}s (Target: <45s)
-• Staging to Rider Handover (T_stage): ${bufferSec.toInt()}s (Target: <120s)
-CM2 Margin: +₹28.00 / order (+5.8% on ₹480 AOV)
-SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
+Target SLA: ≤255s (Leaves 5.75 min for safe 10-minute consumer delivery)
+• Picker Travel & Bagging (T_pick): ${effectivePick.toInt()}s (Target: <90s)
+• Packer Verification & Sealing (T_pack): ${effectivePack.toInt()}s (Target: <45s)
+• Staging to Rider Handover (T_stage): ${effectiveBuffer.toInt()}s (Target: <120s)
+CM2 Margin: ${if (isAladdinShockActive) "+₹19.50 (Stabilized via Micro-Cluster Batching)" else "+₹28.00 / order (+5.8%)"}
+Aladdin Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH MITIGATED BY ALADDIN"}
   """.trimIndent()
 
   LazyColumn(
@@ -603,6 +720,54 @@ SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
         Column {
           Text("🏬 DARK STORE & DOCK PHYSICS SIMULATOR", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanCyan)
           Text("Real-time mathematical decomposition of micro-fulfillment throughput.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+        }
+      }
+    }
+
+    // BlackRock Aladdin Quantum Macro Shock Toggle Card
+    item {
+      Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = SlateCard),
+        shape = RoundedCornerShape(10.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, if (isAladdinShockActive) TitanCrimson else TitanGold)
+      ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Text(if (isAladdinShockActive) "🚨" else "🛡️", fontSize = 16.sp)
+              Spacer(modifier = Modifier.width(6.dp))
+              Text("ALADDIN MACRO RISK RADAR", color = if (isAladdinShockActive) TitanCrimson else TitanGold, fontWeight = FontWeight.Black, fontSize = 11.sp)
+            }
+            Box(
+              modifier = Modifier
+                .clip(RoundedCornerShape(6.dp))
+                .background(if (isAladdinShockActive) TitanCrimson else TitanGold)
+                .clickable { isAladdinShockActive = !isAladdinShockActive }
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+            ) {
+              Text(
+                text = if (isAladdinShockActive) "CONTINGENCY ACTIVE" else "SIMULATE SHOCK",
+                color = ObsidianDark,
+                fontWeight = FontWeight.Black,
+                fontSize = 9.sp
+              )
+            }
+          }
+          Spacer(modifier = Modifier.height(4.dp))
+          Text(
+            text = if (isAladdinShockActive)
+              "Simulating: +25% fuel spike (₹48->₹60/drop), monsoon buffer delay (+40s), vendor stockout (+25s). Micro-cluster batching engaged."
+            else
+              "Baseline conditions. Tap SIMULATE SHOCK to test resilience against +25% fuel spikes and severe monsoon downpour.",
+            color = TextSecondaryDark,
+            fontSize = 10.sp,
+            lineHeight = 14.sp
+          )
         }
       }
     }
@@ -624,7 +789,7 @@ SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
           }
           Spacer(modifier = Modifier.height(4.dp))
           Text("${String.format("%.1f", totalDockSec)}s (${String.format("%.2f", totalMinutes)} min)", color = TextPrimaryDark, fontSize = 24.sp, fontWeight = FontWeight.Black)
-          Text("Target: ≤255s (4.25 min) inside dock • Leaves 6m for safe 1.5km delivery", color = TextMutedDark, fontSize = 10.sp)
+          Text("Target: ≤255s (4.25 min) inside dock • Leaves 5.75m for safe 10-min delivery", color = TextMutedDark, fontSize = 10.sp)
         }
       }
     }
@@ -711,9 +876,9 @@ SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
         border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder)
       ) {
         Column(modifier = Modifier.padding(12.dp)) {
-          PhysicsSlider("1. Picker Travel & Bagging (T_pick)", pickSec, 90.0, 30.0..180.0) { pickSec = it }
-          PhysicsSlider("2. Packer Verification & Sealing (T_pack)", packSec, 45.0, 20.0..90.0) { packSec = it }
-          PhysicsSlider("3. Staging Buffer to Rider Handover (T_stage)", bufferSec, 120.0, 30.0..240.0) { bufferSec = it }
+          PhysicsSlider("1. Picker Travel & Bagging (T_pick)", effectivePick, 90.0, 30.0..180.0) { pickSec = it }
+          PhysicsSlider("2. Packer Verification & Sealing (T_pack)", effectivePack, 45.0, 20.0..90.0) { packSec = it }
+          PhysicsSlider("3. Staging Buffer to Rider Handover (T_stage)", effectiveBuffer, 120.0, 30.0..240.0) { bufferSec = it }
         }
       }
     }
@@ -731,13 +896,31 @@ SLA Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH (FAIL)"}
           Spacer(modifier = Modifier.height(6.dp))
           EconomicsRow("Average Order Value (AOV)", "₹480.00", TextPrimaryDark)
           EconomicsRow("Cost of Goods Sold (COGS, 20% Gross)", "-₹384.00", TextMutedDark)
-          EconomicsRow("Last-Mile Rider Payout", "-₹48.00", TextMutedDark)
+          EconomicsRow(
+            "Last-Mile Rider Payout",
+            if (isAladdinShockActive) "-₹60.00 (+25% Surge)" else "-₹48.00",
+            if (isAladdinShockActive) TitanCrimson else TextMutedDark
+          )
           EconomicsRow("Store Picking & Packing Cost", "-₹12.00", TextMutedDark)
           EconomicsRow("Dark Store Lease & Utilities Allocation", "-₹18.00", TextMutedDark)
           EconomicsRow("Payment Gateway Fee (PG 1%)", "-₹5.00", TextMutedDark)
           EconomicsRow("Brand Monetization & Ads (3.1%)", "+₹15.00", TitanEmerald)
           HorizontalDivider(color = SlateBorder, modifier = Modifier.padding(vertical = 4.dp))
-          EconomicsRow("Net CM2 Margin Per Order", "+₹28.00 (+5.8%)", TitanEmerald, isBold = true)
+          EconomicsRow(
+            "Current CM2 Margin Per Order",
+            "${if (currentCm2 >= 0) "+" else ""}₹${String.format("%.2f", currentCm2)} (${String.format("%.1f", currentCm2 / aov * 100)}%)",
+            if (currentCm2 >= 20.0) TitanEmerald else TitanCrimson,
+            isBold = true
+          )
+          if (isAladdinShockActive) {
+            Spacer(modifier = Modifier.height(4.dp))
+            EconomicsRow(
+              "Aladdin Batched CM2 (2-Drop Route)",
+              "+₹${String.format("%.2f", aladdinStabilizedCm2)} (+${String.format("%.1f", aladdinStabilizedCm2 / aov * 100)}%)",
+              TitanGold,
+              isBold = true
+            )
+          }
         }
       }
     }

@@ -125,4 +125,37 @@ class OmegaTitanSovereignTest {
     org.junit.Assert.assertEquals(28.0, cm2, 0.01)
     assertTrue("Contribution Margin 2 must remain positive", cm2 > 0)
   }
+
+  @Test
+  fun testTrillionDollarMasterPromptAndAladdinRisk() = runBlocking {
+    val response = geminiService.askCopilot("TRILLION", profile, brutalMode = true)
+
+    assertNotNull(response)
+    assertTrue("Should include $1T valuation", response.contains("1,000,000,000,000") || response.contains("TRILLION"))
+    assertTrue("Should include BlackRock Aladdin", response.contains("Aladdin") || response.contains("BlackRock"))
+    assertTrue("Should reference 12-Agent swarm", response.contains("12-AGENT") || response.contains("12-Agent"))
+    assertTrue("Should reference Aditya Mehra", response.contains("Aditya Mehra") || response.contains("Adi"))
+    assertTrue("Should include dynamic micro-cluster batching", response.contains("Micro-Cluster") || response.contains("Batching"))
+    assertTrue("Should reference audited AERO India credential", response.contains("AERO India"))
+  }
+
+  @Test
+  fun testAladdinMacroShockMath() {
+    val aov = 480.0
+    val cogs = 384.0
+    val baseDelivery = 48.0
+    val surgedDelivery = 60.0 // +25% fuel spike
+    val batchedDelivery = 39.0 // Aladdin 2-drop route
+    val pickPack = 12.0
+    val lease = 18.0
+    val pg = 5.0
+    val ads = 15.0
+
+    val unmitigatedCm2 = aov - cogs - surgedDelivery - pickPack - lease - pg + ads
+    val stabilizedCm2 = aov - cogs - batchedDelivery - pickPack - lease - pg + ads
+
+    org.junit.Assert.assertEquals(16.0, unmitigatedCm2, 0.01)
+    org.junit.Assert.assertEquals(28.5, stabilizedCm2, 0.01)
+    assertTrue("Aladdin micro-cluster dynamic batching must defend CM2 margin above unmitigated shock", stabilizedCm2 > unmitigatedCm2)
+  }
 }

@@ -51,19 +51,20 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/heads/main')
         with:
-          tag_name: v2026.1-sovereign
-          name: "ADI-OS Sovereign v2026.1 (Direct Phone APK)"
+          tag_name: v2026.TRILLION-MAX
+          name: "ADI-OS OMEGA-TITAN OMNI-TRILLION ∞ (Direct Phone APK)"
           draft: false
           prerelease: false
           generate_release_notes: true
           body: |
-            ## 📱 ADI-OS Sovereign v2026.1 — Android Phone Installation APK
+            ## 📱 ADI-OS OMEGA-TITAN OMNI-TRILLION ∞ (Valuation: $1,000,000,000,000 USD)
             
             ### What's Inside:
-            - **OMEGA-TITAN Sovereign 25-Feature Kernel**
-            - **Interactive 25-Keypad Grid** directly on the Copilot Screen
-            - **Audited Truth-Anchor Ledger** (Aditya Mehra, DSU BBA IB Class of 2026, ~6.33 CGPA, AERO India 2025 Lead Ops Coordinator, 14 Supply Chain Hubs, Instawork)
-            - **Offline-First Room SQLite & WorkManager Daemons**
+            - **BlackRock Aladdin Macro Risk Vector & Dock Physics Engine**
+            - **12-Agent C-Suite Council Swarm** (CEO, COO Adi, CFO, CTO, CSCO, CRO, Aladdin Risk, etc.)
+            - **Interactive Dark Store Simulator with Aladdin Macro Shock (+25% Fuel Surge & Monsoon Batching)**
+            - **Direct Phone APK with Native TTS Voice Audits, ShareSheet & Room SQLite Notes Vault**
+            - **Audited Truth-Anchor Ledger** (Aditya Mehra, DSU BBA IB Class of 2026, 41/41 first-attempt clearance, AERO India 2025 Lead Ops Coordinator, 14 Supply Chain Hubs)
             
             ### How to Install on Your Android Phone:
             1. Open this release page on your phone browser.
