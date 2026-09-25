@@ -73,10 +73,7 @@ class CareerStrategyViewModel(
 
   private fun loadInitialVelocityReport() {
     viewModelScope.launch {
-      _careerVelocityReport.value = CareerVelocityDataProvider.generateReport(
-        currentSprintScore = 88,
-        previousSprintScore = 82
-      )
+      _careerVelocityReport.value = CareerVelocityDataProvider.getDefaultCareerVelocityReport()
     }
   }
 
@@ -95,7 +92,7 @@ class CareerStrategyViewModel(
           targetRole = targetRole,
           timeHorizonYears = targetHorizonYears
         )
-        val result = repository.adviseCareerStrategy(request)
+        val result = repository.geminiService.adviseCareerStrategy(request)
         if (result.isSuccess) {
           _aiAdviceResponse.value = result.getOrNull()
         }
@@ -107,7 +104,13 @@ class CareerStrategyViewModel(
 
   fun toggleMilestoneCompletion(milestoneId: String, currentCompleted: Boolean) {
     viewModelScope.launch {
-      repository.toggleMilestoneCompletion(milestoneId, !currentCompleted)
+      val milestone = milestones.value.find { it.id == milestoneId }
+      if (milestone != null) {
+        val updated = milestone.copy(
+          status = if (currentCompleted) "IN_PROGRESS" else "ACHIEVED"
+        )
+        repository.insertMilestone(updated)
+      }
     }
   }
 

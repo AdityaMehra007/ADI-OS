@@ -43,7 +43,7 @@ class ExecutiveCommandViewModel(
   val userProfile: StateFlow<UserProfile?> = repository.userProfileFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-  val systemHealth: StateFlow<List<SystemHealthMetric>> = repository.systemHealthFlow
+  val systemHealth: StateFlow<List<SystemHealthMetric>> = repository.healthMetricsFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
   private val _morningSummary = MutableStateFlow<MorningExecutiveSummaryReport?>(null)
@@ -65,9 +65,10 @@ class ExecutiveCommandViewModel(
       try {
         val telemetry = QuickActionExecutionTelemetry(
           actionType = actionType,
+          taskName = actionType.displayName,
           status = "SUCCESS",
-          executionDurationMs = System.currentTimeMillis() - startTime,
-          summaryMessage = "Successfully executed ${actionType.displayName}"
+          message = "Successfully executed ${actionType.displayName}",
+          durationMs = System.currentTimeMillis() - startTime
         )
         _quickActionTelemetry.value = telemetry
       } finally {

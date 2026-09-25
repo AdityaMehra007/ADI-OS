@@ -45,13 +45,13 @@ class JobAutomationViewModel(
 
   private val automationManager = JobDiscoveryAutomationManager.getInstance(application)
 
-  val allJobs: StateFlow<List<Job>> = repository.allJobsFlow
+  val allJobs: StateFlow<List<Job>> = repository.jobsFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
   val allApplications: StateFlow<List<JobApplication>> = repository.applicationsFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-  val automationTasks: StateFlow<List<AutomationTask>> = repository.automationTasksFlow
+  val automationTasks: StateFlow<List<AutomationTask>> = repository.getAllAutomationTasks()
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
   val automationRules: StateFlow<List<AutomationRule>> = repository.automationRulesFlow
@@ -98,7 +98,7 @@ class JobAutomationViewModel(
 
   fun toggleRuleActive(ruleId: String, currentActive: Boolean) {
     viewModelScope.launch {
-      repository.toggleAutomationRuleActive(ruleId, !currentActive)
+      repository.toggleAutomationRule(ruleId, !currentActive)
     }
   }
 

@@ -65,14 +65,10 @@ class ResumeLabViewModel(
     viewModelScope.launch {
       _isAnalyzing.value = true
       try {
-        val userProfile = repository.getUserProfile()
-        val facts = verifiedFacts.value
         val feedback = repository.optimizeResumeDocument(
           parsedDoc = parsedDoc,
           targetRole = targetRole,
-          targetCompany = targetCompany,
-          candidateProfile = userProfile,
-          verifiedFacts = facts
+          targetCompany = targetCompany
         )
         _activeFeedback.value = feedback
       } finally {
@@ -83,13 +79,13 @@ class ResumeLabViewModel(
 
   fun setPrimaryVariation(id: String) {
     viewModelScope.launch {
-      repository.setPrimaryResumeVariation(id)
+      repository.resumeVariationRepository.setPrimary(id)
     }
   }
 
   fun saveResumeVariation(variation: ResumeVariation) {
     viewModelScope.launch {
-      repository.insertResumeVariation(variation)
+      repository.resumeVariationRepository.insertOrUpdate(variation)
     }
   }
 }

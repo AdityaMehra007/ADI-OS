@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.example.ui.navigation.MainNavDestination
 import com.example.ui.navigation.ScreenRoutes
 import com.example.ui.theme.ObsidianDark
+import com.example.ui.theme.TitanTheme
 import com.example.ui.theme.SlateBorder
 import com.example.ui.theme.SlateCard
 import com.example.ui.theme.SlateElevated

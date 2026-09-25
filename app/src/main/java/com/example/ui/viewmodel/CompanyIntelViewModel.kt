@@ -12,6 +12,7 @@ import com.example.data.model.Company
 import com.example.data.model.CompanyBookmark
 import com.example.data.model.CompanyIntelReport
 import com.example.data.model.TargetCompany
+import com.example.data.model.TargetCompanyWithMarketIntelligence
 import com.example.repository.TitanRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,7 @@ class CompanyIntelViewModel(
   val allCompanies: StateFlow<List<Company>> = repository.companiesFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-  val targetCompanies: StateFlow<List<TargetCompany>> = repository.targetCompaniesFlow
+  val targetCompanies: StateFlow<List<TargetCompanyWithMarketIntelligence>> = repository.targetCompaniesWithIntelFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
   val bookmarks: StateFlow<List<CompanyBookmark>> = repository.getAllCompanyBookmarks()
@@ -75,7 +76,7 @@ class CompanyIntelViewModel(
         comp.name.contains(query, ignoreCase = true) ||
         comp.industry.contains(query, ignoreCase = true) ||
         comp.subIndustry.contains(query, ignoreCase = true) ||
-        comp.location.contains(query, ignoreCase = true)
+        comp.hqLocation.contains(query, ignoreCase = true)
 
       val matchesTier = tier == "ALL" || comp.tier.equals(tier, ignoreCase = true)
       matchesQuery && matchesTier
@@ -108,7 +109,7 @@ class CompanyIntelViewModel(
           focus = focus,
           company = company
         )
-        val result = repository.researchCompany(request)
+        val result = repository.geminiService.researchCompany(request)
         if (result.isSuccess) {
           val response = result.getOrNull()
           _activeIntelReport.value = response?.toCompanyIntelReport()
@@ -123,15 +124,15 @@ class CompanyIntelViewModel(
     viewModelScope.launch {
       val existing = bookmarks.value.find { it.companyName.equals(companyName, ignoreCase = true) }
       if (existing != null) {
-        repository.deleteCompanyBookmark(existing.id)
+        repository.deleteCompanyBookmark(existing.companyId)
       } else {
         repository.insertCompanyBookmark(
           CompanyBookmark(
-            id = "bm_${System.currentTimeMillis()}",
+            companyId = "bm_${System.currentTimeMillis()}",
             companyName = companyName,
             tier = tier,
-            notes = notes,
-            createdAt = System.currentTimeMillis()
+            personalNotes = notes,
+            bookmarkedAt = System.currentTimeMillis()
           )
         )
       }

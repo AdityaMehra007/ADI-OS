@@ -86,6 +86,7 @@ import com.example.ui.theme.TitanCrimson
 import com.example.ui.theme.TitanCyan
 import com.example.ui.theme.TitanEmerald
 import com.example.ui.theme.TitanGold
+import com.example.ui.theme.TitanIndigo
 import com.example.ui.viewmodel.TitanScreen
 import com.example.ui.viewmodel.TitanViewModel
 
