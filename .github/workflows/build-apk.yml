@@ -1,0 +1,73 @@
+name: Build & Release Phone APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Ensure Gradle Wrapper Exists
+        run: |
+          if [ ! -f gradlew ]; then
+            gradle wrapper
+          fi
+          chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ADI-OS-Sovereign-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/heads/main')
+        with:
+          tag_name: v2026.1-sovereign
+          name: "ADI-OS Sovereign v2026.1 (Direct Phone APK)"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            ## 📱 ADI-OS Sovereign v2026.1 — Android Phone Installation APK
+            
+            ### What's Inside:
+            - **OMEGA-TITAN Sovereign 25-Feature Kernel**
+            - **Interactive 25-Keypad Grid** directly on the Copilot Screen
+            - **Audited Truth-Anchor Ledger** (Aditya Mehra, DSU BBA IB Class of 2026, ~6.33 CGPA, AERO India 2025 Lead Ops Coordinator, 14 Supply Chain Hubs, Instawork)
+            - **Offline-First Room SQLite & WorkManager Daemons**
+            
+            ### How to Install on Your Android Phone:
+            1. Open this release page on your phone browser.
+            2. Tap **`app-debug.apk`** under Assets to download.
+            3. Open the downloaded file and tap **Install**.
+            4. If prompted, toggle **Allow installation from this source**.
+            5. Launch **ADI-OS** and start dominating!
+          files: app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
