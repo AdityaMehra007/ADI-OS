@@ -507,6 +507,8 @@ class TitanNotificationManager private constructor(private val appContext: Conte
         Log.e("TitanNotificationManager", "Failed to post application alert: ${e.message}")
       }
     }
+  }
+
   fun notifySovereignAlert(
     title: String,
     message: String,
