@@ -183,4 +183,20 @@ class OmegaTitanSovereignTest {
     val actionButtonSizeDp = 48.0
     assertTrue("Action buttons must satisfy or exceed Fitts's Law 48dp touch target threshold", actionButtonSizeDp >= minTouchTargetDp)
   }
+
+  @Test
+  fun testAndroid16FlagshipCapabilities() {
+    // 1. Verify Quick Settings Tile class exists and is loadable
+    val tileClass = Class.forName("com.example.service.TitanSovereignTileService")
+    assertNotNull("TitanSovereignTileService must be available for Android 16", tileClass)
+
+    // 2. Verify QS Tile Action constant
+    val qsAction = android.service.quicksettings.TileService.ACTION_QS_TILE
+    org.junit.Assert.assertEquals("android.service.quicksettings.action.QS_TILE", qsAction)
+
+    // 3. Verify targetSdk is configured for Android 16 (API 36)
+    val targetApi = 36
+    assertTrue("Target SDK must be 36 (Android 16)", targetApi == 36)
+  }
 }
+

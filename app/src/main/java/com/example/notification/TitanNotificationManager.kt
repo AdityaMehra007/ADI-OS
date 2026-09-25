@@ -542,6 +542,17 @@ class TitanNotificationManager private constructor(private val appContext: Conte
           PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val warRoomIntent = Intent(appContext, MainActivity::class.java).apply {
+          flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+          putExtra(EXTRA_TARGET_SCREEN, "SOVEREIGN_SUPER_APP")
+        }
+        val warRoomPending = PendingIntent.getActivity(
+          appContext,
+          notifId + 1,
+          warRoomIntent,
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val builder = NotificationCompat.Builder(appContext, CHANNEL_SOVEREIGN_OPERATIONS)
           .setSmallIcon(R.drawable.ic_launcher_foreground)
           .setContentTitle(title)
@@ -551,6 +562,7 @@ class TitanNotificationManager private constructor(private val appContext: Conte
           .setColor(0xFFFFD700.toInt()) // TitanGold
           .setAutoCancel(true)
           .setContentIntent(tapPendingIntent)
+          .addAction(R.drawable.ic_launcher_foreground, "WAR ROOM", warRoomPending)
 
         NotificationManagerCompat.from(appContext).notify(notifId, builder.build())
         Log.d("TitanNotificationManager", "Sovereign operational alert dispatched: $title")

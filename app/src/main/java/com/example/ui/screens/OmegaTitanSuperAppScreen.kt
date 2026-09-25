@@ -1,6 +1,7 @@
 package com.example.ui.screens
 
 import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -64,8 +65,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -91,9 +94,16 @@ fun OmegaTitanSuperAppScreen(
   viewModel: TitanViewModel
 ) {
   val context = LocalContext.current
+  val haptic = LocalHapticFeedback.current
   var selectedTab by remember { mutableIntStateOf(0) }
   var isSpeaking by remember { mutableStateOf(false) }
   var statusFeedback by remember { mutableStateOf<String?>(null) }
+
+  // Android 16 Predictive Back Gesture Handling
+  BackHandler(enabled = selectedTab != 0) {
+    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+    selectedTab = 0
+  }
 
   val tabs = listOf(
     "🏛️ War Room",
@@ -106,6 +116,7 @@ fun OmegaTitanSuperAppScreen(
   )
 
   fun shareContent(text: String, title: String = "OMEGA-TITAN Sovereign Intelligence") {
+    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
     val sendIntent = Intent().apply {
       action = Intent.ACTION_SEND
       putExtra(Intent.EXTRA_TITLE, title)
@@ -117,6 +128,7 @@ fun OmegaTitanSuperAppScreen(
   }
 
   fun toggleSpeak(text: String) {
+    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
     if (isSpeaking) {
       viewModel.stopSpeaking()
       isSpeaking = false
@@ -129,6 +141,7 @@ fun OmegaTitanSuperAppScreen(
   }
 
   fun saveNote(title: String, content: String, category: String = "SOVEREIGN_OPS") {
+    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
     viewModel.saveSovereignResultToNotes(title, content, category)
     statusFeedback = "💾 Saved to Room Strategic Notes Vault!"
   }
@@ -215,6 +228,7 @@ fun OmegaTitanSuperAppScreen(
             .horizontalScroll(rememberScrollState()),
           horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
+          TruthBadge("Android 16 Flagship (API 36 • Haptics • Tile)")
           TruthBadge("DSU BBA IB '26 (41/41 First-Attempt)")
           TruthBadge("AERO India 2025 (300+ Builds • 0% Downtime)")
           TruthBadge("14 Supply Chain Hubs (42% Cycle Cut)")
@@ -259,7 +273,10 @@ fun OmegaTitanSuperAppScreen(
       tabs.forEachIndexed { index, title ->
         Tab(
           selected = selectedTab == index,
-          onClick = { selectedTab = index },
+          onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            selectedTab = index
+          },
           text = {
             Text(
               text = title,
