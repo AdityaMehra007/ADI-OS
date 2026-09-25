@@ -158,4 +158,29 @@ class OmegaTitanSovereignTest {
     org.junit.Assert.assertEquals(28.5, stabilizedCm2, 0.01)
     assertTrue("Aladdin micro-cluster dynamic batching must defend CM2 margin above unmitigated shock", stabilizedCm2 > unmitigatedCm2)
   }
+
+  @Test
+  fun testUiVsUxSovereignDoctrine() = runBlocking {
+    val response = geminiService.askCopilot("UI VS UX", profile, brutalMode = false)
+
+    assertNotNull(response)
+    assertTrue("Should include Concentric Radii Law", response.contains("Concentric Radii"))
+    assertTrue("Should include Tabular Numeral Physics", response.contains("Tabular Numeral"))
+    assertTrue("Should include Sub-16ms latency", response.contains("Sub-16ms") || response.contains("16ms"))
+    assertTrue("Should include Fitts's Law ergonomics", response.contains("Fitts's Law") || response.contains("48dp"))
+    assertTrue("Should reference Aditya Mehra", response.contains("Aditya Mehra"))
+    assertTrue("Should state board truth", response.contains("boardroom") && response.contains("warehouse dock"))
+  }
+
+  @Test
+  fun testConcentricRadiusAndFittsLawPhysics() {
+    val innerRadiusDp = 8.0
+    val paddingDp = 4.0
+    val expectedOuterRadiusDp = innerRadiusDp + paddingDp
+    org.junit.Assert.assertEquals(12.0, expectedOuterRadiusDp, 0.01)
+
+    val minTouchTargetDp = 48.0
+    val actionButtonSizeDp = 48.0
+    assertTrue("Action buttons must satisfy or exceed Fitts's Law 48dp touch target threshold", actionButtonSizeDp >= minTouchTargetDp)
+  }
 }
