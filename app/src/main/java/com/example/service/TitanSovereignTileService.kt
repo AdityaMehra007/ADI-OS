@@ -16,11 +16,10 @@ class TitanSovereignTileService : TileService() {
 
   override fun onClick() {
     super.onClick()
-    val app = application as? TitanApplication
-    val notifManager = app?.notificationManager
+    val notifManager = com.example.notification.TitanNotificationManager.getInstance(applicationContext)
 
     // Trigger instant Dark Store SLA audit
-    notifManager?.notifySovereignAlert(
+    notifManager.notifySovereignAlert(
       title = "⚡ ANDROID 16 QUICK SETTINGS: 255s SLA AUDIT",
       message = "Quick Settings telemetry: Dock cycle optimal at 223.0s (Pick: 86s, Pack: 42s, Buffer: 95s). CM2: +₹28.00/order (+5.8%).",
       detailedSummary = "Dispatched from Android 16 Quick Settings Tile. Principal: Aditya Mehra. Ground execution locked across 14 hubs."

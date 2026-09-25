@@ -518,7 +518,7 @@ class TitanNotificationManager private constructor(private val appContext: Conte
     val notifId = System.currentTimeMillis().toInt()
     val alertItem = NotificationAlertItem(
       id = "sovereign_$notifId",
-      type = NotificationType.SYSTEM_HEALTH,
+      type = NotificationType.SYSTEM_ALERT,
       title = title,
       message = message,
       detailedSummary = detailedSummary.ifBlank { message },
