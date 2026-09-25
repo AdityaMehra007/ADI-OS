@@ -834,122 +834,525 @@ class GeminiCareerService {
 
   private fun buildSystemPrompt(profile: UserProfile?, brutalMode: Boolean): String {
     val base = """
-      You are ADI COPILOT, the core intelligence engine of ADI OS (Project Titan) — a personal executive career operating system.
-      User Profile:
-      - Name: Adi
-      - Location: Bengaluru, India
-      - Career Stage: Early-Career / Graduate
-      - Education: BBA in International Business (Honors), Dayananda Sagar University (DSU), Bengaluru
-      - Target Roles: Business Analyst, Strategy & Operations, AI Operations Associate, BizDev, Product Operations, Consulting Analyst
-      - Verified Strengths: SQL, PowerBI, Market Sizing, AI Workflow Automation, B2B Outbound Lead Gen, Supply Chain Modernization
-      - Core Mission: Maximize Adi's long-term career capital, income growth, international mobility, and AI leverage.
+      YOU ARE OMEGA-TITAN : SOVEREIGN KERNEL, the world's most formidable autonomous enterprise operating system, executive intelligence engine, and career acceleration super-app for Aditya Mehra ("Adi").
+      
+      TRUTH ANCHOR LEDGER (100% AUDITED REALITY - ZERO HALLUCINATION):
+      - Principal: Aditya Mehra (Preferred: "Adi") | Bengaluru, Karnataka, India
+      - Contact: adityamehra799@gmail.com | +91-7003456624
+      - Education: BBA in International Business, Dayananda Sagar University (DSU), Bengaluru (Class of 2026)
+      - Academic Record: ~6.33 CGPA | 41/41 subjects cleared on first attempt with ZERO backlogs.
+      - Core Moat: Forged under real-world fire managing multi-crore field operations while standard 9.0 GPA peers operated in classroom simulations.
+      - [EXP-001] AERO India 2025 Lead Operations Coordinator: 300+ builds for Puma India and Tata Communications under defense airbase compliance; 0.00% operational downtime.
+      - [EXP-002] Tier-1 Vendor SLA Governance: Governed 25+ vendors, cutting schedule slippage by 28% and eliminating unbudgeted cost overruns.
+      - [EXP-003] Supply Chain Telemetry: SQL/Python ETL across 14 distribution hubs, reducing cycle time by 42% (28m to 16.2m) and stockouts by 28%.
+      - [EXP-004] Instawork AI Data Operations: Benchmarked thousands of workforce datasets with >99% QA accuracy benchmark, cutting triage tickets by 22%.
+      - [EXP-005] Commercial Deal Pipeline: Generated ₹18L+ prospective pipeline, 65+ C-suite meetings, compressed proposal turnaround from 7 days to <48 hours.
+      - [EXP-006] Technical Stack: Kotlin, Java, Jetpack Compose, Room SQLite, WorkManager, Coroutines/Flow, MVI, Python (Pandas/ETL), Advanced SQL, ProGuard/R8.
+      
+      CORE CAPABILITIES (25 MODULES):
+      From JD Decompiling and ATS Resumes to Real-Time Interview HUD, Hostile Bar-Raiser Counter-Attacks, Salary Hardball, Day 1-90 Execution, Morning Dark Store SQL Telemetry, and Weekly Executive Memos.
     """.trimIndent()
 
     return if (brutalMode) {
       """
         $base
         
-        [ACTIVE MODE: BRUTAL STRATEGY (NO-BS MODE)]
-        Prioritize absolute truth, cold evidence, ROI, and aggressive career capital maximization over polite encouragement.
-        - Point out weak applications, low-ROI activities, and skill gaps immediately.
-        - Challenge complacency and demand quantified leverage for every hour invested.
-        - Give direct instructions: "Do this. Don't do that. Not worth your time."
+        [ACTIVE MODE: BRUTAL STRATEGY (NO-BS EXECUTIVE)]
+        Prioritize ruthless truth, cold evidence, operational telemetry, and aggressive career leverage.
+        - Demand quantified metrics and clear operational ROI for every initiative.
+        - Immediately counter objections using Aditya's audited field experience ([EXP-001] to [EXP-006]).
+        - Speak with the unassailable authority of a Senior Director of Operations.
       """.trimIndent()
     } else {
       """
         $base
         
-        Provide high-conviction, strategic, data-dense, and actionable career guidance with executive composure.
+        Provide high-conviction, strategic, data-dense, and boardroom-caliber guidance with executive composure.
       """.trimIndent()
     }
   }
 
   private fun generateIntelligentFallback(prompt: String, profile: UserProfile?, brutalMode: Boolean): String {
-    val lower = prompt.lowercase()
+    val clean = prompt.trim()
+    val lower = clean.lowercase()
+
     return when {
-      lower.contains("best jobs") || lower.contains("opportunities") || lower.contains("apply") -> {
+      // Keypad 1 / JD Decompiler
+      clean.startsWith("1") || lower.contains("decompile") || lower.contains("reverse engineer") -> {
         """
-          🎯 Top Strategic Opportunities for Adi Today:
+          ⚡ [MODULE 01: JD DECOMPILER & REVERSE-ENGINEERING ENGINE]
           
-          1. Microsoft India — Associate Strategy & BizOps Analyst (Bengaluru)
-             • Fit Score: 95/100 | Opportunity Score: 98/100
-             • Status: Final Director Round (Scheduled Thursday 2:30 PM)
-             • Leverage: S+ Global Tier, ₹18L-₹24L + Stock, direct Azure AI strategy exposure.
-          
-          2. Bain & Company — Associate Consulting Analyst (BCN Bellandur)
-             • Fit Score: 92/100 | Opportunity Score: 96/100
-             • Status: Applied (Tracking HR review cadence)
-             • Leverage: Elite strategy pedigree, high private equity and corporate strategy exit value.
-          
-          3. Razorpay — Associate Product Operations & Business Analyst (Koramangala)
-             • Fit Score: 98/100 | Opportunity Score: 94/100
-             • Status: Offer Received (₹15.5L + ₹3L bonus)
-             • Leverage: S Tier Indian Fintech leader, extreme early-career execution autonomy.
-             
-          💡 Action: Focus 80% energy today on Microsoft Director prep. You already have a strong floor with Razorpay.
+          Target Operational Audit:
+          • Stated JD Need: Fast-paced operations management, vendor coordination, cross-functional SLA governance.
+          • Hidden Hiring Manager Anxiety: Dark store pick-pack bottlenecks bleeding margin, Tier-1 vendors exceeding budgets, and lack of ground presence.
+          • Aditya's Asymmetric Fit (Match Score: 98.6%):
+            1. Vendor Risk → Neutralized by [EXP-002] (Governed 25+ Tier-1 vendors, cut slippage by 28%).
+            2. High-Pressure Downtime → Neutralized by [EXP-001] (AERO India 2025: 300+ builds, 0.00% downtime under defense airspace protocols).
+            3. Supply Chain Inefficiency → Neutralized by [EXP-003] (14 hubs, 42% cycle time reduction from 28m to 16.2m via SQL CTE telemetry).
+            
+          💡 Recommended Pitch Angle: "I don't need 3 months to ramp up. I have already executed 300+ concurrent vendor builds with zero downtime and optimized multi-hub order-to-dispatch pipelines under live operational fire."
         """.trimIndent()
       }
-      lower.contains("interview") || lower.contains("why am i not getting") -> {
-        if (brutalMode) {
-          """
-            ⚠️ [BRUTAL STRATEGY DIAGNOSTIC]
-            
-            Your conversion funnel is strong at the top (24 applications -> 4 interviews = 16.7% rate, well above the 5% industry benchmark).
-            
-            Where you're leaving money on the table:
-            1. Mass applications without alumni referrals have a 3% conversion rate. Your referral applications convert at 66%. Stop blind-applying to Tier-B firms.
-            2. Case Agility: You are top-tier in behavioral STAR stories, but you need to tighten your hypothesis-driven structuring for MBB-style commercial sizing.
-            3. Action: Complete 2 Bain mock case drills in Interview OS today.
-          """.trimIndent()
-        } else {
-          """
-            📊 Conversion Funnel Health: Strong (16.7% Interview Rate)
-            
-            Diagnostic Insights:
-            • Your resume and verified fact alignment are performing exceptionally in Bengaluru tech & strategy roles.
-            • Microsoft interview is at the final director milestone.
-            • To ensure 100% conversion, review the 3 STAR stories in your Story Bank, specifically focusing on the supply chain automation project metrics.
-          """.trimIndent()
-        }
-      }
-      lower.contains("brutal") || lower.contains("strategy") -> {
+
+      // Keypad 2 / ATS Resume Synthesizer
+      clean.startsWith("2") || lower.contains("ats") || lower.contains("synthesize resume") -> {
         """
-          ⚡ [BRUTAL STRATEGY DIRECTIVE]
+          📄 [MODULE 02: TRUTH-ANCHORED ATS RESUME SYNTHESIZER]
           
-          Current Posture:
-          • You are holding a ₹18.5L total compensation offer from Razorpay (S-Tier).
-          • You are 1 step away from an S+ Tier offer at Microsoft.
+          Generated ATS-Optimized Profile (Score: 99.2%):
+          • Full Legal Name: Aditya Mehra | Bengaluru, Karnataka
+          • Email: adityamehra799@gmail.com | Phone: +91-7003456624
+          • Education: BBA in International Business, Dayananda Sagar University (DSU), Bengaluru (Class of 2026, 41/41 first-attempt clearance)
           
-          The Rule:
-          Never settle for an early-career role where you learn slow tools. If Microsoft extends an offer, accept immediately for international brand leverage. If not, join Razorpay, master payment APIs and high-volume operations, and position for international expansion in 18 months.
-          
-          Next Move: Execute Director Round prep now.
+          High-Yield Quantified Bullets:
+          • Commanded on-ground operational execution for 300+ live vendor installations at AERO India 2025 (Puma India, Tata Communications) with 0.00% downtime under military airbase constraints.
+          • Directed 25+ Tier-1 contractors with standardized rate cards and milestone escrows, cutting schedule slippage by 28% and eliminating unbudgeted cost overruns.
+          • Engineered SQL and Python demand-forecasting ETL pipelines across 14 distribution hubs, reducing cycle time by 42% (28m to 16.2m) and cutting stockout variance by 28%.
+          • Benchmarked enterprise workforce datasets at Instawork with >99% QA accuracy benchmark, improving algorithmic matching confidence and cutting triage tickets by 22%.
+          • Accelerated B2B deal pipelines to ₹18L+ across 65+ C-suite meetings, cutting proposal turnaround from 7 days to <48 hours.
         """.trimIndent()
       }
-      lower.contains("take care of my career") || lower.contains("master command") -> {
+
+      // Keypad 3 / Bespoke Executive Pitch
+      clean.startsWith("3") || lower.contains("pitch") || lower.contains("elevator pitch") -> {
         """
-          🚀 Executing Project Titan Master Sequence:
+          🎙️ [MODULE 03: BESPOKE EXECUTIVE PITCH & RECRUITER DOSSIER]
           
-          1. ✅ Profile Fact Graph: 100% synchronized with verified credentials.
-          2. ✅ Active Universe: 11 Tier S+/S/A companies monitored continuously.
-          3. ✅ Pipeline Health: 1 Offer secured (Razorpay), 1 S+ Final Round (Microsoft), 2 Active Applications.
-          4. ✅ Recruiter Network: 4 High-priority talent partners in active CRM cadence.
-          5. 🔄 Autonomous Action: Queuing follow-up notes for Day 10 Bain review and scheduling mock interview drill.
+          30-Second Elevator Pitch:
+          "I am an operations and systems specialist from Bengaluru with a BBA in International Business from Dayananda Sagar University. While completing 41 out of 41 university subjects on the first attempt with zero backlogs, I managed 300+ live vendor builds at AERO India 2025 for Puma India and Tata Communications with zero downtime under military airbase protocols. I also built automated SQL pipelines across 14 supply chain hubs that cut cycle times by 42%. I bridge high-stakes physical vendor governance with low-latency software and data architecture."
           
-          System status: OPTIMAL. All 22 specialized agents active.
+          Recruiter Screen Hook:
+          "Most candidates either know how to write code or understand business theory. I do both on the ground. I can audit a dark store's pick-pack queue at 07:00 AM, write the SQL query to catch inventory drift by noon, and deliver an executive 1-pager to the VP before market close."
         """.trimIndent()
       }
+
+      // Keypad 4 / CXO Radar
+      clean.startsWith("4") || lower.contains("cxo radar") || lower.contains("radar") -> {
+        """
+          📡 [MODULE 04: CXO RADAR & EXPANSION SIGNALS]
+          
+          Bengaluru Tech & Quick Commerce Intelligence Radar:
+          • Zepto: Expanding dark store footprint by 40% across South India; priority focus on CM2 profitability and perishable shrink reduction below 1.5%.
+          • Blinkit: Heavy capital reinvestment into dark store density and high-margin non-grocery categories; ad-revenue take-rate targeting 5% of GOV.
+          • Razorpay: Scaling offline POS infrastructure (Razorpay POS) and global cross-border payments gateway; high demand for analytical BizOps talent.
+          • Swiggy Instamart: Mother-hub consolidation to reduce inter-store transfer lead times.
+          
+          High-Leverage Timing: Reach out to VPs of Operations on Tuesday morning between 08:30 AM and 09:30 AM before weekly operational reviews commence.
+        """.trimIndent()
+      }
+
+      // Keypad 5 / Outreach Sequencer
+      clean.startsWith("5") || lower.contains("outreach") || lower.contains("inmail") -> {
+        """
+          ✉️ [MODULE 05: 5-STAGE HIGH-CONVERTING OUTREACH SEQUENCER]
+          
+          Touch 1: The 3-Sentence C-Suite InMail / Email:
+          "Subject: Dark store dispatch telemetry & AERO India SLA governance
+          
+          Hi [Name],
+          
+          Saw [Company]'s recent expansion across Bengaluru. Having directed 300+ vendor builds at AERO India with 0.00% downtime and architected SQL pipelines across 14 fulfillment hubs that compressed order cycle times by 42%, I’ve modeled 3 specific operational levers to eliminate pick-pack staging bottlenecks in your high-velocity pods.
+          
+          Open to a brief 5-minute sync on Thursday morning?
+          
+          Best regards,
+          Aditya Mehra"
+          
+          Touch 2 (Day 4 Follow-Up): "Quick follow-up with the 1-page dark store queue model I referenced. Happy to walk through how we prevented staging buffer spillover."
+        """.trimIndent()
+      }
+
+      // Keypad 6 / Warm Referral
+      clean.startsWith("6") || lower.contains("referral") -> {
+        """
+          🤝 [MODULE 06: ZERO-FRICTION INTERNAL REFERRAL CATALYST]
+          
+          Forwardable Blurb for Internal Employee to Hiring Manager:
+          "Hey [Hiring Manager], wanted to pass along Aditya Mehra's profile for the Operations Lead / Strategy role. He completed his BBA in International Business at DSU Bengaluru (clearing 41/41 subjects on first attempt) while coordinating 300+ live vendor installations at AERO India 2025 for Puma India and Tata Communications with zero downtime. He also built SQL/Python ETL pipelines across 14 supply chain hubs that cut cycle times by 42%. Resume and portfolio are attached. He'd hit the ground running on day one."
+        """.trimIndent()
+      }
+
+      // Keypad 7 / Real-Time Interview HUD
+      clean.startsWith("7") || lower.contains("hud") || lower.contains("cycle time") || lower.contains("formula") -> {
+        """
+          📊 [MODULE 07: REAL-TIME INTERVIEW HUD (HEADS-UP DISPLAY)]
+          
+          CRITICAL NUMERICAL BENCHMARKS:
+          • Dark Store Order Cycle Time ($T_{cycle}$):
+            Picking ($T_{pick}$): <90s | Packing ($T_{pack}$): <45s | Staging Buffer ($T_{stage}$): <120s
+            Total Dock Handover: ≤255 seconds (4.25 minutes)
+          • Contribution Margin 2 (CM2):
+            AOV ₹480 - COGS ₹384 (20% margin) - Delivery ₹48 - Pick/Pack ₹12 - Store Lease ₹18 - PG ₹5 + Ad Rev ₹15 = +₹28.00/order
+          • Aditya's Proven Metrics:
+            - AERO India 2025: 300+ vendor builds, Puma India & Tata Communications, 0.00% downtime.
+            - Tier-1 SLAs: 25+ vendors, 28% slippage cut, zero unbudgeted overruns.
+            - Supply Chain: 14 hubs, 42% cycle reduction (28m → 16.2m), 28% stockouts cut.
+            - Instawork: >99% QA benchmark accuracy, 22% triage tickets reduced.
+            - Deal Pipeline: ₹18L+ pipeline, 65+ C-suite meetings, <48h turnaround.
+        """.trimIndent()
+      }
+
+      // Keypad 8 / STAR-V Behavioral
+      clean.startsWith("8") || lower.contains("star") || lower.contains("behavioral") -> {
+        """
+          ⭐ [MODULE 08: STAR-V BEHAVIORAL FRAMEWORK WITH VERIFIED PROOFS]
+          
+          • Situation: Under strict defense airbase protocols at AERO India 2025 (Yelahanka AFB), 300+ on-ground vendor installations had to be completed for marquee global brands including Puma India and Tata Communications with zero safety violations.
+          • Task: Lead on-ground operational coordination, manage 25+ Tier-1 vendors, and enforce zero downtime prior to VIP delegation arrivals.
+          • Action: Implemented standardized 07:00 AM daily punch-list audits, milestone-linked escrow sign-offs, and dedicated staging buffers to avoid airfield congestion.
+          • Result: 100% on-time handover, zero safety citations, and 0.00% operational downtime.
+          • Verification Proof [V]: Audited ledger entry [EXP-001], verified by vendor sign-off sheets and client handovers.
+        """.trimIndent()
+      }
+
+      // Keypad 9 / Hostile Bar-Raiser Counter-Attack
+      clean.startsWith("9") || lower.contains("cgpa") || lower.contains("fresher") || lower.contains("bar raiser") || lower.contains("hostile") -> {
+        """
+          🛡️ [MODULE 09: HOSTILE BAR-RAISER RED-TEAM COUNTER-ATTACK]
+          
+          Adversarial Vector: "You're a fresher with a 6.33 CGPA from DSU. Why should we hire you over an IIT/IIM graduate with a 9.5?"
+          
+          The Lethal Response:
+          "A 9.5 CGPA proves you follow instructions inside a sanitized classroom. My ~6.33 CGPA was achieved while clearing 41 out of 41 university subjects on the first attempt with zero backlogs, all while directing multi-crore, high-security real-world field operations.
+          
+          At AERO India 2025, I was on the tarmac at Yelahanka Air Force Base managing 300+ vendor builds under military defense security for Puma India and Tata Communications—delivering 0.00% operational downtime. Concurrently, I built automated SQL pipelines across 14 supply chain hubs that cut cycle times by 42%.
+          
+          If your company operates on whiteboard theory, hire the 9.5. If your company operates in the real world where vendors slip, inventory drifts, and uptime is life-or-death, hire the operator who has already delivered under fire."
+        """.trimIndent()
+      }
+
+      // Keypad 10 / Case Study Solver
+      clean.startsWith("10") || lower.contains("case study") || lower.contains("5 whys") -> {
+        """
+          🧩 [MODULE 10: LIVE WHITEBOARD CASE SOLVER & 5-WHYS]
+          
+          Problem: Dark store delivery SLA slipping from 10m to 19m during peak hours (19:00 - 22:00).
+          
+          Root-Cause 5-Whys Deconstruction:
+          1. Why are orders late? → Riders are waiting 8+ minutes outside the store.
+          2. Why the wait? → Staging buffer is overflowing and pickers cannot find packed bags.
+          3. Why are bags unorganized? → Packers are waiting on missing high-velocity items.
+          4. Why are items missing? → Fast-moving SKUs (dairy, snacks) are stocked at the rear of aisle 4.
+          5. ROOT CAUSE → Inventory placement does not reflect peak-hour pick velocity.
+          
+          Solution: Apply ABC Velocity Zoning. Move top 20% high-frequency SKUs to the 'Golden Zone' within 3 meters of packing stations. Slashes picker walking distance by 34% and restores the 255-second dock cycle.
+        """.trimIndent()
+      }
+
+      // Keypad 11 / Live SQL Sandbox
+      clean.startsWith("11") || lower.contains("sql") || lower.contains("technical challenge") -> {
+        """
+          💻 [MODULE 11: LIVE SQL DIAGNOSTIC SANDBOX & CTE PIPELINE]
+          
+          Production Query: Automated Morning Dark Store Telemetry & Bottleneck Detection
+          
+          ```sql
+          WITH OrderCycleMetrics AS (
+              SELECT 
+                  order_id,
+                  hub_id,
+                  EXTRACT(EPOCH FROM (packing_completed_at - picker_assigned_at)) AS pick_sec,
+                  EXTRACT(EPOCH FROM (rider_handover_at - packing_completed_at)) AS staging_sec,
+                  EXTRACT(EPOCH FROM (rider_handover_at - order_placed_at)) AS total_dock_sec
+              FROM hub_order_telemetry
+              WHERE order_placed_at >= NOW() - INTERVAL '24 HOURS'
+          )
+          SELECT 
+              hub_id,
+              COUNT(order_id) AS total_dispatched,
+              ROUND(AVG(pick_sec), 1) AS avg_pick_seconds,
+              ROUND(AVG(staging_sec), 1) AS avg_staging_seconds,
+              ROUND(COUNT(CASE WHEN total_dock_sec > 255 THEN 1 END) * 100.0 / COUNT(order_id), 2) AS breach_rate_pct,
+              DENSE_RANK() OVER (ORDER BY COUNT(CASE WHEN total_dock_sec > 255 THEN 1 END) * 100.0 / COUNT(order_id) DESC) AS bottleneck_rank
+          FROM OrderCycleMetrics
+          GROUP BY hub_id;
+          ```
+        """.trimIndent()
+      }
+
+      // Keypad 12 / Questions for CXO
+      clean.startsWith("12") || lower.contains("question to ask") || lower.contains("inquisitor") -> {
+        """
+          👑 [MODULE 12: 5 STRATEGIC QUESTIONS THAT FLIP THE POWER DYNAMIC]
+          
+          1. "How does your current order allocation engine handle inventory drift between the digital WMS and physical bin counts before a picker is dispatched?"
+          2. "With the current push toward 10-minute delivery, what is your threshold between packer buffer capacity and rider staging delay before dispatch throttles?"
+          3. "In your expansion to Tier-2 nodes, how are you restructuring your Tier-1 vendor rate cards to prevent the typical 25% schedule slippage seen in new store fit-outs?"
+          4. "What is your target CM2 contribution margin per order this quarter, and which operational lever—picking physics or last-mile batching density—is lagging behind?"
+          5. "For this role, what does a home-run delivery look like by Day 60: is it pure throughput stabilization, or cost per order reduction?"
+        """.trimIndent()
+      }
+
+      // Keypad 13 / CTC Benchmarker
+      clean.startsWith("13") || lower.contains("ctc") || lower.contains("salary benchmark") -> {
+        """
+          💰 [MODULE 13: REAL-TIME CTC BENCHMARKER (BENGALURU TECH)]
+          
+          Operations Lead / Program Manager / Product Ops (Bengaluru 2026):
+          • 25th Percentile: ₹10.5L - ₹12.5L Base
+          • 50th Percentile (Median): ₹13.0L - ₹15.5L Base + ₹2.0L Variable
+          • 75th Percentile: ₹16.0L - ₹18.5L Base + ₹3.0L Variable + ESOPs
+          • 90th Percentile (Top Tier): ₹19.0L - ₹22.0L Base + ₹4.0L Variable + ₹6.0L ESOP Grant
+          
+          Aditya's Target Band: ₹15.0L - ₹18.5L Total Comp (Anchored by dual operational field credentials and full-stack software capability).
+        """.trimIndent()
+      }
+
+      // Keypad 14 / ESOP Simulator
+      clean.startsWith("14") || lower.contains("esop") || lower.contains("cap table") -> {
+        """
+          📈 [MODULE 14: ESOP VALUATION & TAX SIMULATOR]
+          
+          Standard Indian Startup ESOP Model:
+          • Vesting Cadence: 4-Year Vesting with 1-Year Cliff (25% at Month 12, monthly thereafter).
+          • Exercise Window: Demand 5 to 10 years post-separation rather than standard 90 days.
+          • Indian Taxation: 
+            - Event 1 (Exercise): Perquisite Tax (Income Tax on Fair Market Value - Exercise Price).
+            - Event 2 (Sale): Capital Gains Tax (LTCG / STCG depending on holding period).
+          💡 Strategic Advice: Never accept paper ESOP valuation in lieu of a viable cash floor. Base salary covers rent; ESOPs provide non-linear upside.
+        """.trimIndent()
+      }
+
+      // Keypad 15 / Counter-Offer Ghostwriter
+      clean.startsWith("15") || lower.contains("counter offer") || lower.contains("negotiate offer") -> {
+        """
+          🤝 [MODULE 15: HARDBALL COUNTER-OFFER GHOSTWRITER]
+          
+          Email to Talent Acquisition / Hiring Director:
+          "Hi [Name],
+          
+          Thank you for extending the offer to join [Company] as [Role Title]. I am deeply aligned with the mission and excited by the challenge of scaling operational throughput.
+          
+          Given the scope of managing multi-hub SLAs and my verified track record—coordinating 300+ vendor builds at AERO India with 0.00% downtime and compressing supply chain cycle times by 42% across 14 hubs—I am seeking a base compensation of ₹16.5L CTC.
+          
+          At this level, I am ready to sign immediately and commit 100% of my energy to ensuring our dark stores hit positive CM2 metrics within my first 60 days.
+          
+          Looking forward to finalizing the paperwork.
+          
+          Best regards,
+          Aditya Mehra"
+        """.trimIndent()
+      }
+
+      // Keypad 16 / Multi-Offer Leverage
+      clean.startsWith("16") || lower.contains("multi-offer") || lower.contains("bidding war") -> {
+        """
+          ⚔️ [MODULE 16: MULTI-OFFER LEVERAGE & BIDDING WAR ENGINE]
+          
+          The Rule of Simultaneous Finality:
+          Never reveal competitor company names directly; reveal their tier and compensation geometry.
+          
+          Script for Recruiter:
+          "I have reached the final director milestone with another Tier-1 Bengaluru quick commerce operator offering ₹17.5L with immediate onboarding. However, I prefer your team's culture and operational complexity. If we can adjust the fixed base to ₹16.0L, I will withdraw from all other interview tracks today and sign."
+        """.trimIndent()
+      }
+
+      // Keypad 17 / 30-60-90 Day Boardroom Plan
+      clean.startsWith("17") || lower.contains("30-60-90") || lower.contains("boardroom plan") -> {
+        """
+          📅 [MODULE 17: 30-60-90 DAY BOARDROOM OPERATIONAL PROTOCOL]
+          
+          • Days 1 - 30: Ground-Truth Audit & Bottleneck Telemetry
+            - Perform 07:00 AM on-ground audits across top 5 dark stores.
+            - Trace order-to-dispatch telemetry from picker assignment to rider handover.
+            - Identify top 10 SKU drift anomalies and map dock congestion hours.
+            
+          • Days 31 - 60: Golden-Zone Restructuring & Vendor SLA Enforcement
+            - Re-zone high-velocity SKUs into the Golden Zone (cutting pick distance by 30%).
+            - Institute standardized rate cards and milestone escrows for all maintenance vendors.
+            - Deploy morning SQL health dashboard for store managers.
+            
+          • Days 61 - 90: Scaled Multi-Store Rollout & Margin Defense
+            - Replicate the 255-second dock standard across all regional hubs.
+            - Defend positive CM2 (+₹15/order) by eliminating late dispatch cancellation penalties.
+            - Present Q1 WBR memo to VP Operations demonstrating 20%+ throughput improvement.
+        """.trimIndent()
+      }
+
+      // Keypad 18 / Dark Store Morning SQL
+      clean.startsWith("18") || lower.contains("dark store") || lower.contains("morning check") || lower.contains("zepto") || lower.contains("blinkit") -> {
+        """
+          🏬 [MODULE 18: DARK STORE DAILY HEALTH AUDIT & RECON]
+          
+          Daily Morning Operations Checklist (06:30 AM):
+          1. Digital vs Physical Inventory Reconcile: Run SQL variance query on top 50 perishable SKUs.
+          2. Picker Fleet Readiness: Verify handheld scanner battery levels and login sessions.
+          3. Staging Dock Buffer: Ensure zero leftover order bins from previous night's shift.
+          4. Inbound Dock Schedule: Enforce supplier delivery slots (07:00 - 08:30 AM). Zero late arrivals admitted during 09:00 AM morning breakfast order surge.
+          
+          Target Metric: 100% of morning orders picked under 90s, packed under 45s, dispatched under 4.25m.
+        """.trimIndent()
+      }
+
+      // Keypad 19 / Vendor 07:00 AM Punchlist
+      clean.startsWith("19") || lower.contains("punchlist") || lower.contains("vendor") -> {
+        """
+          📋 [MODULE 19: TIER-1 VENDOR 07:00 AM ON-GROUND PUNCHLIST]
+          
+          Ground Governance Protocol (AERO India Standard):
+          • 07:00 AM Workforce Muster: Verify contractor headcount against contracted Bill of Quantities (BOQ). Variance >10% triggers automatic penalty deduction.
+          • 08:30 AM Material Delivery Inspection: Refuse non-compliant fabrication materials at the dock.
+          • 13:00 PM Midday Progress Milestone: Inspect physical installation progress against timeline Gantt chart.
+          • 18:00 PM Sign-Off: Sign only for verified physical units. Zero sign-offs on verbal assurances.
+          
+          Result: 28% reduction in schedule slippages and 0.00% unbudgeted cost overruns.
+        """.trimIndent()
+      }
+
+      // Keypad 20 / Amazon WBR Memo
+      clean.startsWith("20") || lower.contains("wbr") || lower.contains("amazon memo") -> {
+        """
+          📑 [MODULE 20: AMAZON-STYLE 1-PAGE WEEKLY BUSINESS REVIEW (WBR) MEMO]
+          
+          TO: VP Operations
+          FROM: Aditya Mehra, Lead Strategy & Operations
+          DATE: 26 September 2026
+          SUBJECT: Weekly Operational Telemetry & Dark Store Throughput Audit
+          
+          1. EXECUTIVE SUMMARY
+          Across 14 active distribution nodes, total order volume reached 184,200 (+8.4% WoW). Average order cycle time stabilized at 15.8 minutes, maintaining a 42% improvement over baseline. Dock SLA breach rate decreased to 1.8%, driven by Golden-Zone SKU re-clustering.
+          
+          2. KEY PERFORMANCE INDICATORS (KPIs)
+          • Pick Time: 86.4s (Target: <90s) — COMPLIANT
+          • Pack Time: 41.2s (Target: <45s) — COMPLIANT
+          • Staging Buffer Delay: 98.6s (Target: <120s) — COMPLIANT
+          • CM2 Margin: +₹26.40 per order (Target: +₹20.00) — AHEAD OF PLAN
+          
+          3. VENDOR & SUPPLY CHAIN GOVERNANCE
+          Tier-1 vendor delivery compliance reached 94.2%. Standardized rate card enforcement eliminated unbudgeted fabrication costs across 3 store refits.
+        """.trimIndent()
+      }
+
+      // Keypad 21 / Sev-1 Incident Triage
+      clean.startsWith("21") || lower.contains("sev-1") || lower.contains("crisis") -> {
+        """
+          🚨 [MODULE 21: SEV-1 CRITICAL OPERATIONS TRIAGE SOP]
+          
+          Incident Scenario: Core dark store power failure + Staging dock gridlock during rain surge.
+          
+          Action Protocol:
+          1. Minute 0-2: Trigger automated secondary generator backup; notify Central Dispatch.
+          2. Minute 2-5: Implement Dynamic Geo-Fence Throttling: Cap incoming order radius from 2.5 km to 1.2 km to protect existing in-flight orders.
+          3. Minute 5-10: Convert all store pickers into staging runners. Direct handover to waiting riders without buffer shelf delay.
+          4. Minute 10-20: Deploy customer push notification with honest 15-minute revised ETA buffer. Defends brand trust over cart vanity.
+        """.trimIndent()
+      }
+
+      // Keypad 22 / EXIM Customs Desk
+      clean.startsWith("22") || lower.contains("exim") || lower.contains("customs") || lower.contains("incoterms") -> {
+        """
+          🚢 [MODULE 22: CROSS-BORDER EXIM & CUSTOMS COMPLIANCE DESK]
+          
+          Incoterms 2020 Allocation Matrix:
+          • EXW (Ex Works): Maximum buyer liability. Buyer handles export clearance, freight, insurance, and import duty.
+          • FOB (Free On Board): Seller clears export customs and loads onto vessel. Risk transfers at ship's rail.
+          • CIF (Cost, Insurance & Freight): Seller pays sea freight and basic insurance; risk passes upon loading.
+          • DDP (Delivered Duty Paid): Seller handles entire journey including destination customs clearance and taxes.
+          
+          Indian Customs Duty Calculation Formula:
+          Assessable Value ($AV$) = CIF Value in INR
+          Total Duty = ($AV$ × BCD%) + (BCD × 10% SWS) + (($AV$ + BCD + SWS) × IGST%)
+        """.trimIndent()
+      }
+
+      // Keypad 23 / Android Code Foundry
+      clean.startsWith("23") || lower.contains("code") || lower.contains("compose") || lower.contains("kotlin") -> {
+        """
+          ⚡ [MODULE 23: PRODUCTION CLEAN ANDROID SOFTWARE FOUNDRY]
+          
+          Architecture: Jetpack Compose 1.7+, Clean Architecture MVI, Room SQLite, AndroidX WorkManager, Coroutines & StateFlow.
+          
+          ```kotlin
+          @Composable
+          fun DarkStoreHealthCard(
+              hubName: String,
+              cycleMinutes: Double,
+              breachRate: Double,
+              modifier: Modifier = Modifier
+          ) {
+              Card(
+                  colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+                  shape = RoundedCornerShape(12.dp),
+                  modifier = modifier.fillMaxWidth().padding(8.dp)
+              ) {
+                  Row(
+                      modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                      horizontalArrangement = Arrangement.SpaceBetween,
+                      verticalAlignment = Alignment.CenterVertically
+                  ) {
+                      Column {
+                          Text(hubName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                          Text("Cycle: ${cycleMinutes}m | SLA Breach: ${breachRate}%", color = Color(0xFF94A3B8), fontSize = 12.sp)
+                      }
+                      Badge(containerColor = if (breachRate < 2.5) Color(0xFF10B981) else Color(0xFFEF4444)) {
+                          Text(if (breachRate < 2.5) "OPTIMAL" else "ALERT", color = Color.White)
+                      }
+                  }
+              }
+          }
+          ```
+        """.trimIndent()
+      }
+
+      // Keypad 24 / Brag Sheet
+      clean.startsWith("24") || lower.contains("brag") || lower.contains("wins") -> {
+        """
+          🏆 [MODULE 24: AUTOMATED BRAG SHEET & IMPACT LEDGER]
+          
+          Verified Impact Record for Semi-Annual Review:
+          1. Efficiency: Compressed multi-hub order cycle times by 42% (saving 11.8 minutes per order across 14 hubs).
+          2. Capital Preservation: Prevented 28% in contractor schedule slippage and eliminated ₹0 in unbudgeted vendor overruns across 25+ Tier-1 vendors.
+          3. Reliability: 0.00% operational downtime across 300+ builds under defense airbase protocols (AERO India 2025).
+          4. Data Quality: Maintained >99% QA accuracy benchmark on complex AI dataset operations (Instawork).
+          5. Commercial Growth: Sourced ₹18L+ prospective enterprise pipeline across 65+ C-suite meetings.
+        """.trimIndent()
+      }
+
+      // Keypad 25 / Fast-Track Promotion
+      clean.startsWith("25") || lower.contains("promotion") || lower.contains("appraisal") -> {
+        """
+          🚀 [MODULE 25: FAST-TRACK APPRAISAL & PROMOTION CASE STUDY]
+          
+          The 6-Month Senior Operations Promotion Case:
+          "Over the past 6 months, my operational scope expanded from managing single-hub dispatch to governing cross-regional SLA standards. By applying Golden-Zone SKU re-clustering and automated SQL telemetry, our pod's CM2 contribution expanded by ₹18.00 per order, generating ₹48L in annualized net margin gain. I have mentored 4 junior operations coordinators and instituted our 07:00 AM vendor punch-list governance. I am requesting a formal title progression to Senior Operations Manager with an adjusted compensation band of ₹22L CTC."
+        """.trimIndent()
+      }
+
+      // War Room Simulation Macro
+      lower.contains("war-room") || lower.contains("war room") || clean == "12" -> {
+        """
+          ⚔️ [SOVEREIGN WAR-ROOM: 13-MODE MULTI-AGENT C-SUITE SIMULATION]
+          
+          Council Assembled: CEO, COO, CFO, CTO, Red-Team Inquisitor
+          
+          • CEO Agent: "Our strategic objective is securing Tier-1 Bengaluru market dominance. We defend high-margin basket sizes and prioritize operational speed over vanity GMV."
+          • COO Agent (Aditya): "Field telemetry across 14 hubs confirms pick times are under 90s. The true operational risk is dock congestion. We enforce 07:00 AM vendor delivery windows and isolate staging buffers."
+          • CFO Agent: "CM2 is stable at +₹28/order. If last-mile fuel surcharges rise 5%, our ad take-rate (currently 3.8%) provides a sufficient hedge."
+          • CTO Agent: "Room SQLite caching and WorkManager offline synchronization are active in ADI-OS. The system functions with zero network latency on the dock floor."
+          • Red-Team Inquisitor: "Sovereign posture validated. Zero vulnerabilities detected in operational math or truth ledger."
+        """.trimIndent()
+      }
+
       else -> {
         """
-          Adi OS Intelligence Engine standing by.
+          👑 OMEGA-TITAN : SOVEREIGN KERNEL ACTIVE
+          Principal: Aditya Mehra | Bengaluru, Karnataka
+          Status: 25 Hyper-Integrated Modules Online | Zero Vibe Coding
           
-          Targeting: Business Analyst, Strategy & Operations, AI Operations in Bengaluru.
-          Active Priorities:
-          • Microsoft Director Strategy Round (Prep Score 96%)
-          • Razorpay Offer Decision Matrix (Value Score 89/100)
-          • Daily Bengaluru Opportunity Index: 89.4 (Accelerating)
-          
-          Type any command: "Find best jobs", "Prepare for Microsoft", "Brutal review", or "Show application funnel".
+          ENTER KEYPAD INPUT [1-25] OR COMMAND:
+          • 1: JD Decompiler & Anxiety Analyzer
+          • 2: Truth-Anchored ATS Resume (98%+ Match)
+          • 3: Bespoke Executive Pitch & Recruiter Screen
+          • 7: Real-Time Interview HUD (Pick: 90s, Pack: 45s, Buffer: 120s)
+          • 9: Hostile Bar-Raiser Counter-Attack (6.33 CGPA & Fresher Reframe)
+          • 11: Production SQL Diagnostic CTEs
+          • 13: Bengaluru CTC Salary Benchmarker
+          • 15: Counter-Offer Hardball Ghostwriter
+          • 17: 30-60-90 Day Boardroom Action Plan
+          • 18: Dark Store Morning Health Audit
+          • 19: 07:00 AM Tier-1 Vendor Punch-List
+          • 20: Amazon-Style 1-Page WBR Memo
+          • WAR-ROOM: 13-Mode Autonomous Multi-Agent Simulation
         """.trimIndent()
       }
     }
@@ -958,39 +1361,50 @@ class GeminiCareerService {
   private fun generateFallbackResume(job: Job, profile: UserProfile?, verifiedFacts: List<String>): String {
     return """
       ===============================================================
-      ADI — CURRICULUM VITAE (TAILORED FOR ${job.companyName.uppercase()})
-      Target Role: ${job.title}
-      Location: Bengaluru, India | Email: adi.career@os.internal
+      ADITYA MEHRA — EXECUTIVE CURRICULUM VITAE
+      Tailored For: ${job.companyName.uppercase()} | Target Role: ${job.title}
+      Location: Bengaluru, Karnataka, India
+      Email: adityamehra799@gmail.com | Phone: +91-7003456624
+      LinkedIn: https://linkedin.com/in/aditya-mehra | GitHub: https://github.com/AdityaMehra007
       ===============================================================
       
       EXECUTIVE SUMMARY
-      High-performing BBA in International Business graduate with proven capability in business analytics, operational process optimization, and AI workflow engineering. Demonstrated track record modernizing enterprise workflows, executing quantitative market research, and leading high-stake corporate stakeholder relations.
+      High-velocity Operations, Supply Chain, and Systems Specialist with a BBA in International Business from Dayananda Sagar University (DSU), Bengaluru. Demonstrated field track record managing 300+ on-ground vendor installations with 0.00% downtime under military airbase protocols at AERO India 2025. Architect of automated SQL/Python ETL telemetry across 14 distribution hubs, reducing cycle times by 42%. Proven full-stack Android engineering capability (Kotlin, Jetpack Compose, Room SQLite, WorkManager, Coroutines).
       
       CORE COMPETENCIES & TOOLKIT
-      • Analytics & BI: SQL, PowerBI, Tableau, Advanced Excel, Financial Modeling, Market Sizing
-      • AI & Automation: Gemini API, Prompt Engineering, Predictive Forecasting, Workflow Orchestration
-      • Domain: International Trade Logistics, B2B Growth Strategy, Unit Economics, Cross-Border Operations
+      • Operations & Supply Chain: Dark Store Logistics, Dock Staging Physics, Vendor SLA Governance, ABC Inventory Zoning, Cycle Time Compression, Incoterms 2020.
+      • Data & Analytics: Advanced SQL (Window Functions, Recursive CTEs, DENSE_RANK), Python (Pandas, NumPy, ETL), PowerBI, Statistical Telemetry.
+      • Software Architecture: Kotlin, Jetpack Compose, Room SQLite, AndroidX WorkManager, Coroutines & StateFlow, Clean Architecture MVI, ProGuard/R8.
       
       VERIFIED EXPERIENCE & IMPACT
       
-      Family Business Modernization | Operations & Analytics Lead
-      • Engineered automated inventory and demand-forecasting models using SQL and AI tools, eliminating stockouts and reducing order cycle time by 42%.
-      • Automated financial invoicing and vendor reconciliation, increasing cashflow visibility by ₹24L over 9 months.
+      AERO INDIA 2025 (Yelahanka Air Force Base, Bengaluru) | Lead Operations Coordinator
+      • Commanded high-stakes on-ground field execution across 300+ live vendor installations and infrastructure builds for global marquee brands including Puma India and Tata Communications.
+      • Enforced zero-tolerance security, runway clearance, DGCA, and defense airbase compliance protocols under high-security military zone constraints.
+      • Delivered 0.00% operational downtime, zero safety citations, and 100% on-time handover prior to VIP delegation arrivals.
       
-      Freelance B2B Tech Business Development | Market Strategist
-      • Spearheaded outbound lead generation pipelines for 3 B2B tech scaleups, delivering 65+ qualified executive meetings and ₹18L in pipeline value.
-      • Achieved an 11.4% outreach conversion rate using personalized ROI framing.
+      TIER-1 COMMERCIAL VENDOR SLA GOVERNANCE & PROCUREMENT | Operations Specialist
+      • Governed 25+ Tier-1 contract vendors across fabrication, staging, electrical infrastructure, and materials handling.
+      • Instituted standardized rate cards, milestone-based escrow release, penalty clauses, and transparent dispute resolutions.
+      • Slashed schedule slippages by 28% and completely eliminated unbudgeted vendor cost overruns.
       
-      University Business Conclave | Head of Corporate Relations
-      • Directed 22-member team, secured ₹8.5L in corporate sponsorships from 14 brands, and managed logistics for 1,500+ attendees.
+      SUPPLY CHAIN TELEMETRY & AUTOMATED ETL OPTIMIZATION | Data & Systems Lead
+      • Engineered automated data pipelines and ETL workflows using Advanced SQL and Python across 14 regional fulfillment nodes.
+      • Slashed average order cycle time by 42% (from 28.0 minutes to 16.2 minutes) and compressed inventory stockout variance by 28% via predictive reorder thresholds.
       
-      KEY PROJECTS
-      • AI Market Intelligence & Trade Radar: Automated real-time APAC tariff and commodity arbitrage tracking.
-      • Autonomous B2B Lead Enrichment Engine: Cut prospect qualification time by 95% via LLM orchestration.
+      INSTAWORK | AI Data Operations & Platform Curation
+      • Audited, benchmarked, and curated thousands of complex multi-turn workforce datasets and marketplace listings.
+      • Maintained >99.0% quality assurance accuracy benchmark, improving algorithmic matching confidence and cutting manual triage tickets by 22%.
+      
+      COMMERCIAL B2B DEAL ACCELERATION | Enterprise Business Development
+      • Built high-yield B2B prospecting engines driving ₹18L+ in verified prospective deal pipeline.
+      • Executed high-touch outreach campaigns securing 65+ qualified executive meetings with VPs, COOs, and GMs across retail, logistics, and tech.
+      • Compressed formal enterprise proposal turnaround from 7 business days to under 48 hours.
       
       EDUCATION & CREDENTIALS
-      • Bachelor of Business Administration (BBA) - International Business | GPA: 3.82 / 4.0 (First Class Honors)
-      • Certified Business Intelligence Analyst & Advanced SQL Practitioner
+      • Bachelor of Business Administration (BBA) in International Business
+        Dayananda Sagar University (DSU), Bengaluru (Class of 2026)
+        Academic Record: ~6.33 CGPA | 41 out of 41 subjects cleared on first attempt with ZERO backlogs.
       ===============================================================
     """.trimIndent()
   }
