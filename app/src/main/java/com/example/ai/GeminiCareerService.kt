@@ -986,8 +986,8 @@ class GeminiCareerService {
           📊 [MODULE 07: REAL-TIME INTERVIEW HUD (HEADS-UP DISPLAY)]
           
           CRITICAL NUMERICAL BENCHMARKS:
-          • Dark Store Order Cycle Time ($T_{cycle}$):
-            Picking ($T_{pick}$): <90s | Packing ($T_{pack}$): <45s | Staging Buffer ($T_{stage}$): <120s
+          • Dark Store Order Cycle Time (T_cycle):
+            Picking (T_pick): <90s | Packing (T_pack): <45s | Staging Buffer (T_stage): <120s
             Total Dock Handover: ≤255 seconds (4.25 minutes)
           • Contribution Margin 2 (CM2):
             AOV ₹480 - COGS ₹384 (20% margin) - Delivery ₹48 - Pick/Pack ₹12 - Store Lease ₹18 - PG ₹5 + Ad Rev ₹15 = +₹28.00/order
@@ -1258,8 +1258,8 @@ class GeminiCareerService {
           • DDP (Delivered Duty Paid): Seller handles entire journey including destination customs clearance and taxes.
           
           Indian Customs Duty Calculation Formula:
-          Assessable Value ($AV$) = CIF Value in INR
-          Total Duty = ($AV$ × BCD%) + (BCD × 10% SWS) + (($AV$ + BCD + SWS) × IGST%)
+          Assessable Value (AV) = CIF Value in INR
+          Total Duty = (AV × BCD%) + (BCD × 10% SWS) + ((AV + BCD + SWS) × IGST%)
         """.trimIndent()
       }
 
