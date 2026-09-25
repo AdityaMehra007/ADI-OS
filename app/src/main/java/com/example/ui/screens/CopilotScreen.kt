@@ -62,6 +62,7 @@ import com.example.ui.theme.TitanCyan
 import com.example.ui.theme.TitanEmerald
 import com.example.ui.theme.TitanGold
 import com.example.ui.viewmodel.ChatMessage
+import com.example.ui.viewmodel.TitanScreen
 import com.example.ui.viewmodel.TitanViewModel
 
 @Composable
@@ -131,6 +132,23 @@ fun CopilotScreen(
       }
 
       Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        Box(
+          modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(TitanCyan.copy(alpha = 0.2f))
+            .border(1.dp, TitanCyan.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
+            .clickable { viewModel.navigateTo(TitanScreen.SOVEREIGN_SUPER_APP) }
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+          Text(
+            text = "👑 WAR ROOM",
+            style = MaterialTheme.typography.labelSmall,
+            color = TitanCyan,
+            fontSize = 9.sp,
+            fontWeight = FontWeight.Bold
+          )
+        }
+
         Box(
           modifier = Modifier
             .clip(RoundedCornerShape(8.dp))

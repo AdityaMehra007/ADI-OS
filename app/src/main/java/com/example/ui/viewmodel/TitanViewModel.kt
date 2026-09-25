@@ -193,7 +193,8 @@ enum class TitanScreen(val title: String, val iconName: String) {
   AUTOMATION_RULES("Automation Rules", "Tune"),
   TASK_LOGS("Task Logs", "History"),
   COPILOT("Adi Copilot", "AutoAwesome"),
-  PROFILE("Profile & Vault", "Person")
+  PROFILE("Profile & Vault", "Person"),
+  SOVEREIGN_SUPER_APP("Sovereign Super-App", "MilitaryTech")
 }
 
 data class ChatMessage(

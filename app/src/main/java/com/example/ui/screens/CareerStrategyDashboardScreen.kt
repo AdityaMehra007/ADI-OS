@@ -30,6 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CloudDone
 import androidx.compose.material.icons.filled.CloudDownload
@@ -119,6 +120,7 @@ import com.example.ui.theme.TitanCyan
 import com.example.ui.theme.TitanEmerald
 import com.example.ui.theme.TitanGold
 import com.example.ui.theme.TitanIndigo
+import com.example.ui.viewmodel.TitanScreen
 import com.example.ui.viewmodel.TitanViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -170,6 +172,75 @@ fun CareerStrategyDashboardScreen(
         onSaveToFirestore = { viewModel.saveCareerStrategyToFirestore(silent = false) },
         onRestoreFromFirestore = { viewModel.loadCareerStrategyFromFirestore(silent = false) }
       )
+    }
+
+    // 1A. OMEGA-TITAN Sovereign Super-App Flagship Room Banner
+    item {
+      Card(
+        modifier = Modifier
+          .fillMaxWidth()
+          .clickable { viewModel.navigateTo(TitanScreen.SOVEREIGN_SUPER_APP) }
+          .testTag("sovereign_super_app_banner_card"),
+        colors = CardDefaults.cardColors(containerColor = SlateCard),
+        shape = RoundedCornerShape(14.dp),
+        border = BorderStroke(1.5.dp, TitanGold.copy(alpha = 0.6f))
+      ) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(14.dp),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically
+        ) {
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.weight(1f)
+          ) {
+            Box(
+              modifier = Modifier
+                .size(42.dp)
+                .background(TitanGold.copy(alpha = 0.15f), RoundedCornerShape(10.dp)),
+              contentAlignment = Alignment.Center
+            ) {
+              Icon(
+                imageVector = Icons.Default.Bolt,
+                contentDescription = null,
+                tint = TitanGold,
+                modifier = Modifier.size(24.dp)
+              )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column {
+              Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                  text = "OMEGA-TITAN SOVEREIGN SUPER-APP",
+                  fontSize = 11.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = TitanGold,
+                  letterSpacing = 1.sp
+                )
+              }
+              Text(
+                text = "War Room • 25 Modules • Dark Store Physics",
+                fontSize = 12.sp,
+                color = TextPrimaryDark,
+                fontWeight = FontWeight.SemiBold
+              )
+              Text(
+                text = "Autonomous Career & On-The-Job Operating Command Center",
+                fontSize = 10.sp,
+                color = TextMutedDark
+              )
+            }
+          }
+          Icon(
+            imageVector = Icons.AutoMirrored.Filled.TrendingUp,
+            contentDescription = "Open",
+            tint = TitanGold,
+            modifier = Modifier.size(20.dp)
+          )
+        }
+      }
     }
 
     // 1B. Resume Health Score & Industry Standards Scanner Banner

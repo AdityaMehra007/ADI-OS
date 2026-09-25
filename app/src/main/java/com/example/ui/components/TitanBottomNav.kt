@@ -90,6 +90,7 @@ fun TitanBottomNav(
                 currentRoute == ScreenRoutes.AUTOMATION_RULES ||
                 currentRoute == ScreenRoutes.AGENTS ||
                 currentRoute == ScreenRoutes.TASK_LOGS
+            MainNavDestination.SovereignSuperApp -> currentRoute == ScreenRoutes.SOVEREIGN_SUPER_APP
           }
 
           val animatedBorderColor by animateColorAsState(

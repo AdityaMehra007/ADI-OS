@@ -44,6 +44,7 @@ import com.example.ui.screens.CompaniesScreen
 import com.example.ui.screens.CompanyBookmarksScreen
 import com.example.ui.screens.CopilotScreen
 import com.example.ui.screens.DashboardScreen
+import com.example.ui.screens.OmegaTitanSuperAppScreen
 import com.example.ui.screens.ExecutiveCommandCenterScreen
 import com.example.ui.screens.GoalSettingScreen
 import com.example.ui.screens.InterviewsScreen
@@ -258,6 +259,7 @@ class MainActivity : ComponentActivity() {
               composable(ScreenRoutes.COPILOT) { CopilotScreen(viewModel) }
               composable(ScreenRoutes.PROFILE) { ProfileScreen(viewModel) }
               composable(ScreenRoutes.CAREER_NOTES) { CareerNotesScreen(careerNotesViewModel) }
+              composable(ScreenRoutes.SOVEREIGN_SUPER_APP) { OmegaTitanSuperAppScreen(viewModel) }
             }
 
             // Quick Action Execution Feedback Banner

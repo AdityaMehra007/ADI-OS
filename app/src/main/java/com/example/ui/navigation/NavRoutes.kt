@@ -2,6 +2,7 @@ package com.example.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,7 +20,7 @@ sealed class MainNavDestination(
 ) {
   object CareerStrategy : MainNavDestination(
     route = ScreenRoutes.CAREER_STRATEGY,
-    title = "Career Strategy",
+    title = "Strategy",
     icon = Icons.AutoMirrored.Filled.TrendingUp,
     testTag = "nav_tab_career_strategy",
     associatedTitanScreen = TitanScreen.CAREER_STRATEGY
@@ -27,7 +28,7 @@ sealed class MainNavDestination(
 
   object CompanyIntelligence : MainNavDestination(
     route = ScreenRoutes.COMPANY_INTELLIGENCE,
-    title = "Company Intelligence",
+    title = "Companies",
     icon = Icons.Default.Business,
     testTag = "nav_tab_company_intelligence",
     associatedTitanScreen = TitanScreen.COMPANIES
@@ -35,17 +36,26 @@ sealed class MainNavDestination(
 
   object JobAutomation : MainNavDestination(
     route = ScreenRoutes.JOB_AUTOMATION,
-    title = "Job Automation",
+    title = "Automation",
     icon = Icons.Default.SmartToy,
     testTag = "nav_tab_job_automation",
     associatedTitanScreen = TitanScreen.AUTOMATION_RULES
+  )
+
+  object SovereignSuperApp : MainNavDestination(
+    route = ScreenRoutes.SOVEREIGN_SUPER_APP,
+    title = "Sovereign",
+    icon = Icons.Default.Bolt,
+    testTag = "nav_tab_sovereign_super_app",
+    associatedTitanScreen = TitanScreen.SOVEREIGN_SUPER_APP
   )
 
   companion object {
     val items = listOf(
       CareerStrategy,
       CompanyIntelligence,
-      JobAutomation
+      JobAutomation,
+      SovereignSuperApp
     )
 
     fun fromRoute(route: String?): MainNavDestination? {
@@ -79,6 +89,7 @@ object ScreenRoutes {
   const val COPILOT = "copilot"
   const val PROFILE = "profile"
   const val CAREER_NOTES = "career_notes"
+  const val SOVEREIGN_SUPER_APP = "sovereign_super_app"
 
   fun screenToRoute(screen: TitanScreen): String {
     return when (screen) {
@@ -99,6 +110,7 @@ object ScreenRoutes {
       TitanScreen.COPILOT -> COPILOT
       TitanScreen.PROFILE -> PROFILE
       TitanScreen.CAREER_NOTES -> CAREER_NOTES
+      TitanScreen.SOVEREIGN_SUPER_APP -> SOVEREIGN_SUPER_APP
     }
   }
 
@@ -121,6 +133,7 @@ object ScreenRoutes {
       COPILOT -> TitanScreen.COPILOT
       PROFILE -> TitanScreen.PROFILE
       CAREER_NOTES -> TitanScreen.CAREER_NOTES
+      SOVEREIGN_SUPER_APP -> TitanScreen.SOVEREIGN_SUPER_APP
       else -> null
     }
   }
