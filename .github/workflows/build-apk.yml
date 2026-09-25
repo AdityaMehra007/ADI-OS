@@ -57,21 +57,31 @@ jobs:
           prerelease: false
           generate_release_notes: true
           body: |
-            ## 📱 ADI-OS OMEGA-TITAN OMNI-TRILLION ∞ (Valuation: $1,000,000,000,000 USD)
+            ## 📱 ADI-OS OMEGA-TITAN OMNI-TRILLION ∞ (Android 16 Flagship Edition)
             
             ### What's Inside:
+            - **Android 16 (API 36 / Baklava Flagship Native)**:
+              - Native Quick Settings Tile (`TitanSovereignTileService`) for instant 1-tap dock SLA telemetry from system shade.
+              - System Predictive Back Gesture integration (`BackHandler`) with tactile haptic feedback.
+              - Interactive notification action buttons (`WAR ROOM`) in Android notification drawer.
+              - Sub-16ms tactile haptics across all actions, keypads, and tabs.
+            - **💎 UI vs. UX Sovereign Apex Studio**:
+              - Optical concentric radii ($R_o = R_i + P$) and zero-jank geometry.
+              - Monospace tabular numeral physics for real-time flicker-free dock SLA and financial counters.
+              - Fitts's Law touch targets (≥48dp) and thumb-zone ergonomically optimized.
             - **BlackRock Aladdin Macro Risk Vector & Dock Physics Engine**
             - **12-Agent C-Suite Council Swarm** (CEO, COO Adi, CFO, CTO, CSCO, CRO, Aladdin Risk, etc.)
             - **Interactive Dark Store Simulator with Aladdin Macro Shock (+25% Fuel Surge & Monsoon Batching)**
-            - **Direct Phone APK with Native TTS Voice Audits, ShareSheet & Room SQLite Notes Vault**
+            - **Native TTS Voice Audits, ShareSheet & Offline-First Room SQLite Vault**
             - **Audited Truth-Anchor Ledger** (Aditya Mehra, DSU BBA IB Class of 2026, 41/41 first-attempt clearance, AERO India 2025 Lead Ops Coordinator, 14 Supply Chain Hubs)
             
             ### How to Install on Your Android Phone:
-            1. Open this release page on your phone browser.
+            1. Open this release page on your Android phone browser:
+               **https://github.com/AdityaMehra007/ADI-OS/releases/tag/v2026.TRILLION-MAX**
             2. Tap **`app-debug.apk`** under Assets to download.
             3. Open the downloaded file and tap **Install**.
             4. If prompted, toggle **Allow installation from this source**.
-            5. Launch **ADI-OS** and start dominating!
+            5. Launch **ADI-OS** and experience sovereign power!
           files: app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
