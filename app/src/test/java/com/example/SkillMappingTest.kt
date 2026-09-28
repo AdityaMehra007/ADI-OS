@@ -20,7 +20,7 @@ class SkillMappingTest {
       category = "ANALYTICS_DATA",
       proficiency = "ADVANCED",
       targetIndustries = listOf("Enterprise Cloud & SaaS", "FinTech & Digital Payments", "Quick Commerce & Logistics"),
-      evidenceOrProofOfWork = "Automated reconciliation SQL pipeline cutting cycle times by 42%",
+      evidenceOrProofOfWork = "Automated event scheduling and inventory tracking queries across 100+ activations",
       yearsOfExperience = 2.0,
       isVerified = true
     )
@@ -81,7 +81,7 @@ class SkillMappingTest {
         targetIndustry = "FinTech & Digital Payments",
         gapSeverity = "CRITICAL_GAP",
         currentMarketTrend = "High-growth payment players require sub-second dispute telemetry.",
-        whyNeeded = "Leverages ₹24L working capital optimization into digital payments.",
+        whyNeeded = "Leverages commercial family business operations and reconciliations into digital payments.",
         estimatedSalaryDelta = "+₹4.0L - ₹5.5L / yr",
         recommendedAction = "Simulate mock merchant payout ledger in SQL.",
         suggestedRoles = listOf("FinTech Operations Analyst"),
@@ -93,7 +93,7 @@ class SkillMappingTest {
         targetIndustry = "Quick Commerce & Logistics",
         gapSeverity = "HIGH_PRIORITY",
         currentMarketTrend = "10-minute delivery unit economics require picker throughput optimization.",
-        whyNeeded = "Translates 42% cycle reduction into quick commerce fulfillment networks.",
+        whyNeeded = "Translates high-velocity on-ground event management into quick commerce fulfillment networks.",
         estimatedSalaryDelta = "+₹3.8L - ₹5.2L / yr",
         recommendedAction = "Model a 500-SKU heat map ranking bin placement.",
         suggestedRoles = listOf("Supply Chain Strategist"),

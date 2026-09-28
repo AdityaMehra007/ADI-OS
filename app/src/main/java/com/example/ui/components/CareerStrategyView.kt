@@ -1648,10 +1648,10 @@ fun GeminiCareerStrategyAdvisorCard(
   var selectedMode by remember { mutableStateOf(CareerStrategyMode.EXECUTIVE) }
 
   val presetQuestions = listOf(
-    "How should I leverage the Razorpay ₹18.5L offer vs Microsoft director round?",
+    "How to position on-ground operational experience for high-growth tech BizOps roles?",
     "Actionable roadmap to transition into Chief of Staff in 18 months",
     "Brutal audit of my profile: BBA background vs tech pedigree",
-    "How to command ₹24-30 LPA compensation package in Bengaluru"
+    "How to command top-tier compensation packages in Bengaluru Strategy & Ops"
   )
 
   Card(

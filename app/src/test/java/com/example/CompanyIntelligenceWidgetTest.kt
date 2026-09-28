@@ -54,7 +54,7 @@ class CompanyIntelligenceWidgetTest {
       ),
       strategicRisksAndOpportunities = "10-minute delivery unit economics turning EBITDA positive.",
       interviewAngles = listOf(
-        "Highlight SQL automated demand forecasting and 42% cycle reduction in logistics."
+        "Highlight on-ground brand activations, promoter team lead experience, and dark store throughput logistics."
       ),
       searchQueriesUsed = listOf(
         "Zepto latest business news 2026",
@@ -86,7 +86,7 @@ class CompanyIntelligenceWidgetTest {
       strategicRisksAndOpportunities = "RBI payment aggregator license secured, tailwinds in cross-border settlements.",
       interviewPreparationAngles = listOf("Present metrics on dispute reconciliation workflows and API latency."),
       competitiveMoats = listOf("Highest conversion rates and direct bank switch integrations"),
-      recommendedOutreachPitch = "Saw the recent SE Asia expansion; would love to share how my analytics pipelines reduced operational cycle time by 42%.",
+      recommendedOutreachPitch = "Saw the recent SE Asia expansion; would love to share how my operations experience across 100+ activations supports field execution.",
       groundedSources = listOf(
         GroundedSource("Razorpay Press", "https://razorpay.com/news")
       ),

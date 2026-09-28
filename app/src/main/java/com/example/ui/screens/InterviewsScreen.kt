@@ -556,7 +556,7 @@ fun InterviewsScreen(
                   .padding(vertical = 6.dp, horizontal = 4.dp),
                 contentAlignment = Alignment.Center
               ) {
-                Text("Family Biz (42%)", color = TitanEmerald, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+                Text("Retail Gifting Ops", color = TitanEmerald, fontWeight = FontWeight.Bold, fontSize = 9.sp)
               }
 
               Box(
@@ -569,7 +569,7 @@ fun InterviewsScreen(
                   .padding(vertical = 6.dp, horizontal = 4.dp),
                 contentAlignment = Alignment.Center
               ) {
-                Text("Razorpay Hackathon", color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+                Text("100+ Activations", color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 9.sp)
               }
 
               Box(
@@ -582,7 +582,7 @@ fun InterviewsScreen(
                   .padding(vertical = 6.dp, horizontal = 4.dp),
                 contentAlignment = Alignment.Center
               ) {
-                Text("BBA Capstone 98%", color = TitanCyan, fontWeight = FontWeight.Bold, fontSize = 9.sp)
+                Text("BBA Capstone", color = TitanCyan, fontWeight = FontWeight.Bold, fontSize = 9.sp)
               }
             }
           }
@@ -608,7 +608,7 @@ fun InterviewsScreen(
                 .testTag("interview_answer_input"),
               placeholder = {
                 Text(
-                  "Situation: Wholesale supply chain bottlenecks...\nTask: Automate inventory forecasting...\nAction: Built SQL pipeline & AI demand model...\nResult: 42% faster cycle time, zero stockouts.",
+                  "Situation: Managing crowd surges across major brand activations...\nTask: Supervise promoter squads and enforce SLAs...\nAction: Dynamic queue reallocation & venue escalation protocol...\nResult: 100% SLA compliance with zero safety incidents.",
                   color = TextMutedDark,
                   fontSize = 11.sp
                 )

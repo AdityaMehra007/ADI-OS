@@ -171,8 +171,8 @@ fun CareerProgressionRechartsDashboard(
           executiveLeads = 79,
           inboundOpportunities = 26,
           keySkillAcquisitions = listOf("Multi-Agent Orchestration", "SQL CTEs"),
-          milestoneEvent = "Verified 42% Cycle-Time Reduction Proof",
-          correlationInsight = "Cycle reduction case study live; Zepto VP referral secured."
+          milestoneEvent = "Supervised 100+ Brand Activations",
+          correlationInsight = "Event operations and crowd coordination case study validated."
         ),
         ProgressionDataPoint(
           periodLabel = "W4",
@@ -225,9 +225,9 @@ fun CareerProgressionRechartsDashboard(
           totalNetwork = 432,
           executiveLeads = 92,
           inboundOpportunities = 34,
-          keySkillAcquisitions = listOf("Autonomous AI Agents", "Operational SLA Reduction"),
-          milestoneEvent = "42% Cycle Reduction Verified & Grounded",
-          correlationInsight = "Autonomous agents + business rigor established 'Triple Threat' moat."
+          keySkillAcquisitions = listOf("Autonomous AI Agents", "Operational SLA Delivery"),
+          milestoneEvent = "100+ Events Operations Grounded",
+          correlationInsight = "Autonomous agents + operations rigor established 'Triple Threat' moat."
         )
       )
 
@@ -364,7 +364,7 @@ fun CareerProgressionRechartsDashboard(
           executiveLeads = 92,
           inboundOpportunities = 34,
           keySkillAcquisitions = listOf("Autonomous Operations", "Executive Telemetry"),
-          milestoneEvent = "Command Center & 42% SLA Reduction",
+          milestoneEvent = "Command Center & On-Ground Operations SLA",
           correlationInsight = "Annual skill acquisition compounded at +260% year-over-year."
         )
       )
@@ -412,7 +412,7 @@ fun CareerProgressionRechartsDashboard(
           totalNetwork = 432,
           executiveLeads = 92,
           inboundOpportunities = 34,
-          keySkillAcquisitions = listOf("Autonomous Multi-Agents", "42% Cycle Reduction Moat"),
+          keySkillAcquisitions = listOf("Autonomous Multi-Agents", "100+ Activations SLA Moat"),
           milestoneEvent = "Titan Executive Candidate Status",
           correlationInsight = "Full transition from academic student to high-leverage operator."
         )

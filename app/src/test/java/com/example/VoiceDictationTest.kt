@@ -39,10 +39,10 @@ class VoiceDictationTest {
   @Test
   fun testDictateMultipleSentencesSequentially() {
     val initial = "Focus on bengaluru quick commerce logistics."
-    val followUp = "anchor base compensation at 24L with quarterly vesting"
+    val followUp = "target corporate business analyst roles with high impact"
     val combined = appendSpokenText(initial, followUp)
     assertEquals(
-      "Focus on bengaluru quick commerce logistics. Anchor base compensation at 24L with quarterly vesting",
+      "Focus on bengaluru quick commerce logistics. Target corporate business analyst roles with high impact",
       combined
     )
   }

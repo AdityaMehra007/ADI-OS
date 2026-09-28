@@ -124,21 +124,21 @@ class CareerNoteSummarizerService(
 
     val executiveBrief = when {
       isZepto -> "Operational leverage plan targeting dark-store batch routing & supply velocity to secure rapid buy-in from hiring leadership at Zepto."
-      isSwiggy -> "Total compensation framing indexing against Bengaluru top-quartile base (₹24L+) paired with front-loaded equity tranches."
+      isSwiggy -> "Total compensation framing indexing against Bengaluru top-quartile market benchmarks paired with clear milestone reviews."
       isNegotiation -> "Market-anchored compensation strategy establishing non-negotiable floor with performance-accelerated bonuses."
-      isInterview -> "Behavioral and technical framework demonstrating 40%+ operational cycle reduction using SQL, Python, and real-time dashboarding."
+      isInterview -> "Behavioral and operational framework demonstrating high-pressure crowd and dispatch management across 100+ brand activations."
       else -> "Synthesized strategic battle-plan for ${note.title} focusing on high-impact business outcomes for $company."
     }
 
     val keyTakeaways = when {
       isZepto -> listOf(
-        "Emphasize 42% order fulfillment cycle compression achieved via automated SQL/Python dispatch algorithms.",
+        "Emphasize on-ground operational execution and live bottleneck resolution across 100+ brand activations.",
         "Demonstrate dark-store unit economics familiarity and last-mile labor optimization frameworks.",
         "Position candidate as immediately deployment-ready for hyper-growth rapid commerce supply chain."
       )
       isSwiggy -> listOf(
-        "Anchor base salary negotiations at ₹24.5L with a structured ₹3.5L joining incentive.",
-        "Request 4-year ESOP vesting with 25% annual vesting or quarterly performance equity grants.",
+        "Anchor base salary negotiations against verified Bengaluru role salary bands.",
+        "Request clear performance review intervals or performance equity grants.",
         "Cite simultaneous active interview loops across high-velocity Bengaluru delivery tech hubs."
       )
       isNegotiation -> listOf(
@@ -172,9 +172,9 @@ class CareerNoteSummarizerService(
     }
 
     val talkingPoints = listOf(
-      "\"In my last optimization initiative, I lowered operational turnaround by 42% without adding headcount.\"",
-      "\"I structure analytical models directly to tie into EBITDA margins and unit economics.\"",
-      "\"My goal is to own the end-to-end data pipeline from raw ingestion to executive dashboarding.\""
+      "\"Across 100+ brand activations, I managed frontline coordination and venue compliance with zero SLA breaches.\"",
+      "\"I structure analytical models directly to tie into operational efficiency and unit economics.\"",
+      "\"My goal is to combine on-ground operational rigor with applied AI workflows and SQL analytics.\""
     )
 
     return CareerNoteSummaryResult(

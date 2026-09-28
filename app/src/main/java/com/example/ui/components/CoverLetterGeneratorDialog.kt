@@ -774,7 +774,7 @@ private fun CoverLetterBuilderTab(
               }
 
               Text(
-                text = "• Verified Metrics: 42% order cycle reduction, ₹18L enterprise pipeline, 1.6x inventory turns, 14 dark stores.",
+                text = "• Verified Metrics: 100+ brand activations, zero SLA breaches, retail exhibition inventory reconciliation.",
                 style = MaterialTheme.typography.labelSmall,
                 color = TextPrimaryDark,
                 fontSize = 11.sp

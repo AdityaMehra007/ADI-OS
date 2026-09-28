@@ -84,7 +84,7 @@ class CareerRoadmapReportExporterTest {
         title = "Core Foundations & Valuation Mastery",
         timeframe = "Months 1 - 3",
         targetRoleTier = "Tier-1 Associate",
-        projectedCompensation = "₹18L - ₹24L CTC",
+        projectedCompensation = "₹8L - ₹14L CTC",
         strategicFocus = "Establish hard analytical parity",
         targetCompaniesUnlocked = listOf("Bain", "Swiggy"),
         skillGapsTargeted = listOf("Advanced Financial Modeling"),

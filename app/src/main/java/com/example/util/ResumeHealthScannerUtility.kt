@@ -373,7 +373,7 @@ object ResumeHealthScannerUtility {
           priority = SuggestionPriority.CRITICAL,
           scorePotentialBonus = 8,
           diagnosis = "Only $quantifiedRatio% of your bullets show measurable proof. Top 1% recruiters look for quantifiable metrics ($/%, time, scale, traffic) in at least 50% of bullets.",
-          actionableFix = "Format bullets as: 'Accomplished [X] as measured by [Y], by doing [Z]'. Example: Instead of 'Optimized API responses', write 'Decreased p99 query latency by 42% across 12 microservices by implementing Redis write-through caching.'",
+          actionableFix = "Format bullets as: 'Accomplished [X] as measured by [Y], by doing [Z]'. Example: Instead of 'Optimized API responses', write 'Decreased p99 query latency by 35% across 12 microservices by implementing Redis write-through caching.'",
           exampleBefore = "Responsible for improving database queries and server speed.",
           exampleAfter = "Engineered automated SQL indexing and Redis caching, cutting p95 query latency by 58% for 4.2M daily active users."
         )
@@ -601,7 +601,7 @@ object ResumeHealthScannerUtility {
 
         Senior Mobile Engineer | Swiggy Food Tech (2019 - 2022)
         • Architected cart and payment micro-module supporting 18M monthly transactions with 99.99% checkout reliability.
-        • Implemented dynamic theme design system and offline-first Room database sync, decreasing network bandwidth consumption by 42%.
+        • Implemented dynamic theme design system and offline-first Room database sync, decreasing network bandwidth consumption by 35%.
 
         TECHNICAL SKILLS
         Languages: Kotlin, Java, Coroutines, Flow

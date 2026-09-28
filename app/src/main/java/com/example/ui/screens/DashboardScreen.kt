@@ -38,6 +38,9 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Search
 import com.example.ui.components.AutomationKpiSummaryChart
+import com.example.ui.components.CareerStrategyOperationalHud
+import com.example.ui.components.DarkStoreOperationalHud
+import com.example.ui.components.BatchJobSyncStatusCard
 import com.example.ui.components.CareerMomentumWidget
 import com.example.ui.components.CompanyIntelligenceWidget
 import com.example.ui.components.CareerProgressionRechartsDashboard
@@ -50,6 +53,8 @@ import com.example.ui.components.DailyBriefingActionSummary
 import com.example.ui.components.ExecutiveRadarChart
 import com.example.ui.components.NetworkGrowthChart
 import androidx.compose.material.icons.filled.Work
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -60,6 +65,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -93,6 +101,9 @@ fun DashboardScreen(
   val marketRadar by viewModel.marketRadar.collectAsState()
   val brutalMode = userProfile?.brutalStrategyMode ?: false
 
+  var isSimpleView by remember { mutableStateOf(true) }
+  var selectedCategory by remember { mutableStateOf("ALL") }
+
   LazyColumn(
     modifier = Modifier
       .fillMaxSize()
@@ -101,7 +112,7 @@ fun DashboardScreen(
       .testTag("dashboard_screen"),
     verticalArrangement = Arrangement.spacedBy(14.dp)
   ) {
-    // 1. Executive Hero & Identity Graph Banner
+    // 1. Executive Hero & Identity Graph Banner with Simple / Pro Toggle
     item {
       Card(
         modifier = Modifier
@@ -138,26 +149,43 @@ fun DashboardScreen(
               )
             }
 
-            // Career Readiness Badge
-            Box(
+            // Mode Toggle Pill (Simple vs Pro)
+            Row(
               modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .background(SlateElevated)
-                .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
-                .padding(horizontal = 10.dp, vertical = 6.dp)
+                .border(1.dp, SlateBorder, RoundedCornerShape(20.dp))
+                .padding(2.dp),
+              verticalAlignment = Alignment.CenterVertically
             ) {
-              Column(horizontalAlignment = Alignment.End) {
+              Box(
+                modifier = Modifier
+                  .clip(RoundedCornerShape(18.dp))
+                  .background(if (isSimpleView) TitanCyan.copy(alpha = 0.25f) else Color.Transparent)
+                  .clickable { isSimpleView = true }
+                  .padding(horizontal = 10.dp, vertical = 5.dp)
+                  .testTag("mode_toggle_simple")
+              ) {
                 Text(
-                  text = "CAREER CAPITAL",
-                  style = MaterialTheme.typography.labelSmall,
-                  fontSize = 8.sp,
-                  color = TextMutedDark
+                  text = "✨ Simple",
+                  fontSize = 11.sp,
+                  fontWeight = if (isSimpleView) FontWeight.Bold else FontWeight.Normal,
+                  color = if (isSimpleView) TitanCyan else TextMutedDark
                 )
+              }
+              Box(
+                modifier = Modifier
+                  .clip(RoundedCornerShape(18.dp))
+                  .background(if (!isSimpleView) TitanCyan.copy(alpha = 0.25f) else Color.Transparent)
+                  .clickable { isSimpleView = false }
+                  .padding(horizontal = 10.dp, vertical = 5.dp)
+                  .testTag("mode_toggle_pro")
+              ) {
                 Text(
-                  text = "${userProfile?.careerCapitalScore ?: 85}/100",
-                  style = MaterialTheme.typography.labelMedium,
-                  color = TitanEmerald,
-                  fontWeight = FontWeight.Bold
+                  text = "⚡ Pro",
+                  fontSize = 11.sp,
+                  fontWeight = if (!isSimpleView) FontWeight.Bold else FontWeight.Normal,
+                  color = if (!isSimpleView) TitanCyan else TextMutedDark
                 )
               }
             }
@@ -191,159 +219,386 @@ fun DashboardScreen(
             ) {
               Icon(Icons.Default.School, contentDescription = null, tint = TitanGold, modifier = Modifier.size(12.dp))
               Spacer(modifier = Modifier.width(4.dp))
-              Text("BBA International Business", style = MaterialTheme.typography.bodySmall, color = TextPrimaryDark)
+              Text("BBA International Business (DSU)", style = MaterialTheme.typography.bodySmall, color = TextPrimaryDark)
             }
           }
-
-          Spacer(modifier = Modifier.height(8.dp))
-
-          Text(
-            text = "Targeting: Business Analyst • Strategy & Operations • AI Operations • BizDev Associate",
-            style = MaterialTheme.typography.bodySmall,
-            color = TextSecondaryDark,
-            fontSize = 11.sp
-          )
         }
       }
     }
 
-    // 1a. Morning Executive Summary (Gemini API Powered Briefing)
+    // 1-Quick. 4 Tactile Quick Action Launcher Tiles (Easy 1-Tap Access)
     item {
-      MorningExecutiveSummaryComponent(
-        viewModel = viewModel,
-        modifier = Modifier.fillMaxWidth()
-      )
-    }
-
-    // 1b. Executive Competency Radar
-    item {
-      ExecutiveRadarChart()
-    }
-
-    // 1c-0. Career Progression Recharts Dashboard (Skill Acquisition Rates & Networking Growth Over Time)
-    item {
-      CareerProgressionRechartsDashboard(
-        onNavigateToSkills = { viewModel.navigateTo(TitanScreen.SKILLS_PROJECTS) },
-        onNavigateToNetwork = { viewModel.navigateTo(TitanScreen.NETWORK) }
-      )
-    }
-
-    // 1c-0a. Weekly Career Health Report (Synthesizes Skills Radar & Career Velocity with PDF Export)
-    item {
-      WeeklyCareerHealthReportCard(
-        viewModel = viewModel,
-        modifier = Modifier.fillMaxWidth()
-      )
-    }
-
-    // 1c-0b. Career Velocity Dashboard (D3-Powered: Progress vs Target Role Requirements Over Time)
-    item {
-      CareerVelocityDashboard(
-        viewModel = viewModel,
-        modifier = Modifier.fillMaxWidth()
-      )
-    }
-
-    // 1c-0c. Skills Radar (Resume vs Target Job Description Requirements Audit)
-    item {
-      SkillsRadarDashboard(
-        viewModel = viewModel,
-        modifier = Modifier.fillMaxWidth()
-      )
-    }
-
-    // 1c-0d. Resume vs Job Requirements Comparator (Gemini Audit)
-    item {
-      Card(
-        modifier = Modifier
-          .fillMaxWidth()
-          .clickable {
-            viewModel.setJobsScreenTab(4)
-            viewModel.navigateTo(TitanScreen.JOBS)
-          }
-          .testTag("dashboard_resume_comparator_card"),
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = SlateCard),
-        border = androidx.compose.foundation.BorderStroke(1.dp, TitanCyan.copy(alpha = 0.4f))
+      Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
       ) {
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+          // Tile 1: Job Applications
+          Card(
+            modifier = Modifier
+              .weight(1f)
+              .height(86.dp)
+              .clickable { viewModel.navigateTo(TitanScreen.APPLICATIONS) }
+              .testTag("quick_tile_applications"),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = SlateCard),
+            border = androidx.compose.foundation.BorderStroke(1.dp, TitanCyan.copy(alpha = 0.5f))
+          ) {
+            Column(
+              modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+              verticalArrangement = Arrangement.SpaceBetween
+            ) {
+              Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(Icons.Default.Work, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(20.dp))
+                Text("PIPELINE", fontSize = 8.5.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, color = TitanCyan, fontWeight = FontWeight.Bold)
+              }
+              Column {
+                Text("Applications", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimaryDark)
+                Text("Track & batch sync", fontSize = 10.sp, color = TextSecondaryDark)
+              }
+            }
+          }
+
+          // Tile 2: Dark Store Ops HUD
+          Card(
+            modifier = Modifier
+              .weight(1f)
+              .height(86.dp)
+              .clickable {
+                isSimpleView = true
+                selectedCategory = "OPERATIONS"
+              }
+              .testTag("quick_tile_operations"),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = SlateCard),
+            border = androidx.compose.foundation.BorderStroke(1.dp, TitanEmerald.copy(alpha = 0.5f))
+          ) {
+            Column(
+              modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+              verticalArrangement = Arrangement.SpaceBetween
+            ) {
+              Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(Icons.Default.Bolt, contentDescription = null, tint = TitanEmerald, modifier = Modifier.size(20.dp))
+                Text("223s | +₹28.40", fontSize = 8.5.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, color = TitanEmerald, fontWeight = FontWeight.Bold)
+              }
+              Column {
+                Text("Dark Store HUD", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimaryDark)
+                Text("Cycle times & margin", fontSize = 10.sp, color = TextSecondaryDark)
+              }
+            }
+          }
+        }
+
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+          // Tile 3: Resume & Interview Prep
+          Card(
+            modifier = Modifier
+              .weight(1f)
+              .height(86.dp)
+              .clickable { viewModel.quickActionLaunchInterview() }
+              .testTag("quick_tile_interview"),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = SlateCard),
+            border = androidx.compose.foundation.BorderStroke(1.dp, TitanGold.copy(alpha = 0.5f))
+          ) {
+            Column(
+              modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+              verticalArrangement = Arrangement.SpaceBetween
+            ) {
+              Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(Icons.Default.Psychology, contentDescription = null, tint = TitanGold, modifier = Modifier.size(20.dp))
+                Text("AI PREP", fontSize = 8.5.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, color = TitanGold, fontWeight = FontWeight.Bold)
+              }
+              Column {
+                Text("Interview Lab", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimaryDark)
+                Text("Bar-raiser simulator", fontSize = 10.sp, color = TextSecondaryDark)
+              }
+            }
+          }
+
+          // Tile 4: Target Companies Intel
+          Card(
+            modifier = Modifier
+              .weight(1f)
+              .height(86.dp)
+              .clickable { viewModel.navigateTo(TitanScreen.COMPANIES) }
+              .testTag("quick_tile_companies"),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = SlateCard),
+            border = androidx.compose.foundation.BorderStroke(1.dp, TitanIndigo.copy(alpha = 0.5f))
+          ) {
+            Column(
+              modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+              verticalArrangement = Arrangement.SpaceBetween
+            ) {
+              Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(Icons.Default.Business, contentDescription = null, tint = TitanIndigo, modifier = Modifier.size(20.dp))
+                Text("TARGETS", fontSize = 8.5.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, color = TitanIndigo, fontWeight = FontWeight.Bold)
+              }
+              Column {
+                Text("Company Intel", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimaryDark)
+                Text("Zepto, Swiggy, Puma", fontSize = 10.sp, color = TextSecondaryDark)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 1-Filter. Clean Category Selector Pills (Only shown in Simple View)
+    if (isSimpleView) {
+      item {
         Row(
           modifier = Modifier
             .fillMaxWidth()
-            .padding(14.dp),
-          horizontalArrangement = Arrangement.SpaceBetween,
-          verticalAlignment = Alignment.CenterVertically
+            .horizontalScroll(rememberScrollState()),
+          horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-          Row(
-            modifier = Modifier.weight(1f),
-            verticalAlignment = Alignment.CenterVertically
-          ) {
+          listOf(
+            "ALL" to "All Overview",
+            "OPERATIONS" to "⚡ Dark Store HUD",
+            "APPLICATIONS" to "🎯 Applications",
+            "RESUME" to "📄 Resume & Prep",
+            "INTEL" to "🏢 Market Intel"
+          ).forEach { (code, title) ->
+            val isSelected = selectedCategory == code
             Box(
               modifier = Modifier
-                .size(36.dp)
-                .clip(CircleShape)
-                .background(TitanCyan.copy(alpha = 0.15f)),
-              contentAlignment = Alignment.Center
+                .clip(RoundedCornerShape(8.dp))
+                .background(if (isSelected) TitanCyan.copy(alpha = 0.2f) else SlateElevated)
+                .border(1.dp, if (isSelected) TitanCyan else SlateBorder, RoundedCornerShape(8.dp))
+                .clickable { selectedCategory = code }
+                .padding(horizontal = 12.dp, vertical = 7.dp)
+                .testTag("category_pill_${code.lowercase()}")
             ) {
-              Icon(
-                imageVector = Icons.AutoMirrored.Filled.FactCheck,
-                contentDescription = null,
-                tint = TitanCyan,
-                modifier = Modifier.size(20.dp)
-              )
-            }
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-              Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                  text = "RESUME VS. JOB COMPARATOR",
-                  fontSize = 10.sp,
-                  fontWeight = FontWeight.Bold,
-                  color = TitanCyan,
-                  letterSpacing = 0.8.sp
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Box(
-                  modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(TitanEmerald.copy(alpha = 0.15f))
-                    .padding(horizontal = 5.dp, vertical = 2.dp)
-                ) {
-                  Text("GEMINI 3.5", fontSize = 8.sp, fontWeight = FontWeight.Black, color = TitanEmerald)
-                }
-              }
-              Spacer(modifier = Modifier.height(2.dp))
               Text(
-                text = "Target Company Requirement Benchmark",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimaryDark
-              )
-              Text(
-                text = "Compare current resume text vs Zepto, Razorpay & Swiggy criteria to uncover skill gaps & bullet transforms.",
+                text = title,
                 fontSize = 11.sp,
-                color = TextSecondaryDark,
-                lineHeight = 15.sp
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                color = if (isSelected) TitanCyan else TextSecondaryDark
               )
             }
           }
-          Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-            contentDescription = "Open Comparator",
-            tint = TitanCyan,
-            modifier = Modifier.size(18.dp)
-          )
         }
       }
     }
 
-    // 1c. Professional Network Growth Trends (Recharts-style Visualizer)
-    item {
-      NetworkGrowthChart()
+    // 1a. Morning Executive Summary (Shown in ALL or PRO mode)
+    if (!isSimpleView || selectedCategory == "ALL") {
+      item {
+        MorningExecutiveSummaryComponent(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
     }
 
-    // 1c-2. Automation Agents KPI Performance (Recharts-style Visualizer: Applications Sent vs Response Rate)
-    item {
-      AutomationKpiSummaryChart()
+    // 1a-2. Mode 3: Dark Store Execution HUD (Shown in ALL, OPERATIONS or PRO mode)
+    if (!isSimpleView || selectedCategory == "ALL" || selectedCategory == "OPERATIONS") {
+      item {
+        DarkStoreOperationalHud(
+          modifier = Modifier.fillMaxWidth(),
+          initialExpanded = !isSimpleView || selectedCategory == "OPERATIONS"
+        )
+      }
+    }
+
+    // 1a-3. Batch Job Sync Status Card (Shown in ALL, APPLICATIONS or PRO mode)
+    if (!isSimpleView || selectedCategory == "ALL" || selectedCategory == "APPLICATIONS") {
+      item {
+        BatchJobSyncStatusCard(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
+    }
+
+    // 1a-4. Career Strategy Operational HUD (Shown in ALL, RESUME, or PRO mode)
+    if (!isSimpleView || selectedCategory == "ALL" || selectedCategory == "RESUME") {
+      item {
+        CareerStrategyOperationalHud(
+          modifier = Modifier.fillMaxWidth(),
+          initialExpanded = !isSimpleView || selectedCategory == "RESUME",
+          onNavigateToRoadmap = { viewModel.openCareerStrategyTab() }
+        )
+      }
+    }
+
+    // 1b. Executive Competency Radar (Shown in PRO mode or RESUME category)
+    if (!isSimpleView || selectedCategory == "RESUME") {
+      item {
+        ExecutiveRadarChart()
+      }
+    }
+
+    // 1c-0. Career Progression Recharts Dashboard (Shown in PRO mode)
+    if (!isSimpleView) {
+      item {
+        CareerProgressionRechartsDashboard(
+          onNavigateToSkills = { viewModel.navigateTo(TitanScreen.SKILLS_PROJECTS) },
+          onNavigateToNetwork = { viewModel.navigateTo(TitanScreen.NETWORK) }
+        )
+      }
+    }
+
+    // 1c-0a. Weekly Career Health Report (Shown in PRO mode or RESUME category)
+    if (!isSimpleView || selectedCategory == "RESUME") {
+      item {
+        WeeklyCareerHealthReportCard(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
+    }
+
+    // 1c-0b. Career Velocity Dashboard (Shown in PRO mode)
+    if (!isSimpleView) {
+      item {
+        CareerVelocityDashboard(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
+    }
+
+    // 1c-0c. Skills Radar (Shown in PRO mode or RESUME category)
+    if (!isSimpleView || selectedCategory == "RESUME") {
+      item {
+        SkillsRadarDashboard(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
+    }
+
+    // 1c-0d. Resume vs Job Requirements Comparator (Shown in PRO mode or RESUME category)
+    if (!isSimpleView || selectedCategory == "RESUME") {
+      item {
+        Card(
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+              viewModel.setJobsScreenTab(4)
+              viewModel.navigateTo(TitanScreen.JOBS)
+            }
+            .testTag("dashboard_resume_comparator_card"),
+          shape = RoundedCornerShape(14.dp),
+          colors = CardDefaults.cardColors(containerColor = SlateCard),
+          border = androidx.compose.foundation.BorderStroke(1.dp, TitanCyan.copy(alpha = 0.4f))
+        ) {
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(14.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Row(
+              modifier = Modifier.weight(1f),
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Box(
+                modifier = Modifier
+                  .size(36.dp)
+                  .clip(CircleShape)
+                  .background(TitanCyan.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
+              ) {
+                Icon(
+                  imageVector = Icons.AutoMirrored.Filled.FactCheck,
+                  contentDescription = null,
+                  tint = TitanCyan,
+                  modifier = Modifier.size(20.dp)
+                )
+              }
+              Spacer(modifier = Modifier.width(12.dp))
+              Column {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                  Text(
+                    text = "RESUME VS. JOB COMPARATOR",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = TitanCyan,
+                    letterSpacing = 0.8.sp
+                  )
+                  Spacer(modifier = Modifier.width(6.dp))
+                  Box(
+                    modifier = Modifier
+                      .clip(RoundedCornerShape(4.dp))
+                      .background(TitanEmerald.copy(alpha = 0.15f))
+                      .padding(horizontal = 5.dp, vertical = 2.dp)
+                  ) {
+                    Text("GEMINI 3.5", fontSize = 8.sp, fontWeight = FontWeight.Black, color = TitanEmerald)
+                  }
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                  text = "Target Company Requirement Benchmark",
+                  fontSize = 14.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = TextPrimaryDark
+                )
+                Text(
+                  text = "Compare current resume text vs Zepto, Razorpay & Swiggy criteria to uncover skill gaps & bullet transforms.",
+                  fontSize = 11.sp,
+                  color = TextSecondaryDark,
+                  lineHeight = 15.sp
+                )
+              }
+            }
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+              contentDescription = "Open Comparator",
+              tint = TitanCyan,
+              modifier = Modifier.size(18.dp)
+            )
+          }
+        }
+      }
+    }
+
+    // 1c. Professional Network Growth Trends (Shown in PRO mode)
+    if (!isSimpleView) {
+      item {
+        NetworkGrowthChart()
+      }
+    }
+
+    // 1c-2. Automation Agents KPI Performance (Shown in PRO mode or APPLICATIONS category)
+    if (!isSimpleView || selectedCategory == "APPLICATIONS") {
+      item {
+        AutomationKpiSummaryChart()
+      }
     }
 
     // 1d. Career Strategy & Milestone Acquisition Roadmap Banner
@@ -872,6 +1127,14 @@ fun DashboardScreen(
       }
     }
 
+    // 2b. Background WorkManager Batch Job Processor Card
+    item {
+      BatchJobSyncStatusCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth()
+      )
+    }
+
     // 3. Career Funnel Metrics (24 Tracked -> 4 Interviews -> 1 Offer)
     item {
       Column {
@@ -909,9 +1172,9 @@ fun DashboardScreen(
             modifier = Modifier.weight(1f)
           )
           FunnelMetricCard(
-            label = "Offer",
-            value = "1",
-            subtext = "Razorpay ₹18.5L",
+            label = "Active",
+            value = "3",
+            subtext = "High Conviction",
             color = TitanEmerald,
             modifier = Modifier.weight(1f)
           )
@@ -945,8 +1208,8 @@ fun DashboardScreen(
         // Action 1
         PriorityActionCard(
           priority = "P0 CRITICAL",
-          title = "Microsoft Final Round Prep Drill",
-          description = "Review Azure AI commercial business model & rehearse Family Business Supply Chain STAR story.",
+          title = "Strategy & Ops Interview Case Drill",
+          description = "Rehearse crowd logistics and high-pressure event turnaround STAR stories.",
           buttonLabel = "Launch Simulator",
           tagColor = TitanCrimson,
           onClick = { viewModel.navigateTo(TitanScreen.INTERVIEWS) }
@@ -957,9 +1220,9 @@ fun DashboardScreen(
         // Action 2
         PriorityActionCard(
           priority = "P1 HIGH",
-          title = "Razorpay Offer Decision Matrix",
-          description = "Evaluate ₹18.5L package, Koramangala commute, and early-career leadership against Microsoft timeline.",
-          buttonLabel = "Review Decision",
+          title = "Tailor Applications for Bengaluru Tech Ops",
+          description = "Align resume bullets to quick commerce dark store and ops coordination requirements.",
+          buttonLabel = "Review Pipeline",
           tagColor = TitanGold,
           onClick = { viewModel.navigateTo(TitanScreen.APPLICATIONS) }
         )
@@ -1095,6 +1358,59 @@ fun DashboardScreen(
             modifier = Modifier.weight(1f),
             onClick = { viewModel.navigateTo(TitanScreen.COPILOT) }
           )
+        }
+      }
+    }
+
+    // Switch to Pro Terminal Banner (Shown when isSimpleView is true)
+    if (isSimpleView) {
+      item {
+        Card(
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable { isSimpleView = false }
+            .testTag("switch_to_pro_mode_card"),
+          shape = RoundedCornerShape(12.dp),
+          colors = CardDefaults.cardColors(containerColor = SlateElevated),
+          border = androidx.compose.foundation.BorderStroke(1.dp, TitanCyan.copy(alpha = 0.35f))
+        ) {
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(14.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Row(
+              modifier = Modifier.weight(1f),
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Box(
+                modifier = Modifier
+                  .size(36.dp)
+                  .clip(CircleShape)
+                  .background(TitanCyan.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
+              ) {
+                Icon(Icons.Default.Bolt, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(20.dp))
+              }
+              Spacer(modifier = Modifier.width(12.dp))
+              Column {
+                Text(
+                  text = "Switch to Pro Terminal",
+                  fontSize = 13.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = TextPrimaryDark
+                )
+                Text(
+                  text = "Access all 15+ comprehensive visualizers & deep analytics",
+                  fontSize = 10.sp,
+                  color = TextSecondaryDark
+                )
+              }
+            }
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(16.dp))
+          }
         }
       }
     }

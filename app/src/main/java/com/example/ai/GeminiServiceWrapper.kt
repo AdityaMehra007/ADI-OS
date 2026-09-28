@@ -63,7 +63,7 @@ data class CompanyResearchRequest(
   val companyName: String,
   val focus: CompanyResearchFocus = CompanyResearchFocus.ALL,
   val company: Company? = null,
-  val candidateContext: String = "Candidate: Adi, BBA in International Business, strong analytics (SQL, PowerBI, Python ETL), AI workflow automation, supply chain optimization (42% cycle reduction), based in Bengaluru.",
+  val candidateContext: String = "Candidate: Adi Mehra, BBA in International Business (Dayananda Sagar University), on-ground operations across 100+ brand activations, family business commercial operations, applied AI workflows (Gemini API, Google AI Studio), SQL analytics, based in Bengaluru.",
   val includeLiveGrounding: Boolean = true
 )
 
@@ -129,10 +129,10 @@ data class CareerStrategyAdviceRequest(
   val mode: CareerStrategyMode = CareerStrategyMode.EXECUTIVE,
   val currentSkills: List<String> = listOf("SQL", "PowerBI", "AI Automation", "Unit Economics", "Supply Chain Optimization", "Market Sizing"),
   val verifiedFacts: List<String> = listOf(
-    "BBA in International Business (GPA 3.82/4.0, Bengaluru)",
-    "Engineered SQL/AI demand-forecasting pipeline cutting order cycles by 42%",
-    "Generated 65+ executive B2B lead meetings with ₹18L pipeline value",
-    "Current offer: ₹18.5L from Razorpay, S+ final stage at Microsoft"
+    "BBA in International Business from Dayananda Sagar University (2023–2026, ~6.33 CGPA, 41/41 Passed, 0 Backlogs)",
+    "Event management & supervisory operations lead across 100+ brand activations and campaigns (Puma, IPL promotions, Dyson, Apollo, Razorpay, Tata Communications, VH1 Supersonic)",
+    "Family business commercial operations & corporate sales in Kolkata (chocolate manufacturing, exhibitions, corporate gifting)",
+    "Applied AI workflows (Google AI Studio, Gemini API), process automation, and business analytics (SQL, Excel)"
   ),
   val targetCompensationLakhs: Int = 24
 )
@@ -285,7 +285,7 @@ class GeminiServiceWrapper(
         3. HIRING_TRENDS: Active hiring velocity in Bengaluru / India, high-demand functional roles (BizOps, Strategy, Analytics), and team expansion areas.
         4. LEADERSHIP_SHIFTS: Recent CXO, VP, and strategic leadership appointments or founder directives.
         5. STRATEGIC_RISKS_AND_OPPORTUNITIES: Macro challenges, competitor moves, margin pressures, unit economics, and new market opportunities.
-        6. INTERVIEW_PITCH_ANGLES: Exact angles on how this candidate (BBA International Business + SQL/AI Ops automation, 42% cycle reduction) can pitch immediate commercial leverage.
+        6. INTERVIEW_PITCH_ANGLES: Exact angles on how this candidate (BBA International Business + 100+ brand activations + applied AI workflows) can pitch immediate operational leverage.
         7. COMPETITIVE_MOATS: What makes $companyName defensible vs competitors in their sector.
         8. OUTREACH_PITCH: A high-conversion, value-first message hook for connecting with hiring managers.
       """.trimIndent()
@@ -445,7 +445,7 @@ class GeminiServiceWrapper(
       strategicRisksAndOpportunities = "Market competition from regional players, margin expansion pressure, and rapid talent demand in Bengaluru.",
       interviewPreparationAngles = interviewAngles,
       competitiveMoats = moatsList,
-      recommendedOutreachPitch = "Hi [Hiring Lead],\n\nI’ve followed $companyName's remarkable expansion. With a BBA in International Business and hands-on experience building automated SQL and AI ops pipelines (cutting cycle times by 42%), I’d welcome 5 minutes to share how I can support your Strategy & BizOps initiatives in Bengaluru.",
+      recommendedOutreachPitch = "Hi [Hiring Lead],\n\nI’ve followed $companyName's remarkable expansion. With a BBA in International Business from Dayananda Sagar University and hands-on experience supervising 100+ brand activations alongside applied AI workflows, I’d welcome 5 minutes to share how I can support your Strategy & BizOps initiatives in Bengaluru.",
       groundedSources = sources,
       searchQueriesUsed = queries,
       confidenceScore = 96,
@@ -519,7 +519,7 @@ class GeminiServiceWrapper(
 
     val interviewAngles = when {
       isZepto -> listOf(
-        "Showcase how you automated inventory & demand forecasting to eliminate dark-store stockouts (42% cycle reduction).",
+        "Showcase how you supervised high-velocity event operations across 100+ activations with zero SLA breaches.",
         "Demonstrate quick-commerce unit economics understanding: CAC, dark store payback periods, and average order value (AOV) levers.",
         "Pitch automated SQL scripts to monitor dark store picker efficiency and micro-delivery routes."
       )
@@ -529,7 +529,7 @@ class GeminiServiceWrapper(
         "Articulate deep understanding of India's payment stack (UPI, BBPS, tokenization, e-mandates)."
       )
       else -> listOf(
-        "Pitch your proven track record of cutting operational cycle times by 42% using SQL and AI workflow orchestration.",
+        "Pitch your proven track record of supervising operations across 100+ brand activations and applying Gemini AI workflows.",
         "Position yourself as an AI-leveraged Business Analyst who delivers high-margin operational leverage from Day 1.",
         "Bring up recent business expansion milestones to demonstrate proactive company-specific research."
       )
@@ -557,7 +557,7 @@ class GeminiServiceWrapper(
       strategicRisksAndOpportunities = "Fierce market competition in Bengaluru talent ecosystem, rapid unit-economic optimization requirements, and cross-border expansion opportunities.",
       interviewPreparationAngles = interviewAngles,
       competitiveMoats = moats,
-      recommendedOutreachPitch = "Hi [Hiring Lead],\n\nI’ve followed $name's impressive growth. With a BBA in International Business and hands-on experience building automated SQL and AI ops pipelines (cutting cycle times by 42%), I’d welcome 5 minutes to share how I can support your Strategy & BizOps initiatives in Bengaluru.",
+      recommendedOutreachPitch = "Hi [Hiring Lead],\n\nI’ve followed $name's impressive growth. With a BBA in International Business from Dayananda Sagar University and hands-on experience supervising 100+ brand activations alongside applied AI workflows, I’d welcome 5 minutes to share how I can support your Strategy & BizOps initiatives in Bengaluru.",
       groundedSources = sources,
       searchQueriesUsed = listOf(
         "$name latest news funding 2026",
@@ -588,8 +588,8 @@ class GeminiServiceWrapper(
         
         CANDIDATE DOSSIER:
         - Name: Adi | Location: Bengaluru, India
-        - Background: BBA in International Business (Class of 2024, GPA 3.82/4.0 First Class Honors)
-        - Core Strengths: Advanced SQL, PowerBI, Python ETL, Multi-Agent AI Workflow Orchestration, Unit Economics, Supply Chain Optimization (reduced order cycle times by 42%).
+        - Background: BBA in International Business from Dayananda Sagar University (2023–2026, ~6.33 CGPA, 41/41 Passed, 0 Backlogs)
+        - Core Strengths: Event Operations & Field Leadership (100+ events/campaigns), Commercial Family Enterprise Operations, Applied AI Systems (Google AI Studio, Gemini API), SQL, and Excel Analytics.
         - Verified Credentials:
           ${request.verifiedFacts.joinToString("\n          - ")}
         - Target Role: $role (${horizon}-Year Horizon)
@@ -760,24 +760,24 @@ class GeminiServiceWrapper(
         pillarName = "Executive Dealmaking & Network CRM",
         targetWeightPercent = 20,
         currentReadinessScore = 84,
-        strategicGuidance = "Maintain active cadence with Series A/B founders and Tier-1 talent partners with 42%+ inbound reply rate."
+        strategicGuidance = "Maintain active networking cadence with early-stage founders and talent partners across Bengaluru tech."
       )
     )
 
     if (immediateActions.isEmpty()) {
-      immediateActions.add("Prioritize Microsoft Director Strategy Round prep while holding the Razorpay ₹18.5L offer floor.")
-      immediateActions.add("Publish the Dark Store Unit Economics & SQL Analytics case study on LinkedIn/GitHub.")
-      immediateActions.add("Run weekly automated outbound follow-up cadence for Tier-1 consulting & scaleup recruiters.")
+      immediateActions.add("Prioritize interviews and case evaluations across target companies in Bengaluru.")
+      immediateActions.add("Publish an operational breakdown case study on LinkedIn/GitHub.")
+      immediateActions.add("Run weekly structured follow-up cadence for target recruiters.")
     }
 
     if (proofProjects.isEmpty()) {
-      proofProjects.add("10M+ Row Zepto/Blinkit Unit Economics & Inventory Optimization Analytics Repo")
-      proofProjects.add("Autonomous Multi-Agent Recruiter CRM & Candidate Matching Engine")
+      proofProjects.add("Unit Economics & Event Logistics Operational Optimization Playbook")
+      proofProjects.add("Autonomous AI Operational Summarizer & Workflow Engine")
     }
 
     if (negotiation.isEmpty()) {
-      negotiation.add("Use the Razorpay offer as a baseline floor to negotiate a signing bonus and equity accelerator at Microsoft.")
-      negotiation.add("Frame compensation around measurable ROI: highlight your 42% operational cycle time reduction track record.")
+      negotiation.add("Benchmark compensation against verified role ranges and cost-of-living standards in Bengaluru.")
+      negotiation.add("Frame compensation around measurable ROI: highlight your supervisory operational execution across 100+ brand activations.")
     }
 
     if (risks.isEmpty()) {
@@ -820,61 +820,61 @@ class GeminiServiceWrapper(
     val isComp = request.mode == CareerStrategyMode.COMPENSATION_MAXIMIZER
 
     val verdict = when {
-      isBrutal -> "Stop evaluating opportunities on brand prestige alone. Your highest ROI is capturing an S-Tier hypergrowth role where you have direct access to founders and P&L metrics, rather than getting buried as a low-level analyst in an inflexible hierarchy."
-      isComp -> "Your market value in Bengaluru for a high-impact Strategy & BizOps analyst with verified SQL + AI automation skills is ₹18L - ₹26L base + performance bonus. Do not settle for standard ₹8L - ₹12L fresher packages; anchor firmly on proven 42% cycle time reduction leverage."
-      else -> "Adi's unique synthesis of BBA International Business acumen and autonomous AI operations creates an exceptional 'Triple-Threat' profile. The strategic priority over the next 24 months is converting analytical execution into cross-functional business ownership and high-bracket compensation."
+      isBrutal -> "Stop evaluating opportunities on brand prestige alone. Your highest ROI is capturing an operations or business analyst role where you have direct access to frontline business metrics, rather than getting buried in an inflexible corporate hierarchy."
+      isComp -> "Your market value in Bengaluru for a strong Strategy & BizOps analyst with SQL and applied AI skills is competitive. Anchor firmly on your proven operational track record across 100+ brand activations and prompt workflow automation."
+      else -> "Adi's synthesis of BBA International Business training and on-ground operational leadership creates a differentiated profile. The strategic priority over the next 24 months is converting operational execution into cross-functional business analysis and strategic ownership."
     }
 
-    val positioning = "Position as an AI-leveraged Business Operations Specialist who operates with the business mindset of a founder and the quantitative capability of a senior data analyst."
+    val positioning = "Position as an AI-leveraged Operations Specialist who operates with disciplined ground execution and strong quantitative business instincts."
 
     val pillars = listOf(
       CareerStrategyPillarRecommendation(
         pillarName = "Autonomous AI & Workflow Ops",
         targetWeightPercent = 30,
         currentReadinessScore = 92,
-        strategicGuidance = "Build automated multi-agent data enrichment and strategy workflows that multiply your output by 5x."
+        strategicGuidance = "Build automated AI prompt pipelines and operational workflows that multiply team efficiency."
       ),
       CareerStrategyPillarRecommendation(
         pillarName = "Financial Modeling & Unit Economics",
         targetWeightPercent = 25,
         currentReadinessScore = 86,
-        strategicGuidance = "Deepen mastery of unit economics, LTV/CAC, cohort analysis, and board-level presentations."
+        strategicGuidance = "Deepen mastery of unit economics, LTV/CAC, cohort analysis, and executive presentations."
       ),
       CareerStrategyPillarRecommendation(
         pillarName = "Public Proof-of-Work Capital",
         targetWeightPercent = 25,
         currentReadinessScore = 95,
-        strategicGuidance = "Publish high-signal case studies and code artifacts publicly to eliminate hiring doubt."
+        strategicGuidance = "Publish high-signal operational playbooks and analytical artifacts publicly."
       ),
       CareerStrategyPillarRecommendation(
         pillarName = "Executive Dealmaking & Network CRM",
         targetWeightPercent = 20,
         currentReadinessScore = 84,
-        strategicGuidance = "Cultivate direct relationships with Tier-1 startup founders, operators, and partners."
+        strategicGuidance = "Cultivate direct relationships with startup founders, operators, and industry mentors."
       )
     )
 
     val actions = listOf(
-      "Lock down the Microsoft Director Round strategy and accept if compensation exceeds ₹22L total package.",
-      "If Microsoft stalls, accept Razorpay's ₹18.5L offer immediately and negotiate a 6-month performance review milestone.",
-      "Ship the Dark Store Unit Economics Teardown Casebook on GitHub and LinkedIn with verified SQL scripts."
+      "Prepare structured case study presentations demonstrating on-ground event operational problem-solving.",
+      "Engage with hiring leads and recruiters across target quick-commerce and tech firms in Bengaluru.",
+      "Publish an operational breakdown casebook highlighting workflow optimizations and prompt pipelines."
     )
 
     val medium = listOf(
-      "Lead a high-stakes cross-functional initiative that drives ₹50L+ in operational savings.",
-      "Deploy custom internal LLM workflow tools for your operational unit.",
-      "Cultivate 5 senior mentors across Bengaluru's Tier-1 tech ecosystem."
+      "Lead cross-functional projects that optimize turnaround times and ensure zero operational breaches.",
+      "Deploy custom internal LLM workflow tools for team operational summaries.",
+      "Cultivate senior mentors across Bengaluru's business operations ecosystem."
     )
 
     val proof = listOf(
-      "Dynamic Quick-Commerce / Fintech 3-Statement & Unit Economics Financial Model",
-      "Production Multi-Agent Candidate Automation & Research Pipeline"
+      "Quick-Commerce & Retail Operations Logistics Playbook",
+      "Applied AI Workflow & Operational Summary Pipeline"
     )
 
     val negotiation = listOf(
-      "Never negotiate without competing leverage; always anchor the conversation on your verified 42% operational cycle time reduction.",
-      "Request equity/ESOP acceleration clauses tied to quantifiable revenue or operational milestones.",
-      "Ask for a signing bonus offset to compensate for unvested bonuses or competing deadlines."
+      "Anchor compensation conversations on verified market data and your proven supervisory execution across 100+ events.",
+      "Request clear performance review milestones tied to measurable operational goals.",
+      "Ensure role scope includes quantitative analysis and process design rather than pure repetitive data entry."
     )
 
     val risks = listOf(

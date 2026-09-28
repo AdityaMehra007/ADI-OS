@@ -1130,7 +1130,7 @@ fun AddEditCompetencyDialog(
           value = evidence,
           onValueChange = { evidence = it },
           label = { Text("Evidence / Verified Metric", fontSize = 11.sp) },
-          placeholder = { Text("e.g. 42% cycle reduction in family enterprise", fontSize = 11.sp) },
+          placeholder = { Text("e.g. 100+ brand activations with zero SLA breaches", fontSize = 11.sp) },
           modifier = Modifier
             .fillMaxWidth()
             .testTag("competency_evidence_input"),

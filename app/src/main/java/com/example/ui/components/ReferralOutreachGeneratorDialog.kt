@@ -124,7 +124,7 @@ Adi
         messageBody = """
 Hi $name,
 
-I noticed you're leading the group at $comp. Your recent focus on $sharedAnchor caught my attention as I recently resolved a very similar throughput bottleneck at scale, reducing p99 latency by 42%.
+I noticed you're leading the group at $comp. Your recent focus on $sharedAnchor caught my attention as I recently coordinated high-pressure operations and crowd logistics across major brand activations under strict SLAs.
 
 I saw the opening for $targetRole and wanted to reach out directly rather than getting lost in the ATS queue. I’ve put together a brief architecture breakdown of how I’d tackle $comp's scaling priorities.
 

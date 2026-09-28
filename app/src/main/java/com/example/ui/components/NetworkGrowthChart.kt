@@ -276,7 +276,7 @@ fun NetworkGrowthChart(
         NetworkKpiTile(
           label = "OUTREACH ENGAGED",
           value = "${activePoint.activeOutreachReplies}",
-          subtext = "42% response rate",
+          subtext = "Active response rate",
           color = TitanEmerald,
           modifier = Modifier.weight(1f)
         )

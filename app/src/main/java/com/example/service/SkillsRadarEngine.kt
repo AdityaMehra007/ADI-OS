@@ -406,10 +406,10 @@ object SkillsRadarEngine {
     val overallMatch = ((dimAverage * 0.6f + (kwMatchPercent / 100f) * 0.3f + (certMatchPercent / 100f) * 0.1f) * 100).toInt().coerceIn(40, 99)
 
     val verifiedStrengths = listOf(
-      "Direct BBA in International Business aligns with commercial strategy expectations",
-      "Demonstrated 42% order cycle reduction using automated SQL & Python pipelines",
-      "Quantifiable proof-of-work with ₹18L enterprise pipeline generation",
-      "Autonomous agent architecture projects demonstrate advanced tech multiplier"
+      "BBA in International Business from Dayananda Sagar University (41/41 subjects passed, zero backlogs)",
+      "Proven on-ground operational execution supervising promoter squads across 100+ brand activations",
+      "Commercial operations and client relationship experience in family business enterprise",
+      "Applied AI prompt engineering and SQL analytics workflows for business intelligence"
     )
 
     val summary = "Your stored resume '${resume.fileName}' has an overall match of $overallMatch% with ${jobProfile.companyName}'s ${jobProfile.roleTitle}. " +

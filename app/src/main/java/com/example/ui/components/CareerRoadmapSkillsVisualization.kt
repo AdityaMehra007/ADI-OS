@@ -1410,7 +1410,7 @@ private fun buildComparisonDataset(report: ComprehensiveCareerRoadmapReport): Li
         category = "Strategy & Operations",
         candidateScore = 82,
         industryRequiredScore = 92,
-        candidateLevelText = "42% SLA Reduction Verified",
+        candidateLevelText = "100+ Events SLA Verified",
         industryLevelText = "Multi-Region Hyper-scale",
         targetRole = report.targetRole,
         gapSeverity = SkillGapSeverity.HIGH_PRIORITY,

@@ -378,15 +378,15 @@ fun SpeechDictationButton(
                 listOf(
                   "Zepto Dark-Store Unit Economics Angle",
                   "Swiggy Compensation & Equity Multiplier",
-                  "SQL Automation & 42% Cycle Compression",
+                  "On-Ground Brand Activations & SLA Rigor",
                   "STAR Behavioral Prep for Cross-Functional Ops"
                 )
               } else {
                 listOf(
-                  "Highlight 42% cycle time reduction achieved through automated SQL and Python pipeline dispatch.",
-                  "Anchor base compensation at ₹24L with front-loaded quarterly equity vesting tranches.",
+                  "Highlight on-ground operational execution and promoter team coordination across 100+ brand activations.",
+                  "Anchor base compensation against verified Bengaluru market intelligence salary bands.",
                   "Focus interview questions on dark-store unit economics and wastage mitigation models.",
-                  "Structure behavioral answers around quantified EBITDA margin optimization."
+                  "Structure behavioral answers around quantified operational efficiency and SLA discipline."
                 )
               }
 

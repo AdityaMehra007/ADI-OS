@@ -14,6 +14,7 @@ import com.example.data.model.CareerGoalsJobAnalysisResult
 import com.example.data.model.CareerMilestone
 import com.example.data.model.CareerNote
 import com.example.data.model.CareerStrategyNote
+import com.example.data.model.CareerTelemetry
 import com.example.data.model.Company
 import com.example.data.model.CompanyBookmark
 import com.example.data.model.CompanyIntelligenceWidgetCache
@@ -21,6 +22,7 @@ import com.example.data.model.DailyBriefing
 import com.example.data.model.DailyCareerBriefingReport
 import com.example.data.model.DecisionItem
 import com.example.data.model.GoalItem
+import com.example.data.model.InterviewFeedback
 import com.example.data.model.Job
 import com.example.data.model.MarketIntelligenceReport
 import com.example.data.model.MarketRadarItem
@@ -32,6 +34,7 @@ import com.example.data.model.ProjectItem
 import com.example.data.model.RecruiterContact
 import com.example.data.model.ResumeOptimizationFeedback
 import com.example.data.model.ResumeVariation
+import com.example.data.repository.CareerTelemetryRepository
 import com.example.data.repository.ResumeVariationRepository
 import com.example.data.model.SectorMarketInsightsReport
 import com.example.data.model.SkillItem
@@ -59,6 +62,16 @@ class TitanRepository(
   val resumeVariationRepository = ResumeVariationRepository(database.resumeVariationDao())
   val allResumeVariationsFlow: Flow<List<ResumeVariation>> = resumeVariationRepository.allVariationsFlow
   val primaryResumeVariationFlow: Flow<ResumeVariation?> = resumeVariationRepository.primaryVariationFlow
+
+  // Career Telemetry & Interview Feedback History (Local Room Database)
+  val careerTelemetryRepository = CareerTelemetryRepository(
+    database.careerTelemetryDao(),
+    database.interviewFeedbackDao()
+  )
+  val allCareerTelemetryFlow: Flow<List<CareerTelemetry>> = careerTelemetryRepository.allTelemetryFlow
+  val allInterviewFeedbackFlow: Flow<List<InterviewFeedback>> = careerTelemetryRepository.allFeedbackFlow
+  val averageInterviewScoreFlow: Flow<Float?> = careerTelemetryRepository.averageScoreFlow
+  val totalInterviewCountFlow: Flow<Int> = careerTelemetryRepository.totalInterviewCountFlow
 
   // Profile & Facts
   val userProfileFlow: Flow<UserProfile?> = database.profileDao().getUserProfileFlow()
@@ -230,6 +243,14 @@ class TitanRepository(
 
   suspend fun insertApplication(application: Application) {
     database.applicationDao().insertApplication(application)
+    careerTelemetryRepository.recordApplicationStatusChange(
+      companyName = application.companyName,
+      roleTitle = application.roleTitle,
+      previousStatus = "DISCOVERED",
+      newStatus = application.status,
+      details = "Tracked new application for ${application.roleTitle} at ${application.companyName}.",
+      score = application.interviewScore
+    )
     logAudit(
       agentName = "Application Automation Agent",
       action = "CUSTOM_APPLICATION_TRACKED",
@@ -241,7 +262,22 @@ class TitanRepository(
   }
 
   suspend fun updateApplicationStatus(appId: String, status: String) {
+    val existingApp = database.applicationDao().getApplicationById(appId)
+    val prevStatus = existingApp?.status ?: "UNKNOWN"
+    val companyName = existingApp?.companyName ?: "Target Company"
+    val roleTitle = existingApp?.roleTitle ?: "Target Role"
+
     database.applicationDao().updateApplicationStatus(appId, status)
+    
+    // Record into career telemetry Room schema
+    careerTelemetryRepository.recordApplicationStatusChange(
+      companyName = companyName,
+      roleTitle = roleTitle,
+      previousStatus = prevStatus,
+      newStatus = status,
+      details = "Application status advanced from $prevStatus to $status."
+    )
+
     logAudit(
       agentName = "Application Automation Agent",
       action = "STATUS_UPDATED",

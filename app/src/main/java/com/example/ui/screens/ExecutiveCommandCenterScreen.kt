@@ -1441,8 +1441,8 @@ fun DailyCareerInsightsCarouselSection(
       DailyCareerTip(
         id = "tip_2",
         category = "OPERATIONAL MOAT",
-        headline = "Translate 42% SLA Reduction to Bottom-Line P&L",
-        tipText = "Frame your 42% operational cycle compression not just as workflow speed, but as dark-store throughput velocity and runway preservation. In quick commerce, cycle reduction translates to 18% higher order volume per hub.",
+        headline = "Translate 100+ Live Activations to High-Pressure Execution",
+        tipText = "Frame your 100+ on-ground brand activations not just as event coordination, but as frontline logistics, promoter management, and zero-defect SLA compliance under live consumer crowd conditions.",
         actionableTag = "Export Grounded Case Study",
         iconType = "BOLT"
       ),
@@ -1466,7 +1466,7 @@ fun DailyCareerInsightsCarouselSection(
         id = "tip_5",
         category = "EXECUTIVE PRESENCE",
         headline = "Run Every Interview Like a Board Presentation",
-        tipText = "When asked behavioral questions, use the Executive Telemetry Framework: 1) Context & Business Stakes, 2) Data Ingestion & Diagnostic, 3) Algorithmic Solution, 4) Measurable Business Impact (e.g. 42% cycle time reduction).",
+        tipText = "When asked behavioral questions, use the Executive Telemetry Framework: 1) Context & Business Stakes, 2) Data Ingestion & Diagnostic, 3) Algorithmic Solution, 4) Measurable Business Impact (e.g. 100% SLA compliance, zero stock discrepancies).",
         actionableTag = "Drill in Interview OS",
         iconType = "PSYCHOLOGY"
       )

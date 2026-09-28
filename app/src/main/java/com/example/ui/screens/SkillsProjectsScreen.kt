@@ -342,7 +342,7 @@ fun SkillsProjectsScreen(
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                  "Every project is backed by verified business outcomes (e.g. 42% cycle time reduction), live SQL schemas, and interview-ready case teardowns.",
+                  "Every project is backed by verified business outcomes (e.g. 100+ brand activations, zero SLA breaches), live SQL schemas, and interview-ready case teardowns.",
                   style = MaterialTheme.typography.bodySmall,
                   color = TextSecondaryDark,
                   fontSize = 10.sp

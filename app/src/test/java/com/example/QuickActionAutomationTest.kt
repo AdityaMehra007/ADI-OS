@@ -48,7 +48,7 @@ class QuickActionAutomationTest {
       id = "note_test_zepto",
       title = "Zepto Strategy Ops Battle-Plan",
       category = "STRATEGY",
-      content = "Dark-store fulfillment turnaround strategy. Emphasize SQL batch dispatch algorithm that compressed cycle time by 42%.",
+      content = "Dark-store fulfillment turnaround strategy. Emphasize SQL tracking and on-ground crowd and bottleneck management across 100+ events.",
       targetCompany = "Zepto",
       targetRole = "Associate Business Analyst",
       tags = "SQL, Python, Logistics, Strategy",

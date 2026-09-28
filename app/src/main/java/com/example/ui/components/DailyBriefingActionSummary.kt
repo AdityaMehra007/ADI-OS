@@ -116,11 +116,11 @@ fun DailyBriefingActionSummary(
         isCompleted = false
       ),
       BriefingTaskItem(
-        id = "task_rzp_offer",
-        title = "Model ₹18.5L Razorpay CTC in-hand tax breakdown and Koramangala commute vs MSFT",
-        category = "OFFER EVALUATION",
-        priority = "P0 CRITICAL",
-        priorityColor = TitanCrimson,
+        id = "task_strategy_eval",
+        title = "Model compensation benchmarks and net in-hand tax breakdown for Bengaluru Tier-1 Ops roles",
+        category = "COMPENSATION STRATEGY",
+        priority = "P1 HIGH",
+        priorityColor = TitanGold,
         targetScreen = TitanScreen.APPLICATIONS,
         isCompleted = false
       ),
@@ -311,7 +311,7 @@ fun DailyBriefingActionSummary(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-              text = dailyBriefing?.strategicDirective ?: "Focus 80% energy on Microsoft's final evaluation. Do NOT sign Razorpay before MSFT round conclusion; use Razorpay's ₹18.5L offer as baseline leverage to push Microsoft to ₹22L+ band.",
+              text = dailyBriefing?.strategicDirective ?: "Focus strategic energy on high-conviction applications, tailoring STAR proof-points around 100+ brand activations and applied AI workflow automation.",
               style = MaterialTheme.typography.bodySmall,
               color = TextPrimaryDark,
               fontSize = 11.sp,

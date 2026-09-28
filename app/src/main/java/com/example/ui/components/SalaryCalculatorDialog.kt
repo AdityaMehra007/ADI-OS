@@ -121,7 +121,7 @@ Dear Hiring Team at $companyName,
 
 Thank you for extending the offer for the $roleTitle role. I am enthusiastic about the opportunity to drive strategic outcomes and analytics for $companyName in Bengaluru.
 
-Based on my operational track record (42% cycle reduction in trading ops, SQL/Python automation, BBA International Business merit) and current market benchmarks for top-tier strategy cohorts, I would like to propose the following alignment:
+Based on my operational track record (100+ brand activations with zero SLA breaches, commercial operations in family enterprise, and applied AI workflow proficiency) and current market benchmarks for top-tier strategy cohorts, I would like to propose the following alignment:
 
 1. Target Base Compensation: ${String.format("%.1f", annualCtcLakhs * 1.15)} LPA (representing ₹${currencyFormat.format(monthlyInHand * 1.15)} / month net cash flow).
 2. Joining Bonus / Retention Tranche: ₹${currencyFormat.format(bonusAnnual * 1.25)} upfront to offset immediate relocation and sign-on transition.
