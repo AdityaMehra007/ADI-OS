@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,13 +75,15 @@ fun TitanTopBar(
     color = ObsidianDark,
     modifier = Modifier
       .fillMaxWidth()
+      .statusBarsPadding()
       .testTag("titan_top_bar")
   ) {
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 10.dp)
+        .padding(horizontal = 14.dp, vertical = 6.dp)
     ) {
+      // Tier 1: Brand Identifier & Primary Action Controls
       Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -90,7 +93,7 @@ fun TitanTopBar(
         Row(verticalAlignment = Alignment.CenterVertically) {
           Box(
             modifier = Modifier
-              .size(34.dp)
+              .size(32.dp)
               .clip(RoundedCornerShape(8.dp))
               .background(if (brutalMode) TitanCrimson else TitanCyan)
               .border(1.dp, SlateBorder, RoundedCornerShape(8.dp)),
@@ -100,11 +103,11 @@ fun TitanTopBar(
               text = if (brutalMode) "⚡" else "A",
               color = ObsidianDark,
               fontWeight = FontWeight.Black,
-              fontSize = 18.sp
+              fontSize = 16.sp
             )
           }
 
-          Spacer(modifier = Modifier.width(10.dp))
+          Spacer(modifier = Modifier.width(8.dp))
 
           Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -113,20 +116,22 @@ fun TitanTopBar(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Black,
                 color = TextPrimaryDark,
-                letterSpacing = 1.sp
+                letterSpacing = 0.5.sp,
+                fontSize = 15.sp
               )
-              Spacer(modifier = Modifier.width(6.dp))
+              Spacer(modifier = Modifier.width(5.dp))
               Box(
                 modifier = Modifier
                   .clip(RoundedCornerShape(4.dp))
                   .background(if (brutalMode) TitanCrimson.copy(alpha = 0.2f) else TitanCyan.copy(alpha = 0.15f))
-                  .padding(horizontal = 6.dp, vertical = 2.dp)
+                  .padding(horizontal = 5.dp, vertical = 1.5.dp)
               ) {
                 Text(
                   text = if (brutalMode) "NO-BS MODE" else "PROJECT TITAN",
                   style = MaterialTheme.typography.labelSmall,
                   color = if (brutalMode) TitanCrimson else TitanCyan,
-                  fontWeight = FontWeight.Bold
+                  fontWeight = FontWeight.Bold,
+                  fontSize = 8.5.sp
                 )
               }
             }
@@ -134,15 +139,15 @@ fun TitanTopBar(
               text = "Personal Executive Command Center",
               style = MaterialTheme.typography.bodySmall,
               color = TextMutedDark,
-              fontSize = 10.sp
+              fontSize = 9.sp
             )
           }
         }
 
-        // Metrics Pill (Career Score & AI Leverage) + Command Palette Search
+        // Action Cluster: Account Sync, Notifications, HUD Search, Brutal Switch
         Row(
           verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.spacedBy(6.dp)
+          horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
           // Google Sign-In / Firebase Vault Account Button
           Box(
@@ -155,21 +160,21 @@ fun TitanTopBar(
                 RoundedCornerShape(8.dp)
               )
               .clickable { onAuthClick() }
-              .padding(horizontal = 7.dp, vertical = 5.dp)
+              .padding(horizontal = 6.dp, vertical = 4.dp)
               .testTag("top_bar_account_button")
           ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
               if (authUser != null) {
                 Box(
                   modifier = Modifier
-                    .size(14.dp)
+                    .size(12.dp)
                     .clip(CircleShape)
                     .background(TitanEmerald),
                   contentAlignment = Alignment.Center
                 ) {
                   Text(
                     text = authUser.displayName?.take(1)?.uppercase() ?: "A",
-                    fontSize = 9.sp,
+                    fontSize = 8.sp,
                     fontWeight = FontWeight.Black,
                     color = ObsidianDark
                   )
@@ -180,12 +185,12 @@ fun TitanTopBar(
                   style = MaterialTheme.typography.labelSmall,
                   fontWeight = FontWeight.Bold,
                   color = TitanEmerald,
-                  fontSize = 9.sp
+                  fontSize = 8.5.sp
                 )
               } else {
                 Text(
                   text = "G",
-                  fontSize = 11.sp,
+                  fontSize = 10.sp,
                   fontWeight = FontWeight.Black,
                   color = Color(0xFF4285F4)
                 )
@@ -195,7 +200,7 @@ fun TitanTopBar(
                   style = MaterialTheme.typography.labelSmall,
                   fontWeight = FontWeight.Bold,
                   color = TitanCyan,
-                  fontSize = 9.sp
+                  fontSize = 8.5.sp
                 )
               }
             }
@@ -212,7 +217,7 @@ fun TitanTopBar(
                 RoundedCornerShape(8.dp)
               )
               .clickable { onNotificationClick() }
-              .padding(horizontal = 7.dp, vertical = 5.dp)
+              .padding(horizontal = 6.dp, vertical = 4.dp)
               .testTag("top_bar_notifications_button")
           ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -228,7 +233,7 @@ fun TitanTopBar(
                   modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .background(TitanCrimson)
-                    .padding(horizontal = 3.5.dp, vertical = 0.5.dp)
+                    .padding(horizontal = 3.dp, vertical = 0.5.dp)
                 ) {
                   Text(
                     text = "$notificationUnreadCount",
@@ -249,7 +254,7 @@ fun TitanTopBar(
               .background(SlateElevated)
               .border(1.dp, TitanCyan.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
               .clickable { onSearchClick() }
-              .padding(horizontal = 7.dp, vertical = 5.dp)
+              .padding(horizontal = 6.dp, vertical = 4.dp)
               .testTag("top_bar_search_button")
           ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -257,7 +262,7 @@ fun TitanTopBar(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search / Command Palette",
                 tint = TitanCyan,
-                modifier = Modifier.size(13.dp)
+                modifier = Modifier.size(12.dp)
               )
               Spacer(modifier = Modifier.width(3.dp))
               Text(
@@ -265,64 +270,7 @@ fun TitanTopBar(
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Black,
                 color = TitanCyan,
-                fontSize = 9.sp
-              )
-            }
-          }
-
-          // Career Score
-          Box(
-            modifier = Modifier
-              .clip(RoundedCornerShape(8.dp))
-              .background(SlateElevated)
-              .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
-              .padding(horizontal = 8.dp, vertical = 4.dp)
-          ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-              Icon(
-                imageVector = Icons.Default.Bolt,
-                contentDescription = "Career Score",
-                tint = TitanGold,
-                modifier = Modifier.size(14.dp)
-              )
-              Spacer(modifier = Modifier.width(4.dp))
-              Text(
-                text = "$careerScore",
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = TitanGold
-              )
-              Text(
-                text = "/100",
-                style = MaterialTheme.typography.labelSmall,
-                color = TextMutedDark
-              )
-            }
-          }
-
-          // Automation Mode Pill
-          Box(
-            modifier = Modifier
-              .clip(RoundedCornerShape(8.dp))
-              .background(SlateElevated)
-              .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
-              .clickable { onAutomationModeClick() }
-              .padding(horizontal = 8.dp, vertical = 4.dp)
-              .testTag("automation_mode_button")
-          ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-              Box(
-                modifier = Modifier
-                  .size(6.dp)
-                  .clip(CircleShape)
-                  .background(if (autoMode == "AUTO") TitanEmerald else TitanCyan)
-              )
-              Spacer(modifier = Modifier.width(4.dp))
-              Text(
-                text = "MODE: $autoMode",
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimaryDark
+                fontSize = 8.5.sp
               )
             }
           }
@@ -334,7 +282,7 @@ fun TitanTopBar(
               .background(if (brutalMode) TitanCrimson.copy(alpha = 0.15f) else SlateCard)
               .border(1.dp, if (brutalMode) TitanCrimson else SlateBorder, RoundedCornerShape(8.dp))
               .clickable { onToggleBrutalMode() }
-              .padding(horizontal = 8.dp, vertical = 4.dp)
+              .padding(horizontal = 6.dp, vertical = 4.dp)
               .testTag("brutal_mode_toggle")
           ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -342,16 +290,95 @@ fun TitanTopBar(
                 imageVector = if (brutalMode) Icons.Default.Warning else Icons.Default.Shield,
                 contentDescription = "Brutal Mode",
                 tint = if (brutalMode) TitanCrimson else TextSecondaryDark,
-                modifier = Modifier.size(13.dp)
+                modifier = Modifier.size(12.dp)
               )
-              Spacer(modifier = Modifier.width(4.dp))
+              Spacer(modifier = Modifier.width(3.dp))
               Text(
-                text = if (brutalMode) "BRUTAL" else "STRATEGY",
+                text = if (brutalMode) "NO-BS" else "NORMAL",
                 style = MaterialTheme.typography.labelSmall,
                 color = if (brutalMode) TitanCrimson else TextSecondaryDark,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 8.5.sp
               )
             }
+          }
+        }
+      }
+
+      Spacer(modifier = Modifier.height(6.dp))
+
+      // Tier 2: Real-time Telemetry & Mode Governance Strip
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .clip(RoundedCornerShape(8.dp))
+          .background(SlateCard)
+          .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
+          .padding(horizontal = 10.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        // Career Score Pill
+        Row(verticalAlignment = Alignment.CenterVertically) {
+          Icon(
+            imageVector = Icons.Default.Bolt,
+            contentDescription = "Career Score",
+            tint = TitanGold,
+            modifier = Modifier.size(13.dp)
+          )
+          Spacer(modifier = Modifier.width(4.dp))
+          Text(
+            text = "CAREER $careerScore/100",
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
+            color = TitanGold,
+            fontSize = 9.sp
+          )
+        }
+
+        // AI Leverage Pill
+        Row(verticalAlignment = Alignment.CenterVertically) {
+          Icon(
+            imageVector = Icons.Default.Psychology,
+            contentDescription = "AI Leverage",
+            tint = TitanCyan,
+            modifier = Modifier.size(13.dp)
+          )
+          Spacer(modifier = Modifier.width(4.dp))
+          Text(
+            text = "AI $aiLeverage%",
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
+            color = TitanCyan,
+            fontSize = 9.sp
+          )
+        }
+
+        // Automation Mode Pill
+        Box(
+          modifier = Modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(SlateElevated)
+            .border(1.dp, SlateBorder, RoundedCornerShape(6.dp))
+            .clickable { onAutomationModeClick() }
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+            .testTag("automation_mode_button")
+        ) {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+              modifier = Modifier
+                .size(6.dp)
+                .clip(CircleShape)
+                .background(if (autoMode == "AUTO") TitanEmerald else TitanCyan)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+              text = "MODE: $autoMode",
+              style = MaterialTheme.typography.labelSmall,
+              fontWeight = FontWeight.Bold,
+              color = if (autoMode == "AUTO") TitanEmerald else TitanCyan,
+              fontSize = 9.sp
+            )
           }
         }
       }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -93,6 +94,7 @@ import com.example.data.model.AutomatedJobMatch
 import com.example.data.model.AutomationCriteria
 import com.example.data.model.AutomationQueueStatus
 import com.example.data.model.Job
+import com.example.ui.components.ApplicationFunnelVisualization
 import com.example.ui.components.MarketIntelligenceView
 import com.example.ui.components.SmartJobSearchView
 import com.example.ui.components.VoiceCommandCenterCard
@@ -985,6 +987,7 @@ fun OpportunityRadarView(
     // Jobs List
     LazyColumn(
       modifier = Modifier.fillMaxSize(),
+      contentPadding = PaddingValues(bottom = 96.dp),
       verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
       // Pasted Job Description AI Analyzer Component
@@ -1052,6 +1055,7 @@ fun JobAutomationDashboardView(
 
   LazyColumn(
     modifier = Modifier.fillMaxSize(),
+    contentPadding = PaddingValues(bottom = 96.dp),
     verticalArrangement = Arrangement.spacedBy(14.dp)
   ) {
     // 0. Voice Command Center & Audio Prompt Interface
@@ -1297,31 +1301,43 @@ fun JobAutomationDashboardView(
       }
     }
 
-    // 4. Section: READY FOR 1-TAP APPROVAL & DISPATCH
+    // 4. Section: 1-CLICK APPLY PANEL WITH APPLICATION FUNNEL VISUALIZATION
     item {
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+      Column(
+        modifier = Modifier
+          .fillMaxWidth()
+          .testTag("one_click_apply_panel")
       ) {
-        Text(
-          text = "AUTOMATED MATCHES • READY FOR DISPATCH (${readyMatches.size})",
-          style = MaterialTheme.typography.labelSmall,
-          color = TitanGold,
-          fontWeight = FontWeight.Bold
+        // Application Funnel Telemetry (Conversion from Emails Sent to Targeted Roles)
+        ApplicationFunnelVisualization(
+          viewModel = viewModel,
+          modifier = Modifier.padding(bottom = 10.dp)
         )
 
-        if (readyMatches.isNotEmpty()) {
-          TextButton(
-            onClick = {
-              readyMatches.forEach { match ->
-                viewModel.approveAndSubmitAutomatedApplication(match)
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically
+        ) {
+          Text(
+            text = "1-CLICK APPLY DISPATCH QUEUE (${readyMatches.size})",
+            style = MaterialTheme.typography.labelSmall,
+            color = TitanGold,
+            fontWeight = FontWeight.Bold
+          )
+
+          if (readyMatches.isNotEmpty()) {
+            TextButton(
+              onClick = {
+                readyMatches.forEach { match ->
+                  viewModel.approveAndSubmitAutomatedApplication(match)
+                }
               }
+            ) {
+              Icon(Icons.Default.Bolt, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
+              Spacer(modifier = Modifier.width(4.dp))
+              Text("Approve All (${readyMatches.size})", color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 11.sp)
             }
-          ) {
-            Icon(Icons.Default.Bolt, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
-            Spacer(modifier = Modifier.width(4.dp))
-            Text("Approve All (${readyMatches.size})", color = TitanGold, fontWeight = FontWeight.Bold, fontSize = 11.sp)
           }
         }
       }

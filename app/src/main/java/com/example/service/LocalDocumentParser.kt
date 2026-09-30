@@ -46,7 +46,7 @@ object LocalDocumentParser {
       simulatedSizeBytes = 142850L,
       title = "Aditya Mehra - Lead Strategy & Ops (Zepto Target)",
       targetProfile = "High-Growth Quick Commerce & Marketplace Ops",
-      description = "Evidence-backed resume with verified 42% cycle reduction and SQL telemetry. Ready for ATS benchmarking against Zepto, Swiggy, and Blinkit.",
+      description = "Evidence-backed resume with verified operational cycle reduction (28m to 16.2m) and SQL telemetry. Ready for ATS benchmarking against Zepto, Swiggy, and Blinkit.",
       rawContent = """
 ADITYA "ADI" MEHRA
 Bengaluru, India | +91-7003456624 | adityamehra799@gmail.com

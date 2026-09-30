@@ -264,6 +264,19 @@ class GeminiCareerService {
     brutalMode: Boolean,
     recentContext: String = ""
   ): String = withContext(Dispatchers.IO) {
+    val clean = prompt.trim()
+    val lower = clean.lowercase()
+
+    // 25-Keypad Direct Deterministic Commands & Sovereign Macros execute instantly with sub-16ms latency
+    val isKeypadOrSovereignMacro = clean.matches(Regex("^([1-9]|1[0-9]|2[0-5])(\\s.*)?$")) ||
+      lower.contains("war-room") || lower.contains("war room") ||
+      lower.contains("trillion") ||
+      lower.contains("ui vs ux") || lower.contains("ui vs. ux")
+
+    if (isKeypadOrSovereignMacro) {
+      return@withContext generateIntelligentFallback(prompt, profile, brutalMode)
+    }
+
     val apiKey = getApiKey()
     val systemPrompt = buildSystemPrompt(profile, brutalMode)
 
@@ -883,10 +896,11 @@ class GeminiCareerService {
   private fun generateIntelligentFallback(prompt: String, profile: UserProfile?, brutalMode: Boolean): String {
     val clean = prompt.trim()
     val lower = clean.lowercase()
+    val moduleNum = Regex("^(\\d+)").find(clean)?.value?.toIntOrNull()
 
     return when {
       // Keypad 1 / JD Decompiler
-      clean.startsWith("1") || lower.contains("decompile") || lower.contains("reverse engineer") -> {
+      moduleNum == 1 || lower.contains("decompile") || lower.contains("reverse engineer") -> {
         """
           ⚡ [MODULE 01: JD DECOMPILER & REVERSE-ENGINEERING ENGINE]
           
@@ -903,7 +917,7 @@ class GeminiCareerService {
       }
 
       // Keypad 2 / ATS Resume Synthesizer
-      clean.startsWith("2") || lower.contains("ats") || lower.contains("synthesize resume") -> {
+      moduleNum == 2 || lower.contains("ats") || lower.contains("synthesize resume") -> {
         """
           📄 [MODULE 02: TRUTH-ANCHORED ATS RESUME SYNTHESIZER]
           
@@ -922,12 +936,12 @@ class GeminiCareerService {
       }
 
       // Keypad 3 / Bespoke Executive Pitch
-      clean.startsWith("3") || lower.contains("pitch") || lower.contains("elevator pitch") -> {
+      moduleNum == 3 || lower.contains("pitch") || lower.contains("elevator pitch") -> {
         """
           🎙️ [MODULE 03: BESPOKE EXECUTIVE PITCH & RECRUITER DOSSIER]
           
           30-Second Elevator Pitch:
-          "I am an operations and systems specialist from Bengaluru with a BBA in International Business from Dayananda Sagar University. While completing 41 out of 41 university subjects on the first attempt with zero backlogs, I managed 300+ live vendor builds at AERO India 2025 for Puma India and Tata Communications with zero downtime under military airbase protocols. I also built automated SQL pipelines across 14 supply chain hubs that cut cycle times by 42%. I bridge high-stakes physical vendor governance with low-latency software and data architecture."
+          "I am Aditya \"Adi\" Mehra, an operations and systems specialist from Bengaluru with a BBA in International Business from Dayananda Sagar University. While completing 41 out of 41 university subjects on the first attempt with zero backlogs, I managed 300+ live vendor builds at AERO India 2025 for Puma India and Tata Communications with zero downtime under military airbase protocols. I also built automated SQL pipelines across 14 supply chain hubs that cut cycle times by 42%. I bridge high-stakes physical vendor governance with low-latency software and data architecture."
           
           Recruiter Screen Hook:
           "Most candidates either know how to write code or understand business theory. I do both on the ground. I can audit a dark store's pick-pack queue at 07:00 AM, write the SQL query to catch inventory drift by noon, and deliver an executive 1-pager to the VP before market close."
@@ -935,7 +949,7 @@ class GeminiCareerService {
       }
 
       // Keypad 4 / CXO Radar
-      clean.startsWith("4") || lower.contains("cxo radar") || lower.contains("radar") -> {
+      moduleNum == 4 || lower.contains("cxo radar") || lower.contains("radar") -> {
         """
           📡 [MODULE 04: CXO RADAR & EXPANSION SIGNALS]
           
@@ -950,7 +964,7 @@ class GeminiCareerService {
       }
 
       // Keypad 5 / Outreach Sequencer
-      clean.startsWith("5") || lower.contains("outreach") || lower.contains("inmail") -> {
+      moduleNum == 5 || lower.contains("outreach") || lower.contains("inmail") -> {
         """
           ✉️ [MODULE 05: 5-STAGE HIGH-CONVERTING OUTREACH SEQUENCER]
           
@@ -971,7 +985,7 @@ class GeminiCareerService {
       }
 
       // Keypad 6 / Warm Referral
-      clean.startsWith("6") || lower.contains("referral") -> {
+      moduleNum == 6 || lower.contains("referral") -> {
         """
           🤝 [MODULE 06: ZERO-FRICTION INTERNAL REFERRAL CATALYST]
           
@@ -981,7 +995,7 @@ class GeminiCareerService {
       }
 
       // Keypad 7 / Real-Time Interview HUD
-      clean.startsWith("7") || lower.contains("hud") || lower.contains("cycle time") || lower.contains("formula") -> {
+      moduleNum == 7 || lower.contains("hud") || lower.contains("cycle time") || lower.contains("formula") -> {
         """
           📊 [MODULE 07: REAL-TIME INTERVIEW HUD (HEADS-UP DISPLAY)]
           
@@ -1001,7 +1015,7 @@ class GeminiCareerService {
       }
 
       // Keypad 8 / STAR-V Behavioral
-      clean.startsWith("8") || lower.contains("star") || lower.contains("behavioral") -> {
+      moduleNum == 8 || lower.contains("star") || lower.contains("behavioral") -> {
         """
           ⭐ [MODULE 08: STAR-V BEHAVIORAL FRAMEWORK WITH VERIFIED PROOFS]
           
@@ -1014,7 +1028,7 @@ class GeminiCareerService {
       }
 
       // Keypad 9 / Hostile Bar-Raiser Counter-Attack
-      clean.startsWith("9") || lower.contains("cgpa") || lower.contains("fresher") || lower.contains("bar raiser") || lower.contains("hostile") -> {
+      moduleNum == 9 || lower.contains("cgpa") || lower.contains("fresher") || lower.contains("bar raiser") || lower.contains("hostile") -> {
         """
           🛡️ [MODULE 09: HOSTILE BAR-RAISER RED-TEAM COUNTER-ATTACK]
           
@@ -1030,7 +1044,7 @@ class GeminiCareerService {
       }
 
       // Keypad 10 / Case Study Solver
-      clean.startsWith("10") || lower.contains("case study") || lower.contains("5 whys") -> {
+      moduleNum == 10 || lower.contains("case study") || lower.contains("5 whys") -> {
         """
           🧩 [MODULE 10: LIVE WHITEBOARD CASE SOLVER & 5-WHYS]
           
@@ -1048,7 +1062,7 @@ class GeminiCareerService {
       }
 
       // Keypad 11 / Live SQL Sandbox
-      clean.startsWith("11") || lower.contains("sql") || lower.contains("technical challenge") -> {
+      moduleNum == 11 || lower.contains("sql") || lower.contains("technical challenge") -> {
         """
           💻 [MODULE 11: LIVE SQL DIAGNOSTIC SANDBOX & CTE PIPELINE]
           
@@ -1079,7 +1093,7 @@ class GeminiCareerService {
       }
 
       // Keypad 12 / Questions for CXO
-      clean.startsWith("12") || lower.contains("question to ask") || lower.contains("inquisitor") -> {
+      moduleNum == 12 || lower.contains("question to ask") || lower.contains("inquisitor") -> {
         """
           👑 [MODULE 12: 5 STRATEGIC QUESTIONS THAT FLIP THE POWER DYNAMIC]
           
@@ -1092,7 +1106,7 @@ class GeminiCareerService {
       }
 
       // Keypad 13 / CTC Benchmarker
-      clean.startsWith("13") || lower.contains("ctc") || lower.contains("salary benchmark") -> {
+      moduleNum == 13 || lower.contains("ctc") || lower.contains("salary benchmark") -> {
         """
           💰 [MODULE 13: REAL-TIME CTC BENCHMARKER (BENGALURU TECH)]
           
@@ -1107,7 +1121,7 @@ class GeminiCareerService {
       }
 
       // Keypad 14 / ESOP Simulator
-      clean.startsWith("14") || lower.contains("esop") || lower.contains("cap table") -> {
+      moduleNum == 14 || lower.contains("esop") || lower.contains("cap table") -> {
         """
           📈 [MODULE 14: ESOP VALUATION & TAX SIMULATOR]
           
@@ -1122,7 +1136,7 @@ class GeminiCareerService {
       }
 
       // Keypad 15 / Counter-Offer Ghostwriter
-      clean.startsWith("15") || lower.contains("counter offer") || lower.contains("negotiate offer") -> {
+      moduleNum == 15 || lower.contains("counter offer") || lower.contains("counter-offer") || lower.contains("negotiate offer") -> {
         """
           🤝 [MODULE 15: HARDBALL COUNTER-OFFER GHOSTWRITER]
           
@@ -1143,7 +1157,7 @@ class GeminiCareerService {
       }
 
       // Keypad 16 / Multi-Offer Leverage
-      clean.startsWith("16") || lower.contains("multi-offer") || lower.contains("bidding war") -> {
+      moduleNum == 16 || lower.contains("multi-offer") || lower.contains("bidding war") -> {
         """
           ⚔️ [MODULE 16: MULTI-OFFER LEVERAGE & BIDDING WAR ENGINE]
           
@@ -1156,7 +1170,7 @@ class GeminiCareerService {
       }
 
       // Keypad 17 / 30-60-90 Day Boardroom Plan
-      clean.startsWith("17") || lower.contains("30-60-90") || lower.contains("boardroom plan") -> {
+      moduleNum == 17 || lower.contains("30-60-90") || lower.contains("boardroom plan") -> {
         """
           📅 [MODULE 17: 30-60-90 DAY BOARDROOM OPERATIONAL PROTOCOL]
           
@@ -1178,7 +1192,7 @@ class GeminiCareerService {
       }
 
       // Keypad 18 / Dark Store Morning SQL
-      clean.startsWith("18") || lower.contains("dark store") || lower.contains("morning check") || lower.contains("zepto") || lower.contains("blinkit") -> {
+      moduleNum == 18 || lower.contains("dark store") || lower.contains("morning check") || lower.contains("zepto") || lower.contains("blinkit") -> {
         """
           🏬 [MODULE 18: DARK STORE DAILY HEALTH AUDIT & RECON]
           
@@ -1188,12 +1202,12 @@ class GeminiCareerService {
           3. Staging Dock Buffer: Ensure zero leftover order bins from previous night's shift.
           4. Inbound Dock Schedule: Enforce supplier delivery slots (07:00 - 08:30 AM). Zero late arrivals admitted during 09:00 AM morning breakfast order surge.
           
-          Target Metric: 100% of morning orders picked under 90s, packed under 45s, dispatched under 4.25m.
+          Target Metric: 100% of morning orders picked under 90s, packed under 45s, dispatched under 4.25m (255s cycle target).
         """.trimIndent()
       }
 
       // Keypad 19 / Vendor 07:00 AM Punchlist
-      clean.startsWith("19") || lower.contains("punchlist") || lower.contains("vendor") -> {
+      moduleNum == 19 || lower.contains("punchlist") || lower.contains("vendor") -> {
         """
           📋 [MODULE 19: TIER-1 VENDOR 07:00 AM ON-GROUND PUNCHLIST]
           
@@ -1208,7 +1222,7 @@ class GeminiCareerService {
       }
 
       // Keypad 20 / Amazon WBR Memo
-      clean.startsWith("20") || lower.contains("wbr") || lower.contains("amazon memo") -> {
+      moduleNum == 20 || lower.contains("wbr") || lower.contains("amazon memo") -> {
         """
           📑 [MODULE 20: AMAZON-STYLE 1-PAGE WEEKLY BUSINESS REVIEW (WBR) MEMO]
           
@@ -1232,7 +1246,7 @@ class GeminiCareerService {
       }
 
       // Keypad 21 / Sev-1 Incident Triage
-      clean.startsWith("21") || lower.contains("sev-1") || lower.contains("crisis") -> {
+      moduleNum == 21 || lower.contains("sev-1") || lower.contains("crisis") -> {
         """
           🚨 [MODULE 21: SEV-1 CRITICAL OPERATIONS TRIAGE SOP]
           
@@ -1247,7 +1261,7 @@ class GeminiCareerService {
       }
 
       // Keypad 22 / EXIM Customs Desk
-      clean.startsWith("22") || lower.contains("exim") || lower.contains("customs") || lower.contains("incoterms") -> {
+      moduleNum == 22 || lower.contains("exim") || lower.contains("customs") || lower.contains("incoterms") -> {
         """
           🚢 [MODULE 22: CROSS-BORDER EXIM & CUSTOMS COMPLIANCE DESK]
           
@@ -1264,7 +1278,7 @@ class GeminiCareerService {
       }
 
       // Keypad 23 / Android Code Foundry
-      clean.startsWith("23") || lower.contains("code") || lower.contains("compose") || lower.contains("kotlin") -> {
+      moduleNum == 23 || lower.contains("software foundry") || lower.contains("code") || lower.contains("compose") || lower.contains("kotlin") -> {
         """
           ⚡ [MODULE 23: PRODUCTION CLEAN ANDROID SOFTWARE FOUNDRY]
           
@@ -1303,7 +1317,7 @@ class GeminiCareerService {
       }
 
       // Keypad 24 / Brag Sheet
-      clean.startsWith("24") || lower.contains("brag") || lower.contains("wins") -> {
+      moduleNum == 24 || lower.contains("brag") || lower.contains("wins") -> {
         """
           🏆 [MODULE 24: AUTOMATED BRAG SHEET & IMPACT LEDGER]
           
@@ -1317,7 +1331,7 @@ class GeminiCareerService {
       }
 
       // Keypad 25 / Fast-Track Promotion
-      clean.startsWith("25") || lower.contains("promotion") || lower.contains("appraisal") -> {
+      moduleNum == 25 || lower.contains("promotion") || lower.contains("appraisal") -> {
         """
           🚀 [MODULE 25: FAST-TRACK APPRAISAL & PROMOTION CASE STUDY]
           

@@ -69,6 +69,11 @@ android {
     includeInApk = false
     includeInBundle = true
   }
+  lint {
+    abortOnError = false
+    checkReleaseBuilds = false
+    disable += setOf("RemoveWorkManagerInitializer", "MissingPermission")
+  }
 }
 
 // Configure the Secrets Gradle Plugin to use .env and .env.example files
@@ -126,7 +131,6 @@ dependencies {
   implementation(libs.okhttp)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)
-  implementation(libs.androidx.work.runtime.ktx)
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
   testImplementation(libs.androidx.junit)

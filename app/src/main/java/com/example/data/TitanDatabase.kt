@@ -14,11 +14,13 @@ import com.example.data.dao.AutomationTaskDao
 import com.example.data.dao.AutomationTaskLogDao
 import com.example.data.dao.CareerNoteDao
 import com.example.data.dao.CareerStrategyNoteDao
+import com.example.data.dao.CareerTelemetryDao
 import com.example.data.dao.CompanyBookmarkDao
 import com.example.data.dao.CompanyDao
 import com.example.data.dao.CompanyIntelligenceWidgetDao
 import com.example.data.dao.GoalDecisionDao
 import com.example.data.dao.IntegrationDao
+import com.example.data.dao.InterviewFeedbackDao
 import com.example.data.dao.JobDao
 import com.example.data.dao.KnowledgeDao
 import com.example.data.dao.MarketRadarDao
@@ -43,6 +45,8 @@ import com.example.data.model.AutomationTaskLog
 import com.example.data.model.CareerMilestone
 import com.example.data.model.CareerNote
 import com.example.data.model.CareerStrategyNote
+import com.example.data.model.CareerTelemetry
+import com.example.data.model.InterviewFeedback
 import com.example.data.model.Company
 import com.example.data.model.CompanyBookmark
 import com.example.data.model.CompanyIntelligenceWidgetCache
@@ -107,10 +111,12 @@ import kotlinx.coroutines.launch
     TargetCompany::class,
     TargetCompanyMarketIntel::class,
     ResumeVariation::class,
-    CompanyIntelligenceWidgetCache::class
+    CompanyIntelligenceWidgetCache::class,
+    CareerTelemetry::class,
+    InterviewFeedback::class
   ],
-  version = 10,
-  exportSchema = true
+  version = 11,
+  exportSchema = false
 )
 abstract class TitanDatabase : RoomDatabase() {
   abstract fun profileDao(): ProfileDao
@@ -140,6 +146,8 @@ abstract class TitanDatabase : RoomDatabase() {
   abstract fun careerNoteDao(): CareerNoteDao
   abstract fun automationTaskDao(): AutomationTaskDao
   abstract fun resumeVariationDao(): ResumeVariationDao
+  abstract fun careerTelemetryDao(): CareerTelemetryDao
+  abstract fun interviewFeedbackDao(): InterviewFeedbackDao
 
 
 

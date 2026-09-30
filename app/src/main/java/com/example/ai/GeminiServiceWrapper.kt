@@ -88,6 +88,9 @@ data class CompanyResearchResponse(
   val isLiveGrounded: Boolean,
   val rawGeminiOutput: String
 ) {
+  val interviewAngles: List<String>
+    get() = interviewPreparationAngles
+
   /**
    * Helper converter to legacy CompanyIntelReport for backwards compatibility
    */

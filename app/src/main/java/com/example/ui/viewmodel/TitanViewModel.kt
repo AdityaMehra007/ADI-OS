@@ -5,6 +5,8 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.example.service.LinkedInIntegrationService
 import com.example.service.LinkedInSyncBackgroundService
 import com.example.service.PlatformJobSyncBackgroundService
@@ -324,7 +326,7 @@ class TitanViewModel(
   val jobDiscoveryTargetCompaniesCount: StateFlow<Int> = jobDiscoveryManager.targetCompaniesMonitoredCount
 
   // Current Navigation Tab
-  private val _currentScreen = MutableStateFlow(TitanScreen.DASHBOARD)
+  private val _currentScreen = MutableStateFlow(TitanScreen.CAREER_STRATEGY)
   val currentScreen: StateFlow<TitanScreen> = _currentScreen.asStateFlow()
 
   fun navigateTo(screen: TitanScreen) {
@@ -367,6 +369,14 @@ class TitanViewModel(
 
   val applications: StateFlow<List<com.example.data.model.Application>> = repository.applicationsFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+  val batchJobWorkInfo: StateFlow<List<WorkInfo>> = try {
+    WorkManager.getInstance(application)
+      .getWorkInfosForUniqueWorkFlow(com.example.service.work.BatchApplicationSyncWorker.WORK_NAME)
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+  } catch (e: Throwable) {
+    MutableStateFlow<List<WorkInfo>>(emptyList()).asStateFlow()
+  }
 
   val contacts: StateFlow<List<RecruiterContact>> = repository.contactsFlow
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
@@ -6186,6 +6196,10 @@ Status: Dispatched via ${rule.targetAgent} with zero-trust validation check.
 
   fun triggerDarkStoreSlaWatchdog() {
     com.example.service.work.TitanWorkManagerHelper.triggerImmediateDarkStoreSlaCheck(getApplication())
+  }
+
+  fun triggerBatchJobSync() {
+    com.example.service.work.TitanWorkManagerHelper.triggerImmediateBatchJobSync(getApplication())
   }
 
   override fun onCleared() {

@@ -11,6 +11,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -75,7 +76,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.model.Application
 import com.example.service.FirestoreSyncState
+import com.example.ui.components.ApplicationFunnelVisualization
 import com.example.ui.components.CareerRoadmapReportExportDialog
+import com.example.ui.components.CompanyApplicationSentTrackerCard
 import com.example.ui.components.MultiPlatformSyncCard
 import com.example.ui.theme.ObsidianDark
 import com.example.ui.theme.SlateBorder
@@ -286,6 +289,7 @@ fun ApplicationsScreen(
     // -------------------------------------------------------------------------
     LazyColumn(
       modifier = Modifier.fillMaxSize(),
+      contentPadding = PaddingValues(bottom = 96.dp),
       verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
       // 0. MULTI-PLATFORM SAVED JOBS & ATS TRACKING DAEMON CARD
@@ -293,6 +297,21 @@ fun ApplicationsScreen(
         MultiPlatformSyncCard(
           viewModel = viewModel,
           initialExpanded = true
+        )
+      }
+
+      // 0B. APPLICATION FUNNEL VISUALIZATION (CONVERSION TELEMETRY)
+      item {
+        ApplicationFunnelVisualization(
+          viewModel = viewModel,
+          initialExpanded = false
+        )
+      }
+
+      // 0C. APPLICATION HUB PERSISTENT STATE TRACKER ('APPLICATION SENT' VIA LOCALSTORAGE)
+      item {
+        CompanyApplicationSentTrackerCard(
+          viewModel = viewModel
         )
       }
 

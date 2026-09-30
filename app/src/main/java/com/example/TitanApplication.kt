@@ -6,6 +6,7 @@ import com.example.ai.IGeminiServiceWrapper
 import com.example.data.TitanDatabase
 import com.example.repository.TitanRepository
 import com.example.ui.viewmodel.TitanViewModelFactory
+import androidx.work.Configuration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -15,9 +16,14 @@ import kotlinx.coroutines.SupervisorJob
  * Provides centralized, lifecycle-aware instances of Room database,
  * repositories, and ViewModelProvider.Factory for dependency injection.
  */
-class TitanApplication : Application() {
+class TitanApplication : Application(), Configuration.Provider {
 
   val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+  override val workManagerConfiguration: Configuration
+    get() = Configuration.Builder()
+      .setMinimumLoggingLevel(android.util.Log.INFO)
+      .build()
 
   val database: TitanDatabase by lazy {
     TitanDatabase.getDatabase(this, applicationScope)
@@ -42,7 +48,11 @@ class TitanApplication : Application() {
   override fun onCreate() {
     super.onCreate()
     instance = this
-    com.example.service.work.TitanWorkManagerHelper.scheduleAllPeriodicTasks(this)
+    try {
+      com.example.service.work.TitanWorkManagerHelper.scheduleAllPeriodicTasks(this)
+    } catch (e: Throwable) {
+      android.util.Log.w("TitanApplication", "Periodic work setup deferred/skipped: ${e.message}")
+    }
   }
 
   companion object {

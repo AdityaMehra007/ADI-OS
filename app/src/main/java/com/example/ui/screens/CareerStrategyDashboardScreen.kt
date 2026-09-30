@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -158,6 +159,7 @@ fun CareerStrategyDashboardScreen(
       .background(ObsidianDark)
       .padding(horizontal = 16.dp)
       .testTag("career_strategy_dashboard_screen"),
+    contentPadding = PaddingValues(bottom = 96.dp),
     verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
     item { Spacer(modifier = Modifier.height(6.dp)) }

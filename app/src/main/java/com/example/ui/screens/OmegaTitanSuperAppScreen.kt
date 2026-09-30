@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Bookmark
@@ -41,7 +42,6 @@ import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -420,7 +420,7 @@ Directive: Enforce 255s hub cycle threshold across all shifts.
             // Tactile Action Icons: Speak, Share, Save
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
               IconButton(onClick = { onSpeak(warRoomMemo) }, modifier = Modifier.size(28.dp)) {
-                Icon(Icons.Default.VolumeUp, contentDescription = "Voice Readout", tint = TitanGold, modifier = Modifier.size(16.dp))
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Voice Readout", tint = TitanGold, modifier = Modifier.size(16.dp))
               }
               IconButton(onClick = { onShare(warRoomMemo, "C-Suite War Room Memo: $selectedTopic") }, modifier = Modifier.size(28.dp)) {
                 Icon(Icons.Default.Share, contentDescription = "Share Memo", tint = TitanCyan, modifier = Modifier.size(16.dp))
@@ -594,7 +594,7 @@ private fun Keypad25Tab(
               },
               modifier = Modifier.size(28.dp)
             ) {
-              Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(16.dp))
+              Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(16.dp))
             }
             IconButton(
               onClick = {
@@ -661,7 +661,7 @@ private fun Keypad25Tab(
 
           Row(horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { onSpeak("Module $key: $desc") }, modifier = Modifier.size(26.dp)) {
-              Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
+              Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
             }
             IconButton(onClick = { onShare("Module $key: $desc\nOMEGA-TITAN Sovereign Execution Protocol", "Module $key") }, modifier = Modifier.size(26.dp)) {
               Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
@@ -856,7 +856,7 @@ Aladdin Status: ${if (isOptimal) "OPTIMAL (PASS)" else "BREACH MITIGATED BY ALAD
           contentAlignment = Alignment.Center
         ) {
           Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.VolumeUp, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(14.dp))
+            Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, tint = TitanCyan, modifier = Modifier.size(14.dp))
             Spacer(modifier = Modifier.width(4.dp))
             Text("Voice Audit", color = TitanCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
           }
@@ -1052,7 +1052,7 @@ private fun TargetReconTab(
 
             Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
               IconButton(onClick = { onSpeak(companyBrief) }, modifier = Modifier.size(26.dp)) {
-                Icon(Icons.Default.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Listen", tint = TitanGold, modifier = Modifier.size(14.dp))
               }
               IconButton(onClick = { onShare(companyBrief, "Target Recon: ${company.name}") }, modifier = Modifier.size(26.dp)) {
                 Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
@@ -1121,7 +1121,7 @@ private fun RedTeamVaultTab(
 
             Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
               IconButton(onClick = { onSpeak(counterAttack) }, modifier = Modifier.size(26.dp)) {
-                Icon(Icons.Default.VolumeUp, contentDescription = "Audio Rehearsal", tint = TitanGold, modifier = Modifier.size(14.dp))
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Audio Rehearsal", tint = TitanGold, modifier = Modifier.size(14.dp))
               }
               IconButton(onClick = { onShare(fullScript, title) }, modifier = Modifier.size(26.dp)) {
                 Icon(Icons.Default.Share, contentDescription = "Share", tint = TitanCyan, modifier = Modifier.size(14.dp))
@@ -1373,7 +1373,7 @@ Truth: UI creates psychological confidence in the boardroom; UX delivers mathema
           contentAlignment = Alignment.Center
         ) {
           Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.VolumeUp, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
+            Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
             Spacer(modifier = Modifier.width(4.dp))
             Text("Voice Doctrine", color = TitanGold, fontSize = 10.sp, fontWeight = FontWeight.Bold)
           }

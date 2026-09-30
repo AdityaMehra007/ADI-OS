@@ -81,16 +81,24 @@ fun TitanBottomNav(
         MainNavDestination.items.forEach { destination ->
           val isSelected = when (destination) {
             MainNavDestination.CareerStrategy -> currentRoute == ScreenRoutes.CAREER_STRATEGY ||
+                currentRoute == ScreenRoutes.DASHBOARD ||
+                currentRoute == ScreenRoutes.COMMAND_CENTER ||
                 currentRoute == ScreenRoutes.CAREER_NOTES ||
-                currentRoute == ScreenRoutes.GOALS
+                currentRoute == ScreenRoutes.GOALS ||
+                currentRoute == ScreenRoutes.SKILLS_PROJECTS ||
+                currentRoute == ScreenRoutes.NETWORK ||
+                currentRoute == ScreenRoutes.PROFILE
             MainNavDestination.CompanyIntelligence -> currentRoute == ScreenRoutes.COMPANY_INTELLIGENCE ||
                 currentRoute == ScreenRoutes.COMPANIES ||
                 currentRoute == ScreenRoutes.COMPANY_BOOKMARKS
             MainNavDestination.JobAutomation -> currentRoute == ScreenRoutes.JOB_AUTOMATION ||
                 currentRoute == ScreenRoutes.JOBS ||
+                currentRoute == ScreenRoutes.APPLICATIONS ||
                 currentRoute == ScreenRoutes.AUTOMATION_RULES ||
                 currentRoute == ScreenRoutes.AGENTS ||
-                currentRoute == ScreenRoutes.TASK_LOGS
+                currentRoute == ScreenRoutes.TASK_LOGS ||
+                currentRoute == ScreenRoutes.INTERVIEWS ||
+                currentRoute == ScreenRoutes.COPILOT
             MainNavDestination.SovereignSuperApp -> currentRoute == ScreenRoutes.SOVEREIGN_SUPER_APP
           }
 

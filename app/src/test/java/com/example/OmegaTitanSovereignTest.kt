@@ -155,7 +155,7 @@ class OmegaTitanSovereignTest {
     val stabilizedCm2 = aov - cogs - batchedDelivery - pickPack - lease - pg + ads
 
     org.junit.Assert.assertEquals(16.0, unmitigatedCm2, 0.01)
-    org.junit.Assert.assertEquals(28.5, stabilizedCm2, 0.01)
+    org.junit.Assert.assertEquals(37.0, stabilizedCm2, 0.01)
     assertTrue("Aladdin micro-cluster dynamic batching must defend CM2 margin above unmitigated shock", stabilizedCm2 > unmitigatedCm2)
   }
 

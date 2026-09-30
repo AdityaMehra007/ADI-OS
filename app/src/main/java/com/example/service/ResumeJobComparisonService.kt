@@ -168,6 +168,8 @@ August 2022 - May 2023
 EDUCATION & HONORS
 Bachelor of Business Administration (BBA) - International Business
 Dayananda Sagar University (DSU), Bengaluru | Class of 2026
+- Academic Record: 41/41 Subjects Passed on first attempt with Zero Backlogs (~6.33 CGPA)
+- Operational Leadership: Directed 100+ brand activations and on-ground deployments with strict SLA compliance
 - Core Coursework: Global Trade Law (Incoterms 2020), Supply Chain Logistics, Financial Modeling, Strategic Management
 - Head of Student Leadership & Operations: Spearheaded annual business conclave across 1,500+ attendees and 14 corporate partners
   """.trimIndent()

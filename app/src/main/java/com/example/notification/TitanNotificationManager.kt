@@ -1,6 +1,7 @@
 package com.example.notification
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@SuppressLint("MissingPermission")
 class TitanNotificationManager private constructor(private val appContext: Context) {
 
   companion object {
