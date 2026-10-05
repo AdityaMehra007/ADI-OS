@@ -268,7 +268,7 @@ class GeminiCareerService {
     val lower = clean.lowercase()
 
     // 25-Keypad Direct Deterministic Commands & Sovereign Macros execute instantly with sub-16ms latency
-    val isKeypadOrSovereignMacro = clean.matches(Regex("^([1-9]|1[0-9]|2[0-5])(\\s.*)?$")) ||
+    val isKeypadOrSovereignMacro = clean.matches(Regex("^(0?[1-9]|1[0-9]|2[0-5])(\\s.*)?$")) ||
       lower.contains("war-room") || lower.contains("war room") ||
       lower.contains("trillion") ||
       lower.contains("ui vs ux") || lower.contains("ui vs. ux")

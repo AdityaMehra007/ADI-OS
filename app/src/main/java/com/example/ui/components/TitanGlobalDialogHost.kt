@@ -150,4 +150,12 @@ fun TitanGlobalDialogHost(
       }
     )
   }
+
+  val isKeypadCheatSheetOpen by viewModel.isKeypadCheatSheetOpen.collectAsState()
+  if (isKeypadCheatSheetOpen) {
+    KeypadDirectiveCheatSheetDialog(
+      viewModel = viewModel,
+      onDismissRequest = { viewModel.setKeypadCheatSheetOpen(false) }
+    )
+  }
 }

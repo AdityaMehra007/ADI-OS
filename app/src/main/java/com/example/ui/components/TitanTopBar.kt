@@ -64,7 +64,8 @@ fun TitanTopBar(
   onAutomationModeClick: () -> Unit,
   onSearchClick: () -> Unit,
   onNotificationClick: () -> Unit = {},
-  onAuthClick: () -> Unit = {}
+  onAuthClick: () -> Unit = {},
+  onKeypadClick: () -> Unit = {}
 ) {
   val brutalMode = userProfile?.brutalStrategyMode ?: false
   val careerScore = userProfile?.careerScore ?: 88
@@ -270,6 +271,32 @@ fun TitanTopBar(
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Black,
                 color = TitanCyan,
+                fontSize = 8.5.sp
+              )
+            }
+          }
+
+          // 25-Keypad Directives Shortcut Matrix Button
+          Box(
+            modifier = Modifier
+              .clip(RoundedCornerShape(8.dp))
+              .background(SlateElevated)
+              .border(1.dp, TitanGold.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
+              .clickable { onKeypadClick() }
+              .padding(horizontal = 6.dp, vertical = 4.dp)
+              .testTag("top_bar_keypad_button")
+          ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Text(
+                text = "⌨️",
+                fontSize = 10.sp
+              )
+              Spacer(modifier = Modifier.width(3.dp))
+              Text(
+                text = "01-25",
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Black,
+                color = TitanGold,
                 fontSize = 8.5.sp
               )
             }

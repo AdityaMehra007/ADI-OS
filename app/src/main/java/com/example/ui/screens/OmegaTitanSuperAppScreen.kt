@@ -534,8 +534,26 @@ private fun Keypad25Tab(
     verticalArrangement = Arrangement.spacedBy(8.dp)
   ) {
     item {
-      Text("⚡ 25-KEY DIRECT EXECUTION KEYPAD", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanGold)
-      Text("Tap to dispatch to Copilot, or use the quick action buttons to Speak, Share, or Save.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        Column {
+          Text("⚡ 25-KEY DIRECT EXECUTION KEYPAD", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = TitanGold)
+          Text("Type '01'..'25' on keyboard anywhere to trigger, or tap below to execute.", style = MaterialTheme.typography.bodySmall, color = TextMutedDark, fontSize = 11.sp)
+        }
+        Box(
+          modifier = Modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(SlateElevated)
+            .border(1.dp, TitanGold.copy(alpha = 0.5f), RoundedCornerShape(6.dp))
+            .clickable { viewModel.setKeypadCheatSheetOpen(true) }
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+          Text("⌨️ SHORTCUTS", color = TitanGold, fontSize = 9.sp, fontWeight = FontWeight.Black)
+        }
+      }
     }
 
     // $1T Apex Engine Hero Card

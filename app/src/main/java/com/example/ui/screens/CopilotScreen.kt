@@ -198,23 +198,36 @@ fun CopilotScreen(
         border = androidx.compose.foundation.BorderStroke(1.dp, TitanGold.copy(alpha = 0.4f))
       ) {
         Column(modifier = Modifier.padding(10.dp)) {
-          Text(
-            text = "⚡ OMEGA-TITAN 25-MODULE DIRECT EXECUTION KEYPAD",
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold,
-            color = TitanGold,
-            fontSize = 10.sp
-          )
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Text(
+              text = "⚡ OMEGA-TITAN 25-MODULE DIRECT EXECUTION KEYPAD",
+              style = MaterialTheme.typography.labelSmall,
+              fontWeight = FontWeight.Bold,
+              color = TitanGold,
+              fontSize = 10.sp
+            )
+            Text(
+              text = "KEYS: '01'..'25'",
+              style = MaterialTheme.typography.labelSmall,
+              fontWeight = FontWeight.Black,
+              color = TitanCyan,
+              fontSize = 8.5.sp
+            )
+          }
           Spacer(modifier = Modifier.height(6.dp))
 
           // Keypad Rows
           val keypadRows = listOf(
-            listOf("1 JD Decompiler", "2 ATS Resume", "3 Pitch", "4 CXO Radar", "5 Outreach"),
-            listOf("6 Referral", "7 Live HUD", "8 STAR-V", "9 CGPA Defense", "10 Case Solver"),
+            listOf("01 JD Decompiler", "02 ATS Resume", "03 Pitch", "04 CXO Radar", "05 Outreach"),
+            listOf("06 Referral", "07 Live HUD", "08 STAR-V", "09 CGPA Defense", "10 Case Solver"),
             listOf("11 SQL CTE", "12 Ask CXO", "13 CTC Benchmark", "14 ESOP Model", "15 Counter-Offer"),
             listOf("16 Bidding War", "17 30-60-90 Plan", "18 Dark Store", "19 Punchlist", "20 Amazon WBR"),
             listOf("21 Sev-1 Triage", "22 EXIM Trade", "23 Kotlin Code", "24 Brag Sheet", "25 Promotion"),
-            listOf("WAR-ROOM", "1 Zepto", "2 Blinkit", "9 Hostile Question", "18 Morning Check")
+            listOf("WAR-ROOM", "01 Zepto", "02 Blinkit", "09 Hostile Question", "18 Morning Check")
           )
 
           keypadRows.forEach { row ->

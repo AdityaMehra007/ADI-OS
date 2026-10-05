@@ -4,12 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,11 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.notification.TitanNotificationManager
+import com.example.ui.components.KeypadShortcutHudOverlay
 import com.example.ui.components.QuickActionFeedbackBanner
 import com.example.ui.components.QuickActionFloatingButton
 import com.example.ui.components.TitanBottomNav
 import com.example.ui.components.TitanGlobalDialogHost
 import com.example.ui.components.TitanTopBar
+import com.example.util.KeypadShortcutDetector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -115,10 +119,25 @@ class MainActivity : ComponentActivity() {
       ?: TitanViewModelFactory.createFactory(application)
   }
 
+  private lateinit var keypadShortcutDetector: KeypadShortcutDetector
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
     handleNotificationIntent(intent)
+
+    keypadShortcutDetector = KeypadShortcutDetector(
+      scope = lifecycleScope,
+      onDirectiveTriggered = { directive ->
+        viewModel.triggerKeypadDirective(directive)
+      },
+      onBufferUpdated = { buffer ->
+        viewModel.setKeypadShortcutBuffer(buffer)
+      },
+      onToggleCheatSheet = {
+        viewModel.setKeypadCheatSheetOpen(!viewModel.isKeypadCheatSheetOpen.value)
+      }
+    )
 
     setContent {
       TitanTheme {
@@ -199,6 +218,9 @@ class MainActivity : ComponentActivity() {
               },
               onAuthClick = {
                 viewModel.setAuthDialogOpen(true)
+              },
+              onKeypadClick = {
+                viewModel.setKeypadCheatSheetOpen(true)
               }
             )
           },
@@ -277,6 +299,14 @@ class MainActivity : ComponentActivity() {
                 .padding(bottom = if (hasScreenLocalFab) 154.dp else 84.dp)
             )
 
+            // Global 25-Keypad Shortcut Real-Time Typing HUD
+            KeypadShortcutHudOverlay(
+              viewModel = viewModel,
+              modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = if (hasScreenLocalFab) 160.dp else 90.dp)
+            )
+
             // Quick Action Floating Button (1-tap trigger for predefined automations)
             val isExecutingQuickAction by viewModel.isQuickActionExecuting.collectAsState()
             val executingQuickAction by viewModel.executingQuickAction.collectAsState()
@@ -301,6 +331,13 @@ class MainActivity : ComponentActivity() {
         )
       }
     }
+  }
+
+  override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+    if (::keypadShortcutDetector.isInitialized && keypadShortcutDetector.handleKeyEvent(event)) {
+      return true
+    }
+    return super.dispatchKeyEvent(event)
   }
 
   override fun onNewIntent(intent: Intent) {

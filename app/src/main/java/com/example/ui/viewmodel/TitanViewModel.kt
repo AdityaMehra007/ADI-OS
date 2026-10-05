@@ -568,6 +568,9 @@ class TitanViewModel(
   val tailoredResumePreview = MutableStateFlow<String?>(null)
   val isGeneratingResume = MutableStateFlow(false)
   val isCommandPaletteOpen = MutableStateFlow(false)
+  val keypadShortcutBuffer = MutableStateFlow("")
+  val isKeypadCheatSheetOpen = MutableStateFlow(false)
+  val lastTriggeredKeypadDirective = MutableStateFlow<com.example.util.KeypadDirective?>(null)
   val isSalaryCalculatorOpen = MutableStateFlow(false)
   val isCapabilityMatrixOpen = MutableStateFlow(false)
   val isScenarioSimulatorOpen = MutableStateFlow(false)
@@ -2831,6 +2834,35 @@ Requirements: ${job.missingRequirements}
 
   fun setCommandPaletteOpen(open: Boolean) {
     isCommandPaletteOpen.value = open
+  }
+
+  fun setKeypadShortcutBuffer(buffer: String) {
+    keypadShortcutBuffer.value = buffer
+  }
+
+  fun setKeypadCheatSheetOpen(open: Boolean) {
+    isKeypadCheatSheetOpen.value = open
+  }
+
+  fun triggerKeypadDirective(directive: com.example.util.KeypadDirective) {
+    lastTriggeredKeypadDirective.value = directive
+    keypadShortcutBuffer.value = ""
+    isKeypadCheatSheetOpen.value = false
+    navigateTo(TitanScreen.COPILOT)
+    sendCopilotMessage(directive.copilotCommand)
+    quickActionTelemetry.value = QuickActionExecutionTelemetry(
+      actionType = QuickActionType.AUDIT_CAREER_HEALTH,
+      taskName = "25-Keypad [${directive.code}] ${directive.title}",
+      status = "SUCCESS",
+      message = "Dispatched: ${directive.title} • ${directive.summary}",
+      durationMs = 12L
+    )
+  }
+
+  fun triggerKeypadDirective(code: String): Boolean {
+    val directive = com.example.util.KeypadDirectiveRegistry.findByCode(code) ?: return false
+    triggerKeypadDirective(directive)
+    return true
   }
 
   fun setSalaryCalculatorOpen(open: Boolean) {
