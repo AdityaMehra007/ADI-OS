@@ -31,6 +31,11 @@ data class CrmContactBundle(
 class FirestoreNetworkCrmService(private val context: Context) {
   private val tag = "FirestoreNetworkCrm"
   private val prefs = context.getSharedPreferences("titan_network_crm_vault", Context.MODE_PRIVATE)
+
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
   private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
   private val bundleListType = Types.newParameterizedType(List::class.java, CrmContactBundle::class.java)
   private val bundleAdapter = moshi.adapter<List<CrmContactBundle>>(bundleListType)
@@ -55,7 +60,7 @@ class FirestoreNetworkCrmService(private val context: Context) {
     var firestoreSuccess = false
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val docRef = firestore.collection("users")
         .document(userId)
         .collection("network_contacts")
@@ -127,7 +132,7 @@ class FirestoreNetworkCrmService(private val context: Context) {
     _statusMessage.value = "Fetching CRM contacts from Firestore..."
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("network_contacts")

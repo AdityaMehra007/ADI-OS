@@ -18,12 +18,15 @@ import com.example.data.model.CareerTelemetry
 import com.example.data.model.Company
 import com.example.data.model.CompanyBookmark
 import com.example.data.model.CompanyIntelligenceWidgetCache
+import com.example.data.model.CorporateApplicationTarget
 import com.example.data.model.DailyBriefing
 import com.example.data.model.DailyCareerBriefingReport
+import com.example.data.model.DarkStoreSimulationSettings
 import com.example.data.model.DecisionItem
 import com.example.data.model.GoalItem
 import com.example.data.model.InterviewFeedback
 import com.example.data.model.Job
+import com.example.data.model.KeypadDirectiveEntity
 import com.example.data.model.MarketIntelligenceReport
 import com.example.data.model.MarketRadarItem
 import com.example.data.model.MilestoneTask
@@ -892,6 +895,93 @@ class TitanRepository(
 
   suspend fun recordAutomationTaskExecution(id: String, status: String, summary: String) {
     database.automationTaskDao().recordExecution(id, status, summary)
+  }
+
+  // ==========================================
+  // 1. 25-Keypad Directives Persistence
+  // ==========================================
+
+  val allKeypadDirectivesFlow: Flow<List<KeypadDirectiveEntity>> =
+    database.keypadDirectiveDao().getAllDirectives()
+
+  val pinnedKeypadDirectivesFlow: Flow<List<KeypadDirectiveEntity>> =
+    database.keypadDirectiveDao().getPinnedDirectives()
+
+  suspend fun getKeypadDirectiveByCode(code: String): KeypadDirectiveEntity? {
+    return database.keypadDirectiveDao().getDirectiveByCode(code)
+  }
+
+  suspend fun setKeypadDirectivePinned(code: String, isPinned: Boolean) {
+    database.keypadDirectiveDao().setPinned(code, isPinned)
+  }
+
+  suspend fun recordKeypadDirectiveExecution(code: String) {
+    database.keypadDirectiveDao().recordExecution(code, System.currentTimeMillis())
+  }
+
+  suspend fun updateKeypadDirectiveNotes(code: String, notes: String) {
+    database.keypadDirectiveDao().updateCustomNotes(code, notes)
+  }
+
+  // ==========================================
+  // 2. Dark Store Simulation Settings Persistence
+  // ==========================================
+
+  val darkStoreSimulationSettingsFlow: Flow<DarkStoreSimulationSettings?> =
+    database.darkStoreSimulationDao().getSimulationSettings()
+
+  suspend fun getDarkStoreSimulationSettingsSync(): DarkStoreSimulationSettings? {
+    return database.darkStoreSimulationDao().getSimulationSettingsSync()
+  }
+
+  suspend fun saveDarkStoreSimulationSettings(settings: DarkStoreSimulationSettings) {
+    database.darkStoreSimulationDao().saveSimulationSettings(settings)
+  }
+
+  suspend fun updateDarkStoreStressMode(stressMode: String) {
+    database.darkStoreSimulationDao().updateStressMode(stressMode = stressMode)
+  }
+
+  suspend fun updateDarkStoreSelectedHub(hubId: String) {
+    database.darkStoreSimulationDao().updateSelectedHub(hubId = hubId)
+  }
+
+  suspend fun recordDarkStoreSimulationCycle() {
+    database.darkStoreSimulationDao().incrementSimulatedCycle()
+  }
+
+  // ==========================================
+  // 3. Corporate Application Targets Persistence
+  // ==========================================
+
+  val allCorporateApplicationTargetsFlow: Flow<List<CorporateApplicationTarget>> =
+    database.corporateApplicationTargetDao().getAllTargets()
+
+  val starredCorporateApplicationTargetsFlow: Flow<List<CorporateApplicationTarget>> =
+    database.corporateApplicationTargetDao().getStarredTargets()
+
+  suspend fun getCorporateApplicationTargetById(id: String): CorporateApplicationTarget? {
+    return database.corporateApplicationTargetDao().getTargetById(id)
+  }
+
+  suspend fun saveCorporateApplicationTarget(target: CorporateApplicationTarget) {
+    database.corporateApplicationTargetDao().insertTarget(target)
+  }
+
+  suspend fun updateCorporateApplicationTarget(target: CorporateApplicationTarget) {
+    database.corporateApplicationTargetDao().updateTarget(target)
+  }
+
+  suspend fun deleteCorporateApplicationTarget(id: String) {
+    database.corporateApplicationTargetDao().deleteTargetById(id)
+  }
+
+  suspend fun updateCorporateTargetStatus(id: String, newStatus: String) {
+    database.corporateApplicationTargetDao().updateStatus(id, newStatus)
+  }
+
+  suspend fun toggleCorporateTargetStarred(id: String, isStarred: Boolean) {
+    database.corporateApplicationTargetDao().toggleStarred(id, isStarred)
   }
 }
 

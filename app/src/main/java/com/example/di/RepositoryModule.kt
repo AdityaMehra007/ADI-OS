@@ -93,4 +93,13 @@ object RepositoryModule {
   ): FirestoreCareerMomentumService {
     return FirestoreCareerMomentumService(context)
   }
+
+  @Provides
+  @Singleton
+  fun provideTitanFirestoreRepository(
+    @ApplicationContext context: Context
+  ): com.example.data.repository.TitanFirestoreRepository {
+    return com.example.data.repository.TitanFirestoreRepository(context)
+  }
 }
+

@@ -100,12 +100,6 @@ fun FirebaseAuthDialog(
   val syncSummary by viewModel.cloudSyncSummary.collectAsState()
   val isSyncing by viewModel.isCloudSyncInProgress.collectAsState()
 
-  var authTab by remember { mutableStateOf(0) } // 0 = Google & Quick, 1 = Email / Pass, 2 = Register
-  var emailInput by remember { mutableStateOf("") }
-  var passwordInput by remember { mutableStateOf("") }
-  var displayNameInput by remember { mutableStateOf("") }
-  var isPasswordVisible by remember { mutableStateOf(false) }
-
   Dialog(
     onDismissRequest = onDismissRequest,
     properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -431,71 +425,47 @@ fun FirebaseAuthDialog(
               .clickable(enabled = authState != AuthState.AUTHENTICATING) {
                 if (activity != null) {
                   viewModel.signInWithGoogle(activity)
-                } else {
-                  // Fallback for emulator environments
-                  viewModel.signInDemoGoogleUser()
                 }
               }
-              .padding(vertical = 12.dp, horizontal = 16.dp)
+              .padding(vertical = 14.dp, horizontal = 16.dp)
               .testTag("google_sign_in_primary_button"),
             contentAlignment = Alignment.Center
           ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-              // Google G Badge
-              Box(
-                modifier = Modifier
-                  .size(22.dp)
-                  .clip(CircleShape)
-                  .background(Color.White),
-                contentAlignment = Alignment.Center
-              ) {
-                Text(
-                  text = "G",
-                  fontSize = 16.sp,
-                  fontWeight = FontWeight.Black,
-                  color = Color(0xFF4285F4)
+              if (authState == AuthState.AUTHENTICATING) {
+                CircularProgressIndicator(
+                  modifier = Modifier.size(20.dp),
+                  color = Color(0xFF4285F4),
+                  strokeWidth = 2.dp
                 )
-              }
-              Spacer(modifier = Modifier.width(10.dp))
-              Text(
-                text = "Continue with Google",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF1F1F1F)
-              )
-            }
-          }
-
-          Spacer(modifier = Modifier.height(14.dp))
-
-          // Quick Instant Demo Sign-In
-          Box(
-            modifier = Modifier
-              .fillMaxWidth()
-              .clip(RoundedCornerShape(10.dp))
-              .background(SlateCard)
-              .border(1.dp, TitanGold.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
-              .clickable(enabled = authState != AuthState.AUTHENTICATING) {
-                viewModel.signInDemoGoogleUser()
-              }
-              .padding(vertical = 10.dp, horizontal = 14.dp)
-              .testTag("google_demo_login_button"),
-            contentAlignment = Alignment.Center
-          ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-              Icon(Icons.Default.CheckCircle, contentDescription = null, tint = TitanGold, modifier = Modifier.size(16.dp))
-              Spacer(modifier = Modifier.width(8.dp))
-              Column {
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                  text = "One-Tap Verified Sign-In (Demo Profile)",
-                  fontSize = 12.sp,
+                  text = "Signing in with Google...",
+                  fontSize = 14.sp,
                   fontWeight = FontWeight.Bold,
-                  color = TitanGold
+                  color = Color(0xFF1F1F1F)
                 )
+              } else {
+                Box(
+                  modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(Color.White),
+                  contentAlignment = Alignment.Center
+                ) {
+                  Text(
+                    text = "G",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Black,
+                    color = Color(0xFF4285F4)
+                  )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                  text = "Instant cross-device sync with ashishiash007@gmail.com",
-                  fontSize = 10.sp,
-                  color = TextMutedDark
+                  text = "Sign in with Google",
+                  fontSize = 14.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = Color(0xFF1F1F1F)
                 )
               }
             }
@@ -503,144 +473,39 @@ fun FirebaseAuthDialog(
 
           Spacer(modifier = Modifier.height(16.dp))
 
-          Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-          ) {
-            HorizontalDivider(modifier = Modifier.weight(1f), color = SlateBorder)
-            Text(
-              text = "  OR USE EMAIL  ",
-              style = MaterialTheme.typography.labelSmall,
-              color = TextMutedDark,
-              fontSize = 10.sp,
-              fontWeight = FontWeight.Bold
-            )
-            HorizontalDivider(modifier = Modifier.weight(1f), color = SlateBorder)
-          }
-
-          Spacer(modifier = Modifier.height(12.dp))
-
-          // Tab Row: Email Sign In vs Register
-          TabRow(
-            selectedTabIndex = authTab,
-            containerColor = SlateCard,
-            contentColor = TitanCyan
-          ) {
-            Tab(
-              selected = authTab == 0,
-              onClick = { authTab = 0 },
-              text = { Text("Sign In", fontSize = 12.sp, fontWeight = FontWeight.Bold) }
-            )
-            Tab(
-              selected = authTab == 1,
-              onClick = { authTab = 1 },
-              text = { Text("Create Account", fontSize = 12.sp, fontWeight = FontWeight.Bold) }
-            )
-          }
-
-          Spacer(modifier = Modifier.height(14.dp))
-
-          if (authTab == 1) {
-            OutlinedTextField(
-              value = displayNameInput,
-              onValueChange = { displayNameInput = it },
-              label = { Text("Your Full Name") },
-              singleLine = true,
-              colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = TitanCyan,
-                unfocusedBorderColor = SlateBorder,
-                focusedTextColor = TextPrimaryDark,
-                unfocusedTextColor = TextPrimaryDark
-              ),
-              modifier = Modifier
-                .fillMaxWidth()
-                .testTag("auth_name_field")
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-          }
-
-          OutlinedTextField(
-            value = emailInput,
-            onValueChange = { emailInput = it },
-            label = { Text("Email Address") },
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors(
-              focusedBorderColor = TitanCyan,
-              unfocusedBorderColor = SlateBorder,
-              focusedTextColor = TextPrimaryDark,
-              unfocusedTextColor = TextPrimaryDark
-            ),
+          // Information box explaining Firebase Firestore Enterprise
+          Box(
             modifier = Modifier
               .fillMaxWidth()
-              .testTag("auth_email_field")
-          )
-
-          Spacer(modifier = Modifier.height(8.dp))
-
-          OutlinedTextField(
-            value = passwordInput,
-            onValueChange = { passwordInput = it },
-            label = { Text("Password") },
-            singleLine = true,
-            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-              IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+              .clip(RoundedCornerShape(10.dp))
+              .background(SlateCard)
+              .border(1.dp, SlateBorder, RoundedCornerShape(10.dp))
+              .padding(14.dp)
+          ) {
+            Column {
+              Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                  imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                  contentDescription = "Toggle password",
-                  tint = TextSecondaryDark,
-                  modifier = Modifier.size(18.dp)
+                  Icons.Default.CloudDone,
+                  contentDescription = null,
+                  tint = TitanCyan,
+                  modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                  text = "Firebase Firestore Enterprise",
+                  fontSize = 12.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = TitanCyan
                 )
               }
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-              focusedBorderColor = TitanCyan,
-              unfocusedBorderColor = SlateBorder,
-              focusedTextColor = TextPrimaryDark,
-              unfocusedTextColor = TextPrimaryDark
-            ),
-            modifier = Modifier
-              .fillMaxWidth()
-              .testTag("auth_password_field")
-          )
-
-          Spacer(modifier = Modifier.height(14.dp))
-
-          Button(
-            onClick = {
-              if (authTab == 0) {
-                viewModel.signInWithEmail(emailInput, passwordInput)
-              } else {
-                viewModel.signUpWithEmail(emailInput, passwordInput, displayNameInput)
-              }
-            },
-            enabled = authState != AuthState.AUTHENTICATING && emailInput.isNotBlank() && passwordInput.length >= 6,
-            colors = ButtonDefaults.buttonColors(containerColor = TitanCyan, contentColor = ObsidianDark),
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-              .fillMaxWidth()
-              .testTag("email_auth_submit_button")
-          ) {
-            if (authState == AuthState.AUTHENTICATING) {
-              CircularProgressIndicator(modifier = Modifier.size(16.dp), color = ObsidianDark, strokeWidth = 2.dp)
-              Spacer(modifier = Modifier.width(6.dp))
+              Spacer(modifier = Modifier.height(6.dp))
+              Text(
+                text = "Secure cloud database backing with zero-trust security rules. Automatically syncs user profile, 25-keypad directive executions, pinned modules, and executive analytics.",
+                fontSize = 11.sp,
+                color = TextSecondaryDark,
+                lineHeight = 15.sp
+              )
             }
-            Text(
-              text = if (authTab == 0) "Sign In with Firebase" else "Create Firebase Account",
-              fontWeight = FontWeight.Bold,
-              fontSize = 12.sp
-            )
-          }
-
-          Spacer(modifier = Modifier.height(10.dp))
-
-          TextButton(
-            onClick = { viewModel.signInAnonymously() },
-            modifier = Modifier
-              .align(Alignment.CenterHorizontally)
-              .testTag("anonymous_guest_button")
-          ) {
-            Text("Continue as Anonymous Guest", color = TextSecondaryDark, fontSize = 11.sp)
           }
         }
       }

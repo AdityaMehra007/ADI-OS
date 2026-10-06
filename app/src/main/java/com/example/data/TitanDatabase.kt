@@ -18,10 +18,13 @@ import com.example.data.dao.CareerTelemetryDao
 import com.example.data.dao.CompanyBookmarkDao
 import com.example.data.dao.CompanyDao
 import com.example.data.dao.CompanyIntelligenceWidgetDao
+import com.example.data.dao.CorporateApplicationTargetDao
+import com.example.data.dao.DarkStoreSimulationDao
 import com.example.data.dao.GoalDecisionDao
 import com.example.data.dao.IntegrationDao
 import com.example.data.dao.InterviewFeedbackDao
 import com.example.data.dao.JobDao
+import com.example.data.dao.KeypadDirectiveDao
 import com.example.data.dao.KnowledgeDao
 import com.example.data.dao.MarketRadarDao
 import com.example.data.dao.MissionDao
@@ -50,11 +53,14 @@ import com.example.data.model.InterviewFeedback
 import com.example.data.model.Company
 import com.example.data.model.CompanyBookmark
 import com.example.data.model.CompanyIntelligenceWidgetCache
+import com.example.data.model.CorporateApplicationTarget
 import com.example.data.model.DailyBriefing
+import com.example.data.model.DarkStoreSimulationSettings
 import com.example.data.model.DecisionItem
 import com.example.data.model.GoalItem
 import com.example.data.model.IntegrationItem
 import com.example.data.model.Job
+import com.example.data.model.KeypadDirectiveEntity
 import com.example.data.model.KnowledgeEdge
 import com.example.data.model.KnowledgeNode
 import com.example.data.model.MarketRadarItem
@@ -113,9 +119,12 @@ import kotlinx.coroutines.launch
     ResumeVariation::class,
     CompanyIntelligenceWidgetCache::class,
     CareerTelemetry::class,
-    InterviewFeedback::class
+    InterviewFeedback::class,
+    KeypadDirectiveEntity::class,
+    DarkStoreSimulationSettings::class,
+    CorporateApplicationTarget::class
   ],
-  version = 11,
+  version = 12,
   exportSchema = false
 )
 abstract class TitanDatabase : RoomDatabase() {
@@ -148,6 +157,9 @@ abstract class TitanDatabase : RoomDatabase() {
   abstract fun resumeVariationDao(): ResumeVariationDao
   abstract fun careerTelemetryDao(): CareerTelemetryDao
   abstract fun interviewFeedbackDao(): InterviewFeedbackDao
+  abstract fun keypadDirectiveDao(): KeypadDirectiveDao
+  abstract fun darkStoreSimulationDao(): DarkStoreSimulationDao
+  abstract fun corporateApplicationTargetDao(): CorporateApplicationTargetDao
 
 
 

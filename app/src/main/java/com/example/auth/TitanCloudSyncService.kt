@@ -63,7 +63,8 @@ class TitanCloudSyncService(private val context: Context) {
     try {
       var firestoreSuccess = false
       try {
-        val firestore = FirebaseFirestore.getInstance()
+        val databaseId = context.getString(com.example.R.string.firestore_database_id)
+        val firestore = FirebaseFirestore.getInstance(databaseId)
         val userVault = firestore.collection("users").document(userId).collection("career_vault")
 
         // 1. Profile Document
@@ -188,7 +189,8 @@ class TitanCloudSyncService(private val context: Context) {
       var restoredData: CloudRestoredData? = null
 
       try {
-        val firestore = FirebaseFirestore.getInstance()
+        val databaseId = context.getString(com.example.R.string.firestore_database_id)
+        val firestore = FirebaseFirestore.getInstance(databaseId)
         val userVault = firestore.collection("users").document(userId).collection("career_vault")
 
         val profileSnap = userVault.document("profile").get().awaitTask()

@@ -2446,6 +2446,129 @@ object SeedDataProvider {
     initialWidgetCaches.forEach { cache ->
       db.companyIntelligenceWidgetDao().insertOrUpdate(cache)
     }
+
+    // 26. 25-Keypad Directives Persistence
+    if (db.keypadDirectiveDao().getCount() == 0) {
+      val directives = com.example.util.KeypadDirectiveRegistry.DIRECTIVES.map { dir ->
+        com.example.data.model.KeypadDirectiveEntity(
+          code = dir.code,
+          id = dir.id,
+          title = dir.title,
+          summary = dir.summary,
+          category = dir.category,
+          iconEmoji = dir.iconEmoji,
+          isPinned = dir.code in listOf("01", "18", "25"),
+          executionCount = if (dir.code == "01" || dir.code == "18") 3 else 0,
+          lastTriggeredTimestamp = if (dir.code == "18") System.currentTimeMillis() - 1800000L else 0L,
+          customNotes = if (dir.code == "18") "Daily operational checklist for quick-commerce hub readiness." else ""
+        )
+      }
+      db.keypadDirectiveDao().insertAll(directives)
+    }
+
+    // 27. Dark Store Simulation Settings Persistence
+    if (db.darkStoreSimulationDao().getSimulationSettingsSync() == null) {
+      db.darkStoreSimulationDao().saveSimulationSettings(
+        com.example.data.model.DarkStoreSimulationSettings(
+          id = "primary_settings",
+          selectedHubId = "HSR_03",
+          selectedStressMode = "NORMAL",
+          autoRefreshIntervalSec = 5,
+          targetDispatchSlaSec = 110,
+          targetPickerSlaSec = 40,
+          targetStagingSlaSec = 105,
+          targetContributionMargin = 34.50f,
+          targetFulfillmentPercentage = 99.8f,
+          batchingRadiusKm = 1.2f,
+          slaWatchdogEnabled = true,
+          alertThresholdDeviationSec = 15,
+          totalSimulatedCycles = 14,
+          lastUpdatedTimestamp = System.currentTimeMillis()
+        )
+      )
+    }
+
+    // 28. Corporate Application Targets Persistence
+    if (db.corporateApplicationTargetDao().getCount() == 0) {
+      val targets = listOf(
+        com.example.data.model.CorporateApplicationTarget(
+          id = "target_zepto_ops",
+          companyName = "Zepto",
+          targetRoleTitle = "Operations & Strategy Lead (Dark Store Hubs)",
+          priorityTier = "TIER_1_APEX",
+          targetCtcLakhs = 32.0,
+          applicationStatus = "WAR_ROOM_READY",
+          hiringManager = "VP Operations & Supply Chain Automation",
+          referralLead = "Senior Director of Micro-Fulfillment",
+          executiveHook = "Framing 42% operational cycle compression as working capital velocity with 18% higher order throughput per sq ft.",
+          alignmentScore = 98,
+          targetQuarter = "Q3 2026",
+          lastActivityTimestamp = System.currentTimeMillis(),
+          isStarred = true
+        ),
+        com.example.data.model.CorporateApplicationTarget(
+          id = "target_swiggy_instamart",
+          companyName = "Swiggy Instamart",
+          targetRoleTitle = "Supply Chain Analytics & Cluster Strategy Associate",
+          priorityTier = "TIER_1_APEX",
+          targetCtcLakhs = 28.0,
+          applicationStatus = "APPLIED",
+          hiringManager = "Director of Dark Store Unit Economics",
+          referralLead = "Lead BizOps Specialist, Bengaluru Central",
+          executiveHook = "Contribution Margin 2 optimization & 10-minute dispatch predictability modeling in high-density tech hubs.",
+          alignmentScore = 95,
+          targetQuarter = "Q3 2026",
+          lastActivityTimestamp = System.currentTimeMillis() - 86400000L,
+          isStarred = true
+        ),
+        com.example.data.model.CorporateApplicationTarget(
+          id = "target_blinkit_bizops",
+          companyName = "Blinkit (Zomato Quick Commerce)",
+          targetRoleTitle = "Dark Store Expansion & Replenishment Specialist",
+          priorityTier = "TIER_1_APEX",
+          targetCtcLakhs = 26.0,
+          applicationStatus = "TARGETED",
+          hiringManager = "National Head of Micro-Fulfillment Layouts",
+          referralLead = "Cluster General Manager, South India",
+          executiveHook = "Automated SKU velocity heatmaps shaving 45 seconds off picker paths and eliminating stockouts.",
+          alignmentScore = 94,
+          targetQuarter = "Q4 2026",
+          lastActivityTimestamp = System.currentTimeMillis() - 172800000L,
+          isStarred = true
+        ),
+        com.example.data.model.CorporateApplicationTarget(
+          id = "target_flipkart_minutes",
+          companyName = "Flipkart Minutes",
+          targetRoleTitle = "Quick Commerce Fleet & Staging Operations Lead",
+          priorityTier = "TIER_2_STRATEGIC",
+          targetCtcLakhs = 25.0,
+          applicationStatus = "TARGETED",
+          hiringManager = "Head of Hyperlocal Delivery Network",
+          referralLead = "Supply Chain Strategy Manager",
+          executiveHook = "Dynamic rider batching algorithms maintaining CM2 profitability during peak monsoon delivery surge.",
+          alignmentScore = 91,
+          targetQuarter = "Q4 2026",
+          lastActivityTimestamp = System.currentTimeMillis() - 259200000L,
+          isStarred = false
+        ),
+        com.example.data.model.CorporateApplicationTarget(
+          id = "target_amazon_now",
+          companyName = "Amazon Quick Delivery",
+          targetRoleTitle = "Sub-Same-Day Operations Program Manager",
+          priorityTier = "TIER_2_STRATEGIC",
+          targetCtcLakhs = 30.0,
+          applicationStatus = "TARGETED",
+          hiringManager = "Senior Manager, Ultra-Fast Operations Network",
+          referralLead = "Principal Technical Program Manager",
+          executiveHook = "End-to-end inventory turnaround pipeline eliminating high-variance stockouts via Python/SQL automation.",
+          alignmentScore = 92,
+          targetQuarter = "Q4 2026",
+          lastActivityTimestamp = System.currentTimeMillis() - 345600000L,
+          isStarred = false
+        )
+      )
+      db.corporateApplicationTargetDao().insertAllTargets(targets)
+    }
   }
 }
 

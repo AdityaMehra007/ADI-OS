@@ -540,6 +540,29 @@ class TitanViewModel(
   val automationTaskLogs: StateFlow<List<AutomationTaskLog>> = repository.getAllAutomationTaskLogs()
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+  // ========================================================
+  // Room SQLite Persisted Flows: 25-Keypad Directives, Dark Store & Corporate Targets
+  // ========================================================
+  val allKeypadDirectives: StateFlow<List<com.example.data.model.KeypadDirectiveEntity>> =
+    repository.allKeypadDirectivesFlow
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+  val pinnedKeypadDirectives: StateFlow<List<com.example.data.model.KeypadDirectiveEntity>> =
+    repository.pinnedKeypadDirectivesFlow
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+  val darkStoreSimulationSettings: StateFlow<com.example.data.model.DarkStoreSimulationSettings?> =
+    repository.darkStoreSimulationSettingsFlow
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+  val corporateApplicationTargets: StateFlow<List<com.example.data.model.CorporateApplicationTarget>> =
+    repository.allCorporateApplicationTargetsFlow
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+  val starredCorporateApplicationTargets: StateFlow<List<com.example.data.model.CorporateApplicationTarget>> =
+    repository.starredCorporateApplicationTargetsFlow
+      .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
   val selectedAgentForInspection = MutableStateFlow<AgentItem?>(null)
 
 
@@ -2857,6 +2880,77 @@ Requirements: ${job.missingRequirements}
       message = "Dispatched: ${directive.title} • ${directive.summary}",
       durationMs = 12L
     )
+
+    // Persist execution telemetry to Room SQLite database
+    viewModelScope.launch {
+      repository.recordKeypadDirectiveExecution(directive.code)
+    }
+  }
+
+  fun togglePinKeypadDirective(code: String, isPinned: Boolean) {
+    viewModelScope.launch {
+      repository.setKeypadDirectivePinned(code, isPinned)
+    }
+  }
+
+  fun updateKeypadDirectiveNotes(code: String, notes: String) {
+    viewModelScope.launch {
+      repository.updateKeypadDirectiveNotes(code, notes)
+    }
+  }
+
+  fun updateDarkStoreStressMode(stressMode: String) {
+    viewModelScope.launch {
+      repository.updateDarkStoreStressMode(stressMode)
+    }
+  }
+
+  fun updateDarkStoreSelectedHub(hubId: String) {
+    viewModelScope.launch {
+      repository.updateDarkStoreSelectedHub(hubId)
+    }
+  }
+
+  fun saveDarkStoreSimulationSettings(settings: com.example.data.model.DarkStoreSimulationSettings) {
+    viewModelScope.launch {
+      repository.saveDarkStoreSimulationSettings(settings)
+    }
+  }
+
+  fun recordDarkStoreSimulationCycle() {
+    viewModelScope.launch {
+      repository.recordDarkStoreSimulationCycle()
+    }
+  }
+
+  fun saveCorporateApplicationTarget(target: com.example.data.model.CorporateApplicationTarget) {
+    viewModelScope.launch {
+      repository.saveCorporateApplicationTarget(target)
+      notificationManager.notifySystemAlert(
+        title = "Corporate Target Saved",
+        message = "${target.companyName} (${target.targetRoleTitle}) saved to Room SQLite.",
+        detailedSummary = "Compensation target ₹${target.targetCtcLakhs}L CTC recorded with status: ${target.applicationStatus}.",
+        targetScreen = "EXECUTIVE"
+      )
+    }
+  }
+
+  fun updateCorporateTargetStatus(id: String, newStatus: String) {
+    viewModelScope.launch {
+      repository.updateCorporateTargetStatus(id, newStatus)
+    }
+  }
+
+  fun toggleCorporateTargetStarred(id: String, isStarred: Boolean) {
+    viewModelScope.launch {
+      repository.toggleCorporateTargetStarred(id, isStarred)
+    }
+  }
+
+  fun deleteCorporateTarget(id: String) {
+    viewModelScope.launch {
+      repository.deleteCorporateApplicationTarget(id)
+    }
   }
 
   fun triggerKeypadDirective(code: String): Boolean {
@@ -4948,9 +5042,9 @@ Status: Dispatched via ${rule.targetAgent} with zero-trust validation check.
     if (!open) authService.clearError()
   }
 
-  fun signInWithGoogle(activity: android.app.Activity, webClientId: String? = null) {
+  fun signInWithGoogle(activity: android.app.Activity) {
     viewModelScope.launch {
-      val res = authService.signInWithGoogle(activity, webClientId)
+      val res = authService.signInWithGoogle(activity)
       if (res.isSuccess) {
         val user = res.getOrNull()
         if (user != null) {
@@ -4963,49 +5057,6 @@ Status: Dispatched via ${rule.targetAgent} with zero-trust validation check.
           )
         }
       }
-    }
-  }
-
-  fun signInWithEmail(email: String, pass: String) {
-    viewModelScope.launch {
-      val res = authService.signInWithEmail(email, pass)
-      if (res.isSuccess) {
-        syncCareerProfileToCloud()
-      }
-    }
-  }
-
-  fun signUpWithEmail(email: String, pass: String, displayName: String) {
-    viewModelScope.launch {
-      val res = authService.signUpWithEmail(email, pass, displayName)
-      if (res.isSuccess) {
-        syncCareerProfileToCloud()
-      }
-    }
-  }
-
-  fun signInAnonymously() {
-    viewModelScope.launch {
-      val res = authService.signInAnonymously()
-      if (res.isSuccess) {
-        syncCareerProfileToCloud()
-      }
-    }
-  }
-
-  fun signInDemoGoogleUser(
-    email: String = "ashishiash007@gmail.com",
-    name: String = "Adi (Career Titan)"
-  ) {
-    authService.signInDemoGoogleUser(email, name)
-    viewModelScope.launch {
-      syncCareerProfileToCloud()
-      notificationManager.notifySystemAlert(
-        title = "Google Account Connected",
-        message = "Active Session: $name ($email). Personal profile & applications synced to cloud.",
-        detailedSummary = "Cloud backup initialized with Firebase Firestore for seamless cross-device synchronization.",
-        targetScreen = "PROFILE"
-      )
     }
   }
 

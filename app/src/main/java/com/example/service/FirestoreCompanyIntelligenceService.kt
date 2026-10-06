@@ -33,6 +33,11 @@ class FirestoreCompanyIntelligenceService(private val context: Context) {
   private val prefs: SharedPreferences =
     context.getSharedPreferences("titan_firestore_company_intel_cache", Context.MODE_PRIVATE)
 
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
+
   private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
   private val listType = Types.newParameterizedType(List::class.java, CompanyIntelReport::class.java)
   private val adapter = moshi.adapter<List<CompanyIntelReport>>(listType)
@@ -76,7 +81,7 @@ class FirestoreCompanyIntelligenceService(private val context: Context) {
       _syncProgress.value = 0.45f
       _statusMessage.value = "Writing dossier signals to users/$userId/company_intelligence/$docKey..."
 
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val docRef = firestore.collection("users")
         .document(userId)
         .collection("company_intelligence")
@@ -154,7 +159,7 @@ class FirestoreCompanyIntelligenceService(private val context: Context) {
       _syncProgress.value = 0.60f
       _statusMessage.value = "Downloading intelligence telemetry & hiring trends..."
 
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("company_intelligence")
@@ -250,7 +255,7 @@ class FirestoreCompanyIntelligenceService(private val context: Context) {
 
     val results = mutableListOf<CompanyIntelReport>()
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("company_intelligence")

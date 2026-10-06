@@ -22,6 +22,11 @@ import kotlinx.coroutines.withContext
 class FirestoreMarketIntelligenceService(private val context: Context) {
   private val tag = "FirestoreMarketIntel"
   private val prefs = context.getSharedPreferences("titan_market_intel_vault", Context.MODE_PRIVATE)
+
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
   private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
   private val listType = Types.newParameterizedType(List::class.java, MarketIntelligenceReport::class.java)
   private val adapter = moshi.adapter<List<MarketIntelligenceReport>>(listType)
@@ -43,7 +48,7 @@ class FirestoreMarketIntelligenceService(private val context: Context) {
     val now = System.currentTimeMillis()
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val docRef = firestore.collection("users")
         .document(userId)
         .collection("market_intelligence")
@@ -81,7 +86,7 @@ class FirestoreMarketIntelligenceService(private val context: Context) {
   suspend fun loadSavedMarketReports(userId: String): List<MarketIntelligenceReport> = withContext(Dispatchers.IO) {
     val localReports = loadFromLocalCache().toMutableList()
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("market_intelligence")

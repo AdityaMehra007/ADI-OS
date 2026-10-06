@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidTimestamp(val) {
+      return val is timestamp && val <= request.time;
+    }
+
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId == request.auth.uid
+        && data.displayName is string && data.displayName.size() > 0 && data.displayName.size() <= 100
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && data.tier is string && data.tier.size() > 0 && data.tier.size() <= 50
+        && (!('targetCTC' in data) || data.targetCTC is number)
+        && (!('currentTitle' in data) || (data.currentTitle is string && data.currentTitle.size() <= 120))
+        && isValidTimestamp(data.createdAt)
+        && isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidDirectiveExecution(data) {
+      return data.id is string && data.id.size() > 0
+        && data.userId is string && data.userId == request.auth.uid
+        && data.directiveCode is string && data.directiveCode.size() > 0 && data.directiveCode.size() <= 10
+        && data.directiveTitle is string && data.directiveTitle.size() > 0 && data.directiveTitle.size() <= 150
+        && data.category is string && data.category.size() > 0 && data.category.size() <= 80
+        && data.latencyMs is number && data.latencyMs >= 0
+        && data.status is string && data.status.size() > 0 && data.status.size() <= 50
+        && (!('summary' in data) || (data.summary is string && data.summary.size() <= 5000))
+        && isValidTimestamp(data.executedAt);
+    }
+
+    function isValidPinnedDirective(data) {
+      return data.userId is string && data.userId == request.auth.uid
+        && data.directiveCode is string && data.directiveCode.size() > 0 && data.directiveCode.size() <= 10
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 150
+        && isValidTimestamp(data.pinnedAt);
+    }
+
+    // User Profile Document
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserProfile(request.resource.data);
+      allow update: if isOwner(userId) && isValidUserProfile(request.resource.data);
+      allow delete: if isOwner(userId);
+
+      // Subcollection: Keypad Executions Audit Log
+      match /executions/{executionId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidDirectiveExecution(request.resource.data);
+        allow update: if isOwner(userId) && isValidDirectiveExecution(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection: Pinned Directives
+      match /pinnedDirectives/{code} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidPinnedDirective(request.resource.data);
+        allow update: if isOwner(userId) && isValidPinnedDirective(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

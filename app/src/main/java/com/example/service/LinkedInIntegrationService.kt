@@ -486,7 +486,8 @@ class LinkedInIntegrationService(
     activities: List<LinkedInNetworkActivityItem>
   ) = withContext(Dispatchers.IO) {
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val databaseId = context.getString(com.example.R.string.firestore_database_id)
+      val firestore = FirebaseFirestore.getInstance(databaseId)
       val auth = FirebaseAuth.getInstance()
       val userId = auth.currentUser?.uid ?: "user_adi_default"
 

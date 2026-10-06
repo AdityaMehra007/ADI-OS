@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile state and tier access within Omega-Titan Command OS.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Unique Google user ID"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "tier": {
+          "type": "string",
+          "description": "Executive tier (e.g., APEX_FOUNDER, CXO_ELITE)"
+        },
+        "targetCTC": {
+          "type": "number",
+          "description": "Annual target CTC in INR Lakhs"
+        },
+        "currentTitle": {
+          "type": "string",
+          "description": "Current executive or founder title"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Profile creation timestamp via FieldValue.serverTimestamp()"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Profile modification timestamp via FieldValue.serverTimestamp()"
+        }
+      },
+      "required": ["userId", "displayName", "email", "tier", "createdAt", "updatedAt"]
+    },
+    "DirectiveExecution": {
+      "title": "DirectiveExecution",
+      "description": "Audit record of executed 25-Keypad executive modules.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique execution identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "User ID of the initiator"
+        },
+        "directiveCode": {
+          "type": "string",
+          "description": "Keypad module code (e.g., '01', '18', '25')"
+        },
+        "directiveTitle": {
+          "type": "string",
+          "description": "Module title"
+        },
+        "category": {
+          "type": "string",
+          "description": "Module category"
+        },
+        "latencyMs": {
+          "type": "number",
+          "description": "Execution latency in milliseconds"
+        },
+        "status": {
+          "type": "string",
+          "description": "Execution status (DISPATCHED, COMPLETED)"
+        },
+        "summary": {
+          "type": "string",
+          "description": "High-impact execution summary"
+        },
+        "executedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of execution via FieldValue.serverTimestamp()"
+        }
+      },
+      "required": ["id", "userId", "directiveCode", "directiveTitle", "category", "latencyMs", "status", "executedAt"]
+    },
+    "PinnedDirective": {
+      "title": "PinnedDirective",
+      "description": "Executive keypad directive pinned by the user for fast-action access.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User ID owning the pin"
+        },
+        "directiveCode": {
+          "type": "string",
+          "description": "Keypad module code ('01' through '25')"
+        },
+        "title": {
+          "type": "string",
+          "description": "Module title"
+        },
+        "pinnedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Pinning timestamp via FieldValue.serverTimestamp()"
+        }
+      },
+      "required": ["userId", "directiveCode", "title", "pinnedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles keyed by user ID"
+    },
+    "/users/{userId}/executions/{executionId}": {
+      "schema": "DirectiveExecution",
+      "description": "Subcollection of executed keypad module audit records for a user"
+    },
+    "/users/{userId}/pinnedDirectives/{code}": {
+      "schema": "PinnedDirective",
+      "description": "Subcollection of pinned directives for a user"
+    }
+  }
+}

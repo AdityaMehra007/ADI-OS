@@ -42,6 +42,11 @@ class FirestoreCareerStrategyService(private val context: Context) {
   private val prefs: SharedPreferences =
     context.getSharedPreferences("titan_firestore_career_strategy_cache", Context.MODE_PRIVATE)
 
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
+
   private val _syncState = MutableStateFlow(FirestoreSyncState.IDLE)
   val syncState: StateFlow<FirestoreSyncState> = _syncState.asStateFlow()
 
@@ -68,7 +73,7 @@ class FirestoreCareerStrategyService(private val context: Context) {
 
     var firestoreSucceeded = false
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val strategyDocRef = firestore.collection("users")
         .document(userId)
         .collection("career_strategy")
@@ -197,7 +202,7 @@ class FirestoreCareerStrategyService(private val context: Context) {
 
     var restoredData: FirestoreCareerStrategyData? = null
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("career_strategy")
@@ -328,7 +333,7 @@ class FirestoreCareerStrategyService(private val context: Context) {
     phaseNumber: Int
   ): Result<Boolean> = withContext(Dispatchers.IO) {
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val milestoneDoc = firestore.collection("users")
         .document(userId)
         .collection("career_strategy_milestones")

@@ -24,6 +24,11 @@ class FirestoreJobApplicationService(private val context: Context) {
   private val prefs: SharedPreferences =
     context.getSharedPreferences("titan_firestore_applications_cache", Context.MODE_PRIVATE)
 
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
+
   private val _syncState = MutableStateFlow(FirestoreSyncState.IDLE)
   val syncState: StateFlow<FirestoreSyncState> = _syncState.asStateFlow()
 
@@ -51,7 +56,7 @@ class FirestoreJobApplicationService(private val context: Context) {
     val now = System.currentTimeMillis()
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val appDocRef = firestore.collection("users")
         .document(userId)
         .collection("job_applications")
@@ -112,7 +117,7 @@ class FirestoreJobApplicationService(private val context: Context) {
     val now = System.currentTimeMillis()
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val appDocRef = firestore.collection("users")
         .document(userId)
         .collection("job_applications")
@@ -155,7 +160,7 @@ class FirestoreJobApplicationService(private val context: Context) {
     val now = System.currentTimeMillis()
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       firestore.collection("users")
         .document(userId)
         .collection("job_applications")
@@ -190,7 +195,7 @@ class FirestoreJobApplicationService(private val context: Context) {
     var firestoreSuccess = false
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val snapshot = firestore.collection("users")
         .document(userId)
         .collection("job_applications")
@@ -262,7 +267,7 @@ class FirestoreJobApplicationService(private val context: Context) {
     var firestoreSuccess = false
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val batch = firestore.batch()
       val collRef = firestore.collection("users")
         .document(userId)

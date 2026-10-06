@@ -26,6 +26,11 @@ class FirestoreCareerMomentumService(private val context: Context) {
   private val prefs: SharedPreferences =
     context.getSharedPreferences("titan_career_momentum_vault", Context.MODE_PRIVATE)
 
+  private fun getFirestore(): FirebaseFirestore {
+    val databaseId = context.getString(com.example.R.string.firestore_database_id)
+    return FirebaseFirestore.getInstance(databaseId)
+  }
+
   private val _syncState = MutableStateFlow(FirestoreSyncState.IDLE)
   val syncState: StateFlow<FirestoreSyncState> = _syncState.asStateFlow()
 
@@ -53,7 +58,7 @@ class FirestoreCareerMomentumService(private val context: Context) {
     val now = System.currentTimeMillis()
 
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val todayDocRef = firestore.collection("users")
         .document(userId)
         .collection("career_momentum")
@@ -124,7 +129,7 @@ class FirestoreCareerMomentumService(private val context: Context) {
     dateKey: String = getTodayDateKey()
   ): Result<CareerMomentumData?> = withContext(Dispatchers.IO) {
     try {
-      val firestore = FirebaseFirestore.getInstance()
+      val firestore = getFirestore()
       val doc = firestore.collection("users")
         .document(userId)
         .collection("career_momentum")
