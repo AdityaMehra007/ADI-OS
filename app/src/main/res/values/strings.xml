@@ -6,4 +6,5 @@
     <string name="shortcut_copilot_long">AI Career Copilot</string>
     <string name="shortcut_jobs_short">Jobs</string>
     <string name="shortcut_jobs_long">Job Tracker &amp; Automation</string>
+    <string name="default_web_client_id" translatable="false">placeholder-client-id</string>
 </resources>

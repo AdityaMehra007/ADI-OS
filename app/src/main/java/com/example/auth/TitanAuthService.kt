@@ -209,7 +209,11 @@ class TitanAuthService(
 
   private fun resolveClientId(): String? {
     return try {
-      context.getString(R.string.default_web_client_id)
+      val resId = context.resources.getIdentifier("default_web_client_id", "string", context.packageName)
+      if (resId != 0) {
+        val id = context.getString(resId)
+        if (id.isNotBlank() && id != "placeholder-client-id") id else null
+      } else null
     } catch (e: Exception) {
       Log.w(tag, "default_web_client_id not available in resources: ${e.message}")
       null
