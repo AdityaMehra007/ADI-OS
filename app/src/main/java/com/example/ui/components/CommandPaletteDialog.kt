@@ -271,12 +271,26 @@ fun CommandPaletteDialog(
 
           item {
             PaletteActionItem(
+              icon = Icons.Default.Radar,
+              tint = TitanCyan,
+              title = "/radar • Daily Radar & Intelligence Feed",
+              subtitle = "Google Search Grounded corporate news, trends & openings (Tech, Consulting, Fintech, Commerce)",
+              onClick = {
+                viewModel.setCompanyIntelTab(1)
+                viewModel.navigateTo(TitanScreen.COMPANIES)
+                onDismissRequest()
+              }
+            )
+          }
+
+          item {
+            PaletteActionItem(
               icon = Icons.Default.TravelExplore,
               tint = TitanGold,
               title = "/intel • Live Search Grounding Radar",
               subtitle = "Real-time Google Search grounding on business news, hiring & exec shifts",
               onClick = {
-                viewModel.setCompanyIntelTab(1)
+                viewModel.setCompanyIntelTab(3)
                 viewModel.navigateTo(TitanScreen.COMPANIES)
                 onDismissRequest()
               }
@@ -291,6 +305,20 @@ fun CommandPaletteDialog(
               subtitle = "Track submission stages, follow-ups & recruiter emails",
               onClick = {
                 viewModel.navigateTo(TitanScreen.APPLICATIONS)
+                onDismissRequest()
+              }
+            )
+          }
+
+          item {
+            PaletteActionItem(
+              icon = Icons.Default.Psychology,
+              tint = TitanGold,
+              title = "/interview-command • Interview Command Module",
+              subtitle = "Role-specific mock questions & structured talking points for Application Hub targets",
+              onClick = {
+                viewModel.navigateTo(TitanScreen.APPLICATIONS)
+                viewModel.generateInterviewCommand(forceRefresh = false)
                 onDismissRequest()
               }
             )

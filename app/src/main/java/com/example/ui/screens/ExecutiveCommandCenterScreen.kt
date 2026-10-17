@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -28,6 +29,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -95,12 +98,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auth.AuthState
+import com.example.auth.ExecutiveSessionState
+import com.example.auth.TitanAuthUser
 import com.example.data.model.Application
 import com.example.data.model.DailyCareerTip
 import com.example.data.model.ExecutiveCareerInsights
@@ -109,6 +116,9 @@ import com.example.data.model.ExecutiveMarketOpportunity
 import com.example.ui.components.CareerMomentumWidget
 import com.example.ui.components.CompanyIntelligenceWidget
 import com.example.ui.components.CareerRoadmapSkillsVisualization
+import com.example.ui.components.CareerStrategyPopularityInsightsCard
+import com.example.ui.components.CorporateApplicationHubCard
+import com.example.ui.components.DailyRadarDigestSummaryCard
 import kotlinx.coroutines.launch
 import com.example.ui.theme.ObsidianDark
 import com.example.ui.theme.SlateBorder
@@ -132,9 +142,35 @@ import com.example.ui.viewmodel.TitanViewModel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ExecutiveCommandCenterScreen(viewModel: TitanViewModel) {
+  val context = LocalContext.current
+  val activity = context as? Activity
+
   val uiState by viewModel.executiveCommandCenterUiState.collectAsState()
   val userProfile by viewModel.userProfile.collectAsState()
+  val authUser by viewModel.authUser.collectAsState()
+  val authState by viewModel.authState.collectAsState()
+  val isExecutiveAccessGranted by viewModel.isExecutiveAccessGranted.collectAsState()
+  val executiveSessionState by viewModel.executiveSessionState.collectAsState()
   val insights = uiState.insights
+
+  // Security Gate: Protect Executive Command Center access behind Firebase Auth state listener
+  if (!isExecutiveAccessGranted || authUser == null) {
+    ExecutiveCommandCenterSecurityGate(
+      viewModel = viewModel,
+      authState = authState,
+      onSignInWithGoogle = {
+        if (activity != null) {
+          viewModel.signInWithGoogle(activity)
+        } else {
+          viewModel.setAuthDialogOpen(true)
+        }
+      },
+      onOpenAuthDialog = {
+        viewModel.setAuthDialogOpen(true)
+      }
+    )
+    return
+  }
 
   val targetRoles = listOf(
     "Lead Strategy & Operations / Chief of Staff",
@@ -153,6 +189,17 @@ fun ExecutiveCommandCenterScreen(viewModel: TitanViewModel) {
       .testTag("executive_command_center_screen"),
     verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
+    // 0. ACTIVE EXECUTIVE SESSION & GOVERNANCE BANNER
+    item {
+      ExecutiveSessionSecurityBanner(
+        authUser = authUser,
+        executiveSessionState = executiveSessionState,
+        onLockSession = {
+          viewModel.signOut()
+        }
+      )
+    }
+
     // 1. HERO HEADER: Executive Title, Status & Gemini Grounding Pill
     item {
       ExecutiveHeaderSection(
@@ -203,6 +250,30 @@ fun ExecutiveCommandCenterScreen(viewModel: TitanViewModel) {
     // 3. QUICK-ACCESS ACTION BUTTONS (EXECUTIVE LAUNCHPAD)
     item {
       QuickAccessLaunchpadSection(viewModel = viewModel)
+    }
+
+    // 3b. FIREBASE ANALYTICS TELEMETRY: CAREER STRATEGY POPULARITY INSIGHTS
+    item {
+      CareerStrategyPopularityInsightsCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth()
+      )
+    }
+
+    // 3c. 1-CLICK APPLY CORPORATE HUB (ROOM SQLITE PERSISTED TARGETS)
+    item {
+      CorporateApplicationHubCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth()
+      )
+    }
+
+    // 3d. OMNI-CORPORATE DAILY RADAR (DAILY STARTUP & MNC UPDATES DIGEST)
+    item {
+      DailyRadarDigestSummaryCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth()
+      )
     }
 
     // 4. LOADING STATE OR CONTENT
@@ -3387,6 +3458,298 @@ private fun AutomatedApplicationTaskItem(
             )
           }
         }
+      }
+    }
+  }
+}
+
+@Composable
+fun ExecutiveCommandCenterSecurityGate(
+  viewModel: TitanViewModel,
+  authState: AuthState,
+  onSignInWithGoogle: () -> Unit,
+  onOpenAuthDialog: () -> Unit
+) {
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(ObsidianDark)
+      .padding(20.dp)
+      .testTag("executive_command_center_security_gate"),
+    contentAlignment = Alignment.Center
+  ) {
+    Card(
+      modifier = Modifier
+        .fillMaxWidth()
+        .border(1.dp, TitanCrimson.copy(alpha = 0.5f), RoundedCornerShape(16.dp)),
+      colors = CardDefaults.cardColors(containerColor = SlateCard),
+      shape = RoundedCornerShape(16.dp)
+    ) {
+      Column(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+      ) {
+        // Glowing Security Gate Lock Icon
+        Box(
+          modifier = Modifier
+            .size(64.dp)
+            .clip(CircleShape)
+            .background(TitanCrimson.copy(alpha = 0.15f))
+            .border(2.dp, TitanCrimson, CircleShape),
+          contentAlignment = Alignment.Center
+        ) {
+          Icon(
+            imageVector = Icons.Default.Lock,
+            contentDescription = "Security Gate Locked",
+            tint = TitanCrimson,
+            modifier = Modifier.size(32.dp)
+          )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Surface(
+          shape = RoundedCornerShape(20.dp),
+          color = TitanCrimson.copy(alpha = 0.2f),
+          border = androidx.compose.foundation.BorderStroke(1.dp, TitanCrimson.copy(alpha = 0.6f))
+        ) {
+          Text(
+            text = "LEVEL-5 RESTRICTED ACCESS",
+            color = TitanCrimson,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 1.sp,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+          )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+          text = "Executive Command Center",
+          style = MaterialTheme.typography.titleLarge,
+          fontWeight = FontWeight.Bold,
+          color = TextPrimaryDark
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+          text = "High-security access controls are active. The Executive Command Center features autonomous company intelligence, career roadmap synthesis, and strategic directive pipelines.",
+          style = MaterialTheme.typography.bodyMedium,
+          color = TextSecondaryDark,
+          textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+          lineHeight = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Session Persistence Status Card
+        Card(
+          modifier = Modifier.fillMaxWidth(),
+          colors = CardDefaults.cardColors(containerColor = SlateElevated),
+          shape = RoundedCornerShape(12.dp),
+          border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder)
+        ) {
+          Column(modifier = Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Icon(
+                imageVector = Icons.Default.Security,
+                contentDescription = null,
+                tint = TitanCyan,
+                modifier = Modifier.size(16.dp)
+              )
+              Spacer(modifier = Modifier.width(8.dp))
+              Text(
+                text = "SESSION PERSISTENCE ENGINE",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                color = TitanCyan,
+                letterSpacing = 0.5.sp
+              )
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+              text = "• Firebase Auth State Listener: Active\n• Persistent Device Binding: Ready\n• Automatic Session Restoration: Enabled",
+              fontSize = 12.sp,
+              color = TextMutedDark,
+              lineHeight = 18.sp
+            )
+          }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Primary Google Sign-In Button
+        Button(
+          onClick = onSignInWithGoogle,
+          enabled = authState != AuthState.AUTHENTICATING,
+          colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = Color.Black
+          ),
+          shape = RoundedCornerShape(10.dp),
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .testTag("btn_executive_signin_google")
+        ) {
+          if (authState == AuthState.AUTHENTICATING) {
+            CircularProgressIndicator(
+              modifier = Modifier.size(20.dp),
+              color = Color.Black,
+              strokeWidth = 2.dp
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+              text = "Verifying Credentials...",
+              fontWeight = FontWeight.Bold,
+              fontSize = 14.sp
+            )
+          } else {
+            Icon(
+              imageVector = Icons.Default.CheckCircle,
+              contentDescription = null,
+              tint = TitanEmerald,
+              modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+              text = "Sign in with Google to Unlock",
+              fontWeight = FontWeight.Bold,
+              fontSize = 14.sp,
+              color = Color.Black
+            )
+          }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Secondary Auth Controls Button
+        OutlinedButton(
+          onClick = onOpenAuthDialog,
+          border = androidx.compose.foundation.BorderStroke(1.dp, SlateBorder),
+          colors = ButtonDefaults.outlinedButtonColors(contentColor = TitanCyan),
+          shape = RoundedCornerShape(10.dp),
+          modifier = Modifier
+            .fillMaxWidth()
+            .testTag("btn_executive_open_auth_dialog")
+        ) {
+          Icon(
+            imageVector = Icons.Default.Key,
+            contentDescription = null,
+            modifier = Modifier.size(16.dp)
+          )
+          Spacer(modifier = Modifier.width(8.dp))
+          Text(
+            text = "Credential Management & Cloud Vault",
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold
+          )
+        }
+      }
+    }
+  }
+}
+
+@Composable
+fun ExecutiveSessionSecurityBanner(
+  authUser: TitanAuthUser?,
+  executiveSessionState: ExecutiveSessionState,
+  onLockSession: () -> Unit
+) {
+  Card(
+    modifier = Modifier
+      .fillMaxWidth()
+      .testTag("executive_session_security_banner"),
+    colors = CardDefaults.cardColors(containerColor = SlateCard),
+    shape = RoundedCornerShape(12.dp),
+    border = androidx.compose.foundation.BorderStroke(1.dp, TitanEmerald.copy(alpha = 0.5f))
+  ) {
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(12.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+      Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.weight(1f)
+      ) {
+        Box(
+          modifier = Modifier
+            .size(36.dp)
+            .clip(CircleShape)
+            .background(TitanEmerald.copy(alpha = 0.2f))
+            .border(1.dp, TitanEmerald, CircleShape),
+          contentAlignment = Alignment.Center
+        ) {
+          Icon(
+            imageVector = Icons.Default.Security,
+            contentDescription = "Active Executive Security Session",
+            tint = TitanEmerald,
+            modifier = Modifier.size(20.dp)
+          )
+        }
+
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Column {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+              text = "SECURE SESSION ACTIVE",
+              fontSize = 11.sp,
+              fontWeight = FontWeight.Black,
+              color = TitanEmerald,
+              letterSpacing = 0.5.sp
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Box(
+              modifier = Modifier
+                .size(6.dp)
+                .clip(CircleShape)
+                .background(TitanEmerald)
+            )
+          }
+          Text(
+            text = "${authUser?.displayName ?: "Verified Executive"} • ${authUser?.email ?: "Google Authenticated"}",
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = TextPrimaryDark,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+          )
+          Text(
+            text = "Session Persisted via Firebase Auth State Listener",
+            fontSize = 10.sp,
+            color = TextMutedDark
+          )
+        }
+      }
+
+      Spacer(modifier = Modifier.width(8.dp))
+
+      OutlinedButton(
+        onClick = onLockSession,
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = TitanCrimson),
+        border = androidx.compose.foundation.BorderStroke(1.dp, TitanCrimson.copy(alpha = 0.5f)),
+        modifier = Modifier.testTag("btn_executive_lock_session")
+      ) {
+        Icon(
+          imageVector = Icons.Default.Lock,
+          contentDescription = null,
+          modifier = Modifier.size(14.dp)
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+          text = "Lock",
+          fontSize = 11.sp,
+          fontWeight = FontWeight.Bold
+        )
       }
     }
   }

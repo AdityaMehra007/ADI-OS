@@ -58,12 +58,19 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.TravelExplore
 import androidx.compose.material.icons.filled.Newspaper
+import androidx.compose.material.icons.filled.Handshake
+import androidx.compose.material.icons.filled.Radar
+import androidx.compose.material.icons.filled.Public
 import com.example.ui.components.CompanyIntelFirestoreSyncBadge
 import com.example.ui.components.CompanyIntelFirestoreSyncIndicator
 import com.example.ui.components.CompanyIntelligenceWidget
 import com.example.ui.components.launchCompanyNewsShareSheet
 import com.example.ui.components.TargetCompaniesListView
 import com.example.ui.components.SectorMarketInsightsView
+import com.example.ui.components.RelationshipLedgerView
+import com.example.ui.components.OmniCorporateDailyRadarFeed
+import com.example.ui.components.DailyIntelligenceFeedView
+import com.example.ui.components.DailyRadarTabView
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -79,6 +86,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
@@ -261,10 +269,11 @@ fun CompaniesScreen(
     Spacer(modifier = Modifier.height(10.dp))
 
     // Top Navigation Tabs
-    TabRow(
-      selectedTabIndex = activeTab.coerceIn(0, 3),
+    ScrollableTabRow(
+      selectedTabIndex = activeTab.coerceIn(0, 5),
       containerColor = SlateCard,
       contentColor = TitanCyan,
+      edgePadding = 4.dp,
       indicator = { tabPositions ->
         val safeIndex = activeTab.coerceIn(0, tabPositions.lastIndex)
         TabRowDefaults.SecondaryIndicator(
@@ -277,10 +286,12 @@ fun CompaniesScreen(
         .fillMaxWidth()
         .clip(RoundedCornerShape(8.dp))
         .border(1.dp, SlateBorder, RoundedCornerShape(8.dp))
+        .testTag("companies_screen_tabs")
     ) {
       Tab(
         selected = activeTab == 0,
         onClick = { viewModel.setCompanyIntelTab(0) },
+        modifier = Modifier.testTag("tab_target_tracker"),
         text = {
           Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Default.Star, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 0) TitanCyan else TextMutedDark)
@@ -299,17 +310,20 @@ fun CompaniesScreen(
       Tab(
         selected = activeTab == 1,
         onClick = { viewModel.setCompanyIntelTab(1) },
+        modifier = Modifier.testTag("tab_daily_radar"),
         text = {
-          Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Business, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 1) TitanCyan else TextMutedDark)
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-              text = "Roster",
-              style = MaterialTheme.typography.labelMedium,
-              fontWeight = if (activeTab == 1) FontWeight.Bold else FontWeight.Normal,
-              color = if (activeTab == 1) TitanCyan else TextMutedDark,
-              fontSize = 11.sp
-            )
+          Box(modifier = Modifier.testTag("tab_daily_intelligence_feed")) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Icon(Icons.Default.Radar, contentDescription = "Daily Radar", modifier = Modifier.size(13.dp), tint = if (activeTab == 1) TitanCyan else TextMutedDark)
+              Spacer(modifier = Modifier.width(4.dp))
+              Text(
+                text = "Daily Radar",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = if (activeTab == 1) FontWeight.Bold else FontWeight.Normal,
+                color = if (activeTab == 1) TitanCyan else TextMutedDark,
+                fontSize = 11.sp
+              )
+            }
           }
         }
       )
@@ -317,15 +331,16 @@ fun CompaniesScreen(
       Tab(
         selected = activeTab == 2,
         onClick = { viewModel.setCompanyIntelTab(2) },
+        modifier = Modifier.testTag("tab_roster"),
         text = {
           Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 2) TitanGold else TextMutedDark)
+            Icon(Icons.Default.Business, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 2) TitanCyan else TextMutedDark)
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-              text = "Live Search",
+              text = "Roster",
               style = MaterialTheme.typography.labelMedium,
               fontWeight = if (activeTab == 2) FontWeight.Bold else FontWeight.Normal,
-              color = if (activeTab == 2) TitanGold else TextMutedDark,
+              color = if (activeTab == 2) TitanCyan else TextMutedDark,
               fontSize = 11.sp
             )
           }
@@ -335,15 +350,54 @@ fun CompaniesScreen(
       Tab(
         selected = activeTab == 3,
         onClick = { viewModel.setCompanyIntelTab(3) },
+        modifier = Modifier.testTag("tab_live_search"),
         text = {
           Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Newspaper, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 3) TitanCyan else TextMutedDark)
+            Icon(Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 3) TitanGold else TextMutedDark)
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+              text = "Live Search",
+              style = MaterialTheme.typography.labelMedium,
+              fontWeight = if (activeTab == 3) FontWeight.Bold else FontWeight.Normal,
+              color = if (activeTab == 3) TitanGold else TextMutedDark,
+              fontSize = 11.sp
+            )
+          }
+        }
+      )
+
+      Tab(
+        selected = activeTab == 4,
+        onClick = { viewModel.setCompanyIntelTab(4) },
+        modifier = Modifier.testTag("tab_market_insights"),
+        text = {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.Newspaper, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 4) TitanCyan else TextMutedDark)
             Spacer(modifier = Modifier.width(4.dp))
             Text(
               text = "Market Insights",
               style = MaterialTheme.typography.labelMedium,
-              fontWeight = if (activeTab == 3) FontWeight.Bold else FontWeight.Normal,
-              color = if (activeTab == 3) TitanCyan else TextMutedDark,
+              fontWeight = if (activeTab == 4) FontWeight.Bold else FontWeight.Normal,
+              color = if (activeTab == 4) TitanCyan else TextMutedDark,
+              fontSize = 11.sp
+            )
+          }
+        }
+      )
+
+      Tab(
+        selected = activeTab == 5,
+        onClick = { viewModel.setCompanyIntelTab(5) },
+        modifier = Modifier.testTag("tab_relationship_ledger"),
+        text = {
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.Handshake, contentDescription = null, modifier = Modifier.size(13.dp), tint = if (activeTab == 5) TitanGold else TextMutedDark)
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+              text = "Relationship Ledger",
+              style = MaterialTheme.typography.labelMedium,
+              fontWeight = if (activeTab == 5) FontWeight.Bold else FontWeight.Normal,
+              color = if (activeTab == 5) TitanGold else TextMutedDark,
               fontSize = 11.sp
             )
           }
@@ -374,7 +428,14 @@ fun CompaniesScreen(
         )
       }
       1 -> {
-        // TAB 1: COMPANY DIRECTORY & TIER MATRIX
+        // TAB 1: DAILY RADAR (GOOGLE SEARCH GROUNDING LIVE STREAM & CORPORATE PULSE)
+        DailyRadarTabView(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxSize()
+        )
+      }
+      2 -> {
+        // TAB 2: COMPANY DIRECTORY & TIER MATRIX (ROSTER)
         CompanyDirectoryView(
           companies = filteredCompanies,
           bookmarks = companyBookmarks,
@@ -402,8 +463,8 @@ fun CompaniesScreen(
           }
         )
       }
-      2 -> {
-        // TAB 2: LIVE SEARCH GROUNDING INTEL
+      3 -> {
+        // TAB 3: LIVE SEARCH GROUNDING INTEL
         Column(
           modifier = Modifier.fillMaxSize(),
           verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -423,10 +484,24 @@ fun CompaniesScreen(
           }
         }
       }
-      else -> {
-        // TAB 3: MARKET INSIGHTS (GEMINI API SECTOR NEWS SUMMARIZER)
+      4 -> {
+        // TAB 4: MARKET INSIGHTS (GEMINI API SECTOR NEWS SUMMARIZER)
         SectorMarketInsightsView(
           viewModel = viewModel
+        )
+      }
+      5 -> {
+        // TAB 5: RELATIONSHIP LEDGER (localStorage PERSISTED COMPANY APPLICATION STATUS & RECHARTS DASHBOARD)
+        RelationshipLedgerView(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxSize()
+        )
+      }
+      else -> {
+        // Fallback default
+        DailyRadarTabView(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxSize()
         )
       }
     }

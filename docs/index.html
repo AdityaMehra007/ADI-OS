@@ -588,6 +588,38 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0, 229, 255, 0.1);
     }
+    .company-card.card-accent-offer {
+      background: linear-gradient(145deg, #0C2619 0%, #081B12 100%);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+    }
+    .company-card.card-accent-offer:hover {
+      border-color: var(--titan-emerald);
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.25);
+    }
+    .company-card.card-accent-interviewing {
+      background: linear-gradient(145deg, #2B230B 0%, #1E1807 100%);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+    }
+    .company-card.card-accent-interviewing:hover {
+      border-color: var(--titan-gold);
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.25);
+    }
+    .company-card.card-accent-applied {
+      background: linear-gradient(145deg, #0E2235 0%, #081622 100%);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+    }
+    .company-card.card-accent-applied:hover {
+      border-color: var(--titan-cyan);
+      box-shadow: 0 4px 18px rgba(0, 229, 255, 0.22);
+    }
+    .company-card.card-accent-targeted {
+      background: linear-gradient(145deg, #1B1530 0%, #110D20 100%);
+      border: 1px solid rgba(124, 77, 255, 0.4);
+    }
+    .company-card.card-accent-targeted:hover {
+      border-color: var(--titan-indigo);
+      box-shadow: 0 4px 18px rgba(124, 77, 255, 0.2);
+    }
     .company-card-header {
       display: flex;
       justify-content: space-between;
@@ -608,6 +640,51 @@
       border-radius: 4px;
       display: inline-block;
       margin-top: 2px;
+    }
+    .card-badges-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .status-summary-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .status-summary-badge.status-offer {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--titan-emerald);
+      border: 1px solid var(--titan-emerald);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+    .status-summary-badge.status-interviewing {
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--titan-gold);
+      border: 1px solid var(--titan-gold);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+    }
+    .status-summary-badge.status-applied {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--titan-cyan);
+      border: 1px solid var(--titan-cyan);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+    }
+    .status-summary-badge.status-targeted {
+      background: rgba(124, 77, 255, 0.15);
+      color: var(--titan-indigo);
+      border: 1px solid var(--titan-indigo);
+      box-shadow: 0 0 10px rgba(124, 77, 255, 0.15);
     }
     .fit-badge {
       font-family: var(--font-mono);
@@ -1124,6 +1201,7 @@
       {
         id: "ZEPTO",
         company: "Zepto (KiranaKart)",
+        status: "Interviewing",
         role: "Founder's Office Associate - City Expansion & Dark Store Turnaround",
         category: "Quick-Commerce",
         contactName: "Aadit Palicha & Talent Team",
@@ -1140,6 +1218,7 @@
       {
         id: "SWIGGY",
         company: "Swiggy Instamart",
+        status: "Offer",
         role: "Business Analyst - Instamart Supply Chain & Dark Store Operations",
         category: "Quick-Commerce",
         contactName: "Phani Kishan & Instamart Hiring Team",
@@ -1156,6 +1235,7 @@
       {
         id: "BLINKIT",
         company: "Blinkit (Zomato)",
+        status: "Interviewing",
         role: "Operations & Dark Store Network Expansion Lead",
         category: "Quick-Commerce",
         contactName: "Albinder Dhindsa & Operations Team",
@@ -1172,6 +1252,7 @@
       {
         id: "GOOGLE",
         company: "Google India",
+        status: "Applied",
         role: "Associate Account Strategist - Global Customer Operations / BizOps",
         category: "Tech Giants",
         contactName: "Google India Talent Acquisition",
@@ -1188,6 +1269,7 @@
       {
         id: "MICROSOFT",
         company: "Microsoft India",
+        status: "Applied",
         role: "Associate Strategy & Business Operations Analyst (Cloud & Enterprise)",
         category: "Tech Giants",
         contactName: "Microsoft India Early Career Recruiting",
@@ -1204,6 +1286,7 @@
       {
         id: "AMAZON",
         company: "Amazon India",
+        status: "Applied",
         role: "Operations & Vendor Management Executive (BLR-JOB-004)",
         category: "Tech Giants",
         contactName: "Sangini Sahay & Operations Talent Team",
@@ -1220,6 +1303,7 @@
       {
         id: "PUMA",
         company: "Puma Sports India",
+        status: "Offer",
         role: "E-Commerce Operations & Return Reconciliation Analyst (Alumni)",
         category: "Alumni",
         contactName: "Karthik Balagopalan & Puma HR Team",
@@ -1236,6 +1320,7 @@
       {
         id: "TATA_COMMS",
         company: "Tata Communications",
+        status: "Interviewing",
         role: "Enterprise Infrastructure SLAs & Client Operations Specialist (Alumni)",
         category: "Alumni",
         contactName: "Enterprise Talent Team",
@@ -1252,6 +1337,7 @@
       {
         id: "INSTAWORK",
         company: "Instawork AI",
+        status: "Offer",
         role: "Lead AI Data Operations & QA Automation Specialist (Alumni)",
         category: "Alumni",
         contactName: "Sumir Meghani & Talent Team",
@@ -1268,6 +1354,7 @@
       {
         id: "RAZORPAY",
         company: "Razorpay",
+        status: "Offer",
         role: "Associate Product Operations & Cross-Border Payments Analyst",
         category: "FinTech",
         contactName: "Harshil Mathur, Shashank Kumar & Talent Team",
@@ -1284,6 +1371,7 @@
       {
         id: "MAERSK",
         company: "A.P. Moller - Maersk",
+        status: "Applied",
         role: "Cross-Border Logistics & Inland Supply Chain Coordinator",
         category: "Logistics",
         contactName: "Maersk GSC Talent Acquisition",
@@ -1300,6 +1388,7 @@
       {
         id: "DELOITTE_USI",
         company: "Deloitte US-India (USI)",
+        status: "Applied",
         role: "Analyst - Strategy & Digital Transformation Advisory",
         category: "Consulting",
         contactName: "Sinchana B & Campus/Off-Campus Recruiting",
@@ -1328,6 +1417,7 @@
         const matchesSearch = !searchQuery || (
           app.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
           app.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (app.status && app.status.toLowerCase().includes(searchQuery.toLowerCase())) ||
           app.proof.toLowerCase().includes(searchQuery.toLowerCase())
         );
         return matchesCategory && matchesSearch;
@@ -1341,7 +1431,14 @@
       filtered.forEach(app => {
         const mailtoUrl = `mailto:${encodeURIComponent(app.contactEmail)}?subject=${encodeURIComponent(app.subject)}&body=${encodeURIComponent(app.body)}`;
         const card = document.createElement("div");
-        card.className = "company-card";
+        const statusClass = (app.status || 'Applied').toLowerCase();
+        card.className = `company-card card-accent-${statusClass}`;
+
+        let statusBadgeIcon = "✓";
+        if (app.status === "Offer") statusBadgeIcon = "🏆";
+        else if (app.status === "Interviewing") statusBadgeIcon = "🎙️";
+        else if (app.status === "Targeted") statusBadgeIcon = "🎯";
+
         card.innerHTML = `
           <div>
             <div class="company-card-header">
@@ -1349,7 +1446,10 @@
                 <div class="company-brand-title">${app.company}</div>
                 <div class="company-category-tag">${app.category.toUpperCase()}</div>
               </div>
-              <span class="fit-badge">${app.fitScore}</span>
+              <div class="card-badges-wrapper">
+                <span class="status-summary-badge status-${statusClass}">${statusBadgeIcon} ${app.status || 'Applied'}</span>
+                <span class="fit-badge">${app.fitScore}</span>
+              </div>
             </div>
 
             <div class="role-header-title" style="margin-top: 8px;">${app.role}</div>

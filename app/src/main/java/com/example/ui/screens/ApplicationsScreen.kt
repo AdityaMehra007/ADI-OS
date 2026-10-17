@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.automirrored.filled.FactCheck
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
@@ -79,6 +80,9 @@ import com.example.service.FirestoreSyncState
 import com.example.ui.components.ApplicationFunnelVisualization
 import com.example.ui.components.CareerRoadmapReportExportDialog
 import com.example.ui.components.CompanyApplicationSentTrackerCard
+import com.example.ui.components.CorporateApplicationHubCard
+import com.example.ui.components.InterviewCommandCard
+import com.example.ui.components.CareerStrategyPopularityInsightsCard
 import com.example.ui.components.MultiPlatformSyncCard
 import com.example.ui.theme.ObsidianDark
 import com.example.ui.theme.SlateBorder
@@ -312,6 +316,30 @@ fun ApplicationsScreen(
       item {
         CompanyApplicationSentTrackerCard(
           viewModel = viewModel
+        )
+      }
+
+      // 0D. 1-CLICK APPLY CORPORATE APPLICATION TARGETS (ROOM SQLITE)
+      item {
+        CorporateApplicationHubCard(
+          viewModel = viewModel,
+          initialExpanded = true
+        )
+      }
+
+      // 0E. INTERVIEW COMMAND MODULE: ROLE-SPECIFIC MOCK QUESTIONS & STRUCTURED TALKING POINTS
+      item {
+        InterviewCommandCard(
+          viewModel = viewModel,
+          modifier = Modifier.testTag("interview_command_module")
+        )
+      }
+
+      // 0F. FIREBASE ANALYTICS TELEMETRY: CAREER STRATEGY POPULARITY INSIGHTS
+      item {
+        CareerStrategyPopularityInsightsCard(
+          viewModel = viewModel,
+          initialExpanded = true
         )
       }
 
@@ -775,6 +803,13 @@ fun ApplicationsScreen(
                 targetCompany = app.companyName,
                 role = app.roleTitle
               )
+            },
+            onInterviewCommand = {
+              viewModel.selectInterviewCommandTarget(
+                companyName = app.companyName,
+                jobTitle = app.roleTitle,
+                autoGenerate = true
+              )
             }
           )
         }
@@ -963,7 +998,8 @@ fun TrackedApplicationCard(
   onDelete: () -> Unit,
   onOpenSalaryModeler: () -> Unit = {},
   onNegotiateOffer: () -> Unit = {},
-  onMatchResume: () -> Unit = {}
+  onMatchResume: () -> Unit = {},
+  onInterviewCommand: () -> Unit = {}
 ) {
   var showStatusMenu by remember { mutableStateOf(false) }
 
@@ -1179,6 +1215,20 @@ fun TrackedApplicationCard(
           Icon(Icons.AutoMirrored.Filled.FactCheck, contentDescription = null, modifier = Modifier.size(14.dp), tint = TitanEmerald)
           Spacer(modifier = Modifier.width(6.dp))
           Text("Match Resume", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+        }
+
+        Button(
+          onClick = onInterviewCommand,
+          modifier = Modifier
+            .weight(1.1f)
+            .testTag("interview_command_app_${app.id}"),
+          colors = ButtonDefaults.buttonColors(containerColor = SlateElevated, contentColor = TitanGold),
+          shape = RoundedCornerShape(8.dp),
+          border = BorderStroke(1.dp, TitanGold.copy(alpha = 0.5f))
+        ) {
+          Icon(Icons.Default.Psychology, contentDescription = null, modifier = Modifier.size(14.dp), tint = TitanGold)
+          Spacer(modifier = Modifier.width(5.dp))
+          Text("Interview Command", fontWeight = FontWeight.Bold, fontSize = 11.sp)
         }
       }
 

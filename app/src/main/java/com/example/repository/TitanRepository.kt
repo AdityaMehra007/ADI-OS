@@ -983,5 +983,40 @@ class TitanRepository(
   suspend fun toggleCorporateTargetStarred(id: String, isStarred: Boolean) {
     database.corporateApplicationTargetDao().toggleStarred(id, isStarred)
   }
+
+  // ==========================================
+  // 4. Application Pipeline Persistence (Offline Room Storage)
+  // ==========================================
+
+  val allApplicationPipelineCompaniesFlow: Flow<List<com.example.data.model.ApplicationPipelineCompanyEntity>> =
+    database.applicationPipelineDao().getAllPipelineCompanies()
+
+  suspend fun getApplicationPipelineCompanyByName(companyName: String): com.example.data.model.ApplicationPipelineCompanyEntity? {
+    return database.applicationPipelineDao().getCompanyByName(companyName)
+  }
+
+  suspend fun saveApplicationPipelineCompany(company: com.example.data.model.ApplicationPipelineCompanyEntity) {
+    database.applicationPipelineDao().insertCompany(company)
+  }
+
+  suspend fun updateApplicationPipelineStatus(
+    companyName: String,
+    newStatus: String,
+    lastUpdated: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+  ) {
+    database.applicationPipelineDao().updateStatus(companyName, newStatus, lastUpdated)
+  }
+
+  suspend fun toggleApplicationPipelineStarred(companyName: String, isStarred: Boolean) {
+    database.applicationPipelineDao().toggleStarred(companyName, isStarred)
+  }
+
+  suspend fun deleteApplicationPipelineCompany(companyName: String) {
+    database.applicationPipelineDao().deleteCompany(companyName)
+  }
+
+  suspend fun getApplicationPipelineCount(): Int {
+    return database.applicationPipelineDao().getCount()
+  }
 }
 

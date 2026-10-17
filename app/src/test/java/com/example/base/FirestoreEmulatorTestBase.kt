@@ -70,7 +70,7 @@ abstract class FirestoreEmulatorTestBase {
     withTimeout(AUTH_TIMEOUT_MS) {
       val result = try {
         auth.signInWithEmailAndPassword(email, DEFAULT_PASSWORD).await()
-      } catch (unused: FirebaseAuthInvalidUserException) {
+      } catch (unused: Exception) {
         auth.createUserWithEmailAndPassword(email, DEFAULT_PASSWORD).await()
       }
       checkNotNull(result.user?.uid) { "User auth failed" }

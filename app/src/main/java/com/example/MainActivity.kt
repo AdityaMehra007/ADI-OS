@@ -221,6 +221,10 @@ class MainActivity : ComponentActivity() {
               },
               onKeypadClick = {
                 viewModel.setKeypadCheatSheetOpen(true)
+                viewModel.analyticsService.trackKeypadGridViewed(
+                  categoryFilter = "ALL",
+                  source = "top_bar_keypad_button"
+                )
               }
             )
           },

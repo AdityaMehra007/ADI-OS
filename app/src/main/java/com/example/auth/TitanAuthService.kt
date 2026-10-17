@@ -34,6 +34,8 @@ class TitanAuthService(
   private val scope: CoroutineScope
 ) {
   private val tag = "TitanAuthService"
+  private val prefsName = "titan_auth_session"
+  private val prefs by lazy { context.getSharedPreferences(prefsName, Context.MODE_PRIVATE) }
 
   private var firebaseAuth: FirebaseAuth? = null
   private val credentialManager = CredentialManager.create(context)
@@ -44,10 +46,24 @@ class TitanAuthService(
   private val _authState = MutableStateFlow(AuthState.UNAUTHENTICATED)
   val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
+  private val _sessionState = MutableStateFlow<ExecutiveSessionState>(ExecutiveSessionState.Unauthenticated)
+  val sessionState: StateFlow<ExecutiveSessionState> = _sessionState.asStateFlow()
+
+  private val _isExecutiveAccessGranted = MutableStateFlow(false)
+  val isExecutiveAccessGranted: StateFlow<Boolean> = _isExecutiveAccessGranted.asStateFlow()
+
   private val _authError = MutableStateFlow<String?>(null)
   val authError: StateFlow<String?> = _authError.asStateFlow()
 
+  // Stored reference to FirebaseAuth.AuthStateListener to serve as the single source
+  // of truth for user session persistence and prevent memory leaks on disposal.
+  private val authStateListener = FirebaseAuth.AuthStateListener { firebaseUserAuth ->
+    val user = firebaseUserAuth.currentUser
+    handleAuthStateChanged(user)
+  }
+
   init {
+    restorePersistedSessionMetadataIfAvailable()
     initializeFirebase()
   }
 
@@ -57,25 +73,124 @@ class TitanAuthService(
         val auth = FirebaseAuth.getInstance()
         firebaseAuth = auth
 
-        auth.addAuthStateListener { firebaseUserAuth ->
-          val user = firebaseUserAuth.currentUser
-          if (user != null) {
-            _currentUser.value = mapFirebaseUser(user)
-            _authState.value = AuthState.AUTHENTICATED
-          } else {
-            _currentUser.value = null
-            _authState.value = AuthState.UNAUTHENTICATED
-          }
-        }
+        // Register the stored AuthStateListener to guarantee session persistence across lifecycle
+        auth.addAuthStateListener(authStateListener)
 
         val initialUser = auth.currentUser
         if (initialUser != null) {
-          _currentUser.value = mapFirebaseUser(initialUser)
-          _authState.value = AuthState.AUTHENTICATED
+          handleAuthStateChanged(initialUser)
         }
       }
     } catch (e: Exception) {
       Log.w(tag, "Firebase Auth initialization warning: ${e.message}", e)
+    }
+  }
+
+  private fun handleAuthStateChanged(user: FirebaseUser?) {
+    if (user != null) {
+      val titanUser = mapFirebaseUser(user)
+      persistSession(titanUser)
+      _currentUser.value = titanUser
+      _authState.value = AuthState.AUTHENTICATED
+      _isExecutiveAccessGranted.value = true
+      _sessionState.value = ExecutiveSessionState.Authenticated(
+        user = titanUser,
+        sessionStartedTimestamp = System.currentTimeMillis(),
+        isExecutiveClearanceGranted = true,
+        securityLevel = "LEVEL-5 EXECUTIVE CLEARANCE"
+      )
+      Log.d(tag, "Firebase Auth state listener: Active session persisted for UID: ${user.uid} (${user.email})")
+    } else {
+      clearPersistedSession()
+      _currentUser.value = null
+      _authState.value = AuthState.UNAUTHENTICATED
+      _isExecutiveAccessGranted.value = false
+      _sessionState.value = ExecutiveSessionState.Unauthenticated
+      Log.d(tag, "Firebase Auth state listener: User unauthenticated / session terminated")
+    }
+  }
+
+  private fun persistSession(user: TitanAuthUser) {
+    try {
+      prefs.edit()
+        .putString("session_persisted_uid", user.uid)
+        .putString("session_persisted_email", user.email)
+        .putString("session_persisted_display_name", user.displayName)
+        .putString("session_persisted_photo_url", user.photoUrl)
+        .putLong("session_persisted_timestamp", System.currentTimeMillis())
+        .putBoolean("session_executive_clearance_active", true)
+        .commit()
+    } catch (e: Exception) {
+      Log.w(tag, "Failed to persist session to preferences: ${e.message}")
+    }
+  }
+
+  private fun restorePersistedSessionMetadataIfAvailable() {
+    try {
+      val persistedUid = prefs.getString("session_persisted_uid", null)
+      val hasExecutiveClearance = prefs.getBoolean("session_executive_clearance_active", false)
+      if (!persistedUid.isNullOrBlank() && hasExecutiveClearance) {
+        val email = prefs.getString("session_persisted_email", null)
+        val displayName = prefs.getString("session_persisted_display_name", "Career Titan") ?: "Career Titan"
+        val photoUrl = prefs.getString("session_persisted_photo_url", null)
+        val timestamp = prefs.getLong("session_persisted_timestamp", System.currentTimeMillis())
+
+        val cachedUser = TitanAuthUser(
+          uid = persistedUid,
+          email = email,
+          displayName = displayName,
+          photoUrl = photoUrl,
+          isAnonymous = false,
+          isEmailVerified = true,
+          providerId = "google.com",
+          lastSignInTimestamp = timestamp
+        )
+        // Set cached user for fast UI rendering while Firebase validates token in background
+        _currentUser.value = cachedUser
+        _authState.value = AuthState.AUTHENTICATED
+        _isExecutiveAccessGranted.value = true
+        _sessionState.value = ExecutiveSessionState.Authenticated(
+          user = cachedUser,
+          sessionStartedTimestamp = timestamp,
+          isExecutiveClearanceGranted = true,
+          securityLevel = "LEVEL-5 EXECUTIVE CLEARANCE (RESTORED)"
+        )
+        Log.d(tag, "Restored persisted session metadata for UID: $persistedUid")
+      }
+    } catch (e: Exception) {
+      Log.w(tag, "Failed to read persisted session: ${e.message}")
+    }
+  }
+
+  private fun clearPersistedSession() {
+    try {
+      prefs.edit().clear().commit()
+    } catch (e: Exception) {
+      Log.w(tag, "Failed to clear persisted session: ${e.message}")
+    }
+  }
+
+  /**
+   * Cleans up listener registration to prevent memory leaks during ViewModel or Activity teardown.
+   */
+  fun dispose() {
+    try {
+      firebaseAuth?.removeAuthStateListener(authStateListener)
+      Log.d(tag, "AuthStateListener unregistered successfully")
+    } catch (e: Exception) {
+      Log.w(tag, "Error removing auth state listener: ${e.message}")
+    }
+  }
+
+  /**
+   * Requires active Level-5 Executive clearance for secure command center access.
+   */
+  fun requireExecutiveAccess(): Result<TitanAuthUser> {
+    val user = _currentUser.value
+    return if (user != null && _authState.value == AuthState.AUTHENTICATED && _isExecutiveAccessGranted.value) {
+      Result.success(user)
+    } else {
+      Result.failure(SecurityException("Restricted Executive Access: Active Firebase authenticated session required."))
     }
   }
 
@@ -232,8 +347,11 @@ class TitanAuthService(
     } catch (e: Exception) {
       Log.w(tag, "Sign out exception: ${e.message}")
     }
+    clearPersistedSession()
     _currentUser.value = null
     _authState.value = AuthState.UNAUTHENTICATED
+    _sessionState.value = ExecutiveSessionState.Unauthenticated
+    _isExecutiveAccessGranted.value = false
     _authError.value = null
   }
 

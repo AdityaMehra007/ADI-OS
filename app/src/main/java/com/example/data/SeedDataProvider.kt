@@ -2569,6 +2569,157 @@ object SeedDataProvider {
       )
       db.corporateApplicationTargetDao().insertAllTargets(targets)
     }
+
+    // 29. Application Pipeline Companies (Offline Room Persistence)
+    if (db.applicationPipelineDao().getCount() == 0) {
+      val today = "2026-10-14"
+      val pipelineCompanies = listOf(
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Zepto",
+          status = "Interviewing",
+          role = "Operations & Strategy Lead (Dark Store Hubs)",
+          compensation = "₹32L CTC",
+          interviewStage = "Case Study & War Room Loop",
+          contactLead = "VP Operations & Micro-Fulfillment",
+          notes = "Presented 42% operational cycle compression model. Positive feedback on Bellandur dark store turnaround.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Swiggy",
+          status = "Offer",
+          role = "Instamart Cluster Strategy Associate",
+          compensation = "₹28L - ₹30L CTC",
+          interviewStage = "Offer Negotiation & Onboarding",
+          contactLead = "Director of Dark Store Unit Economics",
+          notes = "Verbal offer extended. Reviewing signing bonus and variable incentives.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Blinkit",
+          status = "Interviewing",
+          role = "Dark Store Expansion Specialist",
+          compensation = "₹26L CTC",
+          interviewStage = "Round 2 Technical Deep Dive",
+          contactLead = "Cluster General Manager, South India",
+          notes = "Evaluated automated SKU velocity heatmaps and rider turnaround times.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Google",
+          status = "Applied",
+          role = "Associate Business Analyst",
+          compensation = "₹34L CTC",
+          interviewStage = "Resume Screening",
+          contactLead = "Bengaluru Campus Talent Acquisition",
+          notes = "Applied with ATS-optimized resume emphasizing SQL CTEs and cross-functional operations.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Razorpay",
+          status = "Offer",
+          role = "Product Operations Lead",
+          compensation = "₹27L CTC",
+          interviewStage = "Offer Extended",
+          contactLead = "Founder's Office Senior Manager",
+          notes = "Offer letter in inbox. Base ₹24L + ₹3L performance bonus.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Puma Sports",
+          status = "Offer",
+          role = "E-Commerce Operations & Return Reconciliation Analyst",
+          compensation = "₹22L CTC",
+          interviewStage = "Offer Signed",
+          contactLead = "Karthik Balagopalan & Puma HR Team",
+          notes = "Puma India alumni re-engagement fast-track offer.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Instawork AI",
+          status = "Offer",
+          role = "Lead AI Data Operations & QA Automation Specialist",
+          compensation = "₹24L CTC",
+          interviewStage = "Offer Letter Received",
+          contactLead = "Sumir Meghani & Talent Team",
+          notes = "Instawork alumnus; >99% ground truth precision record.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Microsoft",
+          status = "Applied",
+          role = "Associate Strategy & BizOps Analyst",
+          compensation = "₹35L CTC",
+          interviewStage = "Application Submitted",
+          contactLead = "India Early Career Recruiting",
+          notes = "BBA International Business degree focus with enterprise SLA track record.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Amazon",
+          status = "Applied",
+          role = "Operations & Vendor Management Executive",
+          compensation = "₹30L CTC",
+          interviewStage = "Application In Review",
+          contactLead = "Operations Talent Team",
+          notes = "14-hub logistics cycle compression proof highlighted.",
+          lastUpdated = today,
+          isStarred = false
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Flipkart Minutes",
+          status = "Applied",
+          role = "Fleet & Staging Operations Associate",
+          compensation = "₹25L CTC",
+          interviewStage = "Application Dispatched",
+          contactLead = "Supply Chain Strategy Manager",
+          notes = "Dispatched via 1-Click Apply Command Center.",
+          lastUpdated = today,
+          isStarred = false
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Bain & Company",
+          status = "Interviewing",
+          role = "Associate Consultant - Capability Network",
+          compensation = "₹30L CTC",
+          interviewStage = "Round 1 Case Interview",
+          contactLead = "Senior Manager, Strategy Practice",
+          notes = "Completed quick-commerce unit economics market-sizing case.",
+          lastUpdated = today,
+          isStarred = true
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Stripe",
+          status = "Applied",
+          role = "Risk & Merchant Operations Analyst",
+          compensation = "₹32L CTC",
+          interviewStage = "Application Submitted",
+          contactLead = "APAC Talent Lead",
+          notes = "Submitted cover letter emphasizing Bengaluru startup payment operations.",
+          lastUpdated = today,
+          isStarred = false
+        ),
+        com.example.data.model.ApplicationPipelineCompanyEntity(
+          companyName = "Uber",
+          status = "Targeted",
+          role = "Operations Manager - Mobility Network",
+          compensation = "₹29L CTC",
+          interviewStage = "Networking & Referral Stage",
+          contactLead = "Operations Director (Alum)",
+          notes = "Reaching out via LinkedIn for warm referral hook.",
+          lastUpdated = today,
+          isStarred = false
+        )
+      )
+      db.applicationPipelineDao().insertAll(pipelineCompanies)
+    }
   }
 }
 

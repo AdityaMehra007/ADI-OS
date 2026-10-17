@@ -82,6 +82,12 @@ fun KeypadShortcutHudOverlay(
 ) {
   val buffer by viewModel.keypadShortcutBuffer.collectAsState()
 
+  androidx.compose.runtime.LaunchedEffect(buffer) {
+    if (buffer.isNotEmpty()) {
+      viewModel.analyticsService.trackKeypadHudActivated(buffer)
+    }
+  }
+
   AnimatedVisibility(
     visible = buffer.isNotEmpty(),
     enter = fadeIn() + slideInVertically { it / 2 },
@@ -187,6 +193,32 @@ fun KeypadDirectiveCheatSheetDialog(
         item.summary.contains(searchQuery, ignoreCase = true) ||
         item.id.toString() == searchQuery.trim()
       matchesCategory && matchesSearch
+    }
+  }
+
+  // Firebase Analytics Telemetry: Track 25-Keypad Grid engagement
+  androidx.compose.runtime.LaunchedEffect(Unit) {
+    viewModel.analyticsService.trackKeypadGridViewed(
+      categoryFilter = selectedCategory,
+      totalDirectivesCount = allDirectives.size,
+      source = "25_keypad_cheat_sheet_dialog"
+    )
+  }
+
+  androidx.compose.runtime.LaunchedEffect(selectedCategory) {
+    if (selectedCategory != "ALL") {
+      viewModel.analyticsService.trackKeypadGridViewed(
+        categoryFilter = selectedCategory,
+        totalDirectivesCount = filteredDirectives.size,
+        source = "keypad_category_filter"
+      )
+    }
+  }
+
+  androidx.compose.runtime.LaunchedEffect(searchQuery) {
+    if (searchQuery.isNotBlank()) {
+      kotlinx.coroutines.delay(400)
+      viewModel.analyticsService.trackKeypadSearch(searchQuery, filteredDirectives.size)
     }
   }
 

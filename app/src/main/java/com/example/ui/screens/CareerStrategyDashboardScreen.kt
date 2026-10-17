@@ -107,6 +107,7 @@ import com.example.ui.components.CareerMomentumDashboard
 import com.example.ui.components.CareerRoadmapFeatureView
 import com.example.ui.components.CareerSkillTimelineRechartsVisualizer
 import com.example.ui.components.CareerStrategyNotesVaultCard
+import com.example.ui.components.CareerStrategyPopularityInsightsCard
 import com.example.ui.components.FirestoreCareerProgressionVisualizer
 import com.example.ui.components.MarketCompensationHeatmapComponent
 import com.example.ui.theme.ObsidianDark
@@ -580,6 +581,15 @@ fun CareerStrategyDashboardScreen(
           onTogglePin = { noteId, isPinned ->
             viewModel.toggleCareerStrategyNotePin(noteId, isPinned)
           }
+        )
+      }
+
+      // 2C. FIREBASE ANALYTICS TELEMETRY: CAREER STRATEGY POPULARITY INSIGHTS
+      item {
+        CareerStrategyPopularityInsightsCard(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxWidth(),
+          initialExpanded = true
         )
       }
 

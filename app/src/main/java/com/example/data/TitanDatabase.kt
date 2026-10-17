@@ -122,9 +122,10 @@ import kotlinx.coroutines.launch
     InterviewFeedback::class,
     KeypadDirectiveEntity::class,
     DarkStoreSimulationSettings::class,
-    CorporateApplicationTarget::class
+    CorporateApplicationTarget::class,
+    com.example.data.model.ApplicationPipelineCompanyEntity::class
   ],
-  version = 12,
+  version = 13,
   exportSchema = false
 )
 abstract class TitanDatabase : RoomDatabase() {
@@ -160,6 +161,7 @@ abstract class TitanDatabase : RoomDatabase() {
   abstract fun keypadDirectiveDao(): KeypadDirectiveDao
   abstract fun darkStoreSimulationDao(): DarkStoreSimulationDao
   abstract fun corporateApplicationTargetDao(): CorporateApplicationTargetDao
+  abstract fun applicationPipelineDao(): com.example.data.dao.ApplicationPipelineDao
 
 
 

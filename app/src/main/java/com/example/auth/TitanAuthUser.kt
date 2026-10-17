@@ -28,6 +28,18 @@ enum class CloudSyncStatus(val label: String) {
   FAILED("Sync Error (Retry Available)")
 }
 
+sealed interface ExecutiveSessionState {
+  data object Unauthenticated : ExecutiveSessionState
+  data object Authenticating : ExecutiveSessionState
+  data class Authenticated(
+    val user: TitanAuthUser,
+    val sessionStartedTimestamp: Long,
+    val isExecutiveClearanceGranted: Boolean = true,
+    val securityLevel: String = "LEVEL-5 EXECUTIVE CLEARANCE"
+  ) : ExecutiveSessionState
+  data class Error(val message: String) : ExecutiveSessionState
+}
+
 data class CloudSyncSummary(
   val status: CloudSyncStatus = CloudSyncStatus.LOCAL_ONLY,
   val lastSyncedTimestamp: Long? = null,

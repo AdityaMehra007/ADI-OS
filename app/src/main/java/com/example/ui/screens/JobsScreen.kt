@@ -95,6 +95,8 @@ import com.example.data.model.AutomationCriteria
 import com.example.data.model.AutomationQueueStatus
 import com.example.data.model.Job
 import com.example.ui.components.ApplicationFunnelVisualization
+import com.example.ui.components.CorporateApplicationHubCard
+import com.example.ui.components.CareerStrategyPopularityInsightsCard
 import com.example.ui.components.MarketIntelligenceView
 import com.example.ui.components.SmartJobSearchView
 import com.example.ui.components.VoiceCommandCenterCard
@@ -1329,9 +1331,7 @@ fun JobAutomationDashboardView(
           if (readyMatches.isNotEmpty()) {
             TextButton(
               onClick = {
-                readyMatches.forEach { match ->
-                  viewModel.approveAndSubmitAutomatedApplication(match)
-                }
+                viewModel.approveAllAutomatedApplications(readyMatches)
               }
             ) {
               Icon(Icons.Default.Bolt, contentDescription = null, tint = TitanGold, modifier = Modifier.size(14.dp))
@@ -1418,6 +1418,26 @@ fun JobAutomationDashboardView(
           }
         }
       }
+    }
+
+    // 6. Section: 1-CLICK APPLY CORPORATE APPLICATION TARGETS (ROOM SQLITE)
+    item {
+      Spacer(modifier = Modifier.height(14.dp))
+      CorporateApplicationHubCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth(),
+        initialExpanded = true
+      )
+    }
+
+    // 7. Section: FIREBASE ANALYTICS TELEMETRY & POPULAR CAREER STRATEGIES INSIGHTS
+    item {
+      Spacer(modifier = Modifier.height(14.dp))
+      CareerStrategyPopularityInsightsCard(
+        viewModel = viewModel,
+        modifier = Modifier.fillMaxWidth(),
+        initialExpanded = true
+      )
     }
 
     item {
